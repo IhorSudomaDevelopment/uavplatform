@@ -36,7 +36,7 @@ class DroneResource extends Resource
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 3;
+        return 5;
     }
 
     /**
@@ -73,5 +73,11 @@ class DroneResource extends Resource
             'create' => CreateDrone::route('/create'),
             'edit' => EditDrone::route('/{record}/edit'),
         ];
+    }
+
+    /*** @return bool */
+    public static function shouldRegisterNavigation(): bool
+    {
+        return isRoleAdmin() || isRoleManager();
     }
 }

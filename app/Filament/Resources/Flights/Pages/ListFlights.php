@@ -37,8 +37,8 @@ class ListFlights extends ListRecords
         return [
             CreateAction::make()
                 ->label('Додати')
-                ->icon('heroicon-o-plus'),
-
+                ->icon('heroicon-o-plus')
+                ->visible(fn () => static::getResource()::canCreate()),
             Action::make('summaries')
                 ->label('Підсумки')
                 ->icon('heroicon-o-chart-bar-square')

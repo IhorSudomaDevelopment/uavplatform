@@ -6,6 +6,7 @@ use App\Models\Flight;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TestCommand extends Command
@@ -29,38 +30,13 @@ class TestCommand extends Command
      */
     public function handle()
     {
-//        $num = DB::table('flights')
-//            ->whereDate('date', now('Europe/Kyiv'))
-//            ->max('flight_number');
-//
-//        $num = ($num ?? 0) + 1;
-//        echo $num . PHP_EOL;
-        $result = [];
-        $flights = DB::table('flights')->where('position', '=', 'Тестова')->get();
-        $dateCount = count(array_unique(array_column($flights->toArray(), 'date')));
-        if ($dateCount > 1) {
-
+        $shift = DB::table('shifts')
+            ->where('navigator_id', Auth::id())
+            ->whereNull('end_date')
+            ->pluck('navigator_id', 'id')
+            ->toArray();
+        if (!empty($shift)) {
+            print_r($shift);
         }
-
-//        if (count(array_unique(array_column($flights->toArray(), 'position'))) > 1) {
-//            foreach ($flights as $flight) {
-//                $result[$flight->position][] = $flight;
-//            }
-//        }
-//        $r = [];
-//        foreach ($result as $value) {
-//            foreach ($value as $flight) {
-//                $r[$flight->position][$flight->date][] = $flight;
-//            }
-//        }
-//        foreach ($r as $key => $data) {
-//            echo 'Позиція: ' . $key . PHP_EOL;
-//            foreach ($data as $date => $info) {
-//                echo '-Дата: ' . $date . PHP_EOL;
-//                foreach ($info as $flight) {
-//                    echo '--Номер польоту: ' . $flight->flight_number . PHP_EOL;
-//                }
-//            }
-//        }
     }
 }

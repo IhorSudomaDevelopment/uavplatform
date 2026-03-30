@@ -58,7 +58,7 @@ class FlightsTable
                 ->label('Звіт')
                 ->icon('heroicon-o-rectangle-stack')
                 ->modalHeading('Звіт за вибрані польоти')
-                ->modalContent(fn ($records) => view(
+                ->modalContent(fn($records) => view(
                     'filament.resources.flight-resource.pages.report-flight-daily-new',
                     ['flights' => $records]
                 ))
@@ -81,7 +81,8 @@ class FlightsTable
                 TextColumn::make('target')
                     ->label('Ціль'),
                 TextColumn::make('coordinates')
-                    ->label('Координати'),
+                    ->label('Координати')
+                    ->limit(18),
                 TextColumn::make('status')
                     ->label('Статус'),
             ])->recordUrl(NULL)

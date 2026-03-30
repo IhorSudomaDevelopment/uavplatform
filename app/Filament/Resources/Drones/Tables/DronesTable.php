@@ -39,7 +39,7 @@ class DronesTable
         return $table
             ->columns([
                 TextColumn::make('title')->label('Назва'),
-                TextColumn::make('serial_number')->label('СН'),
+                TextColumn::make('serial_number')->label('СН')->searchable(),
                 TextColumn::make('kit')->label('KIT'),
                 TextColumn::make('password')->label('Пароль'),
                 TextColumn::make('type')->label('Тип'),

@@ -42,6 +42,8 @@ class CreateFlight extends CreateRecord
             $status = $status . ', ' . $data['personnel_300'] . ' - 300';
         }
         $data['status'] = $status;
+        $shiftDetails = getShiftDetails();
+        $data['shift_id'] = isRoleAdmin() || isRoleManager() ? 0 : $shiftDetails['shift_id'];
         $data = array_merge($data, [
             'user_id' => auth()->id(),
             'ammunition' => $this->formatAmmunition($data['ammunition_items'] ?? []),

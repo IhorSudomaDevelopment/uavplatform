@@ -14,6 +14,7 @@ class Flight extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'shift_id',
         'user_id',
         'position',
         'flight_number',
@@ -24,6 +25,8 @@ class Flight extends Model
         'coordinates',
         'status',
         'ammunition',
+        'is_drone_lost',
+        'drone_lost_reason',
     ];
 
     /*** @var string[] */

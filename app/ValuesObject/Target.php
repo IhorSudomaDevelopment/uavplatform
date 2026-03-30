@@ -22,6 +22,8 @@ class Target
     public const UAV = 'БПЛА';
     /*** @var string */
     public const MACHINERY = 'Техніка';
+    /*** @var string */
+    public const CROSSING_BARGE = 'Перегін борта';
 
     /*** @return string[] */
     public static function getList(): array
@@ -36,6 +38,7 @@ class Target
             self::DELIVERY               => self::DELIVERY,
             self::UAV                    => self::UAV,
             self::MACHINERY              => self::MACHINERY,
+            self::CROSSING_BARGE         => self::CROSSING_BARGE,
         ];
     }
 }

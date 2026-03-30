@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\Drones\Pages;
+namespace App\Filament\Resources\Shifts\Pages;
 
-use App\Filament\Resources\Drones\DroneResource;
+use App\Filament\Resources\Shifts\ShiftResource;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
-/**
- *
- */
-class EditDrone extends EditRecord
+class EditShift extends EditRecord
 {
-    /*** @var string */
-    protected static string $resource = DroneResource::class;
+    protected static string $resource = ShiftResource::class;
 
     /*** @var string|null */
     protected static ?string $title = 'Редагування';

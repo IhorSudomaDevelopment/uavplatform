@@ -36,7 +36,7 @@ class FlightForm
             ->components([
                 TextInput::make('position')
                     ->label('Позиція')
-                    ->default(getDefaultPosition())
+                    ->default(getDefaultPosition() ?? getShiftDetails()['position_name'])
                     ->required(),
                 TextInput::make('flight_number')
                     ->label('Номер')
@@ -103,7 +103,8 @@ class FlightForm
                             ->addActionLabel('Додати')
                             ->columnSpanFull()
                             ->collapsible(),
-                    ])->columnSpanFull(),
+                    ])->visible(fn(Get $get) => $get('target') !== Target::CROSSING_BARGE)
+                    ->columnSpanFull(),
                 Checkbox::make('is_drone_lost')
                     ->label('Втрата борта')
                     ->live(),
@@ -114,26 +115,4 @@ class FlightForm
                     ->columnSpanFull(),
             ]);
     }
-
-    //return $schema
-    //            ->components([
-    //                Wizard::make([
-    //                    Wizard\Step::make('1')
-    //                        ->description('Позиція та час, координати')
-    //                        ->schema([
-    //                            TextInput::make('position')
-    //                                ->label('Позиція')
-    //                                ->default(getDefaultPosition())
-    //                                ->required(),
-    //                        ]),
-    //                    Wizard\Step::make('2')
-    //                        ->description('Позиція та час, координати')
-    //                        ->schema([
-    //                            TextInput::make('position')
-    //                                ->label('Позиція')
-    //                                ->default(getDefaultPosition())
-    //                                ->required(),
-    //                        ])
-    //                ])
-    //            ]);
 }

@@ -16,6 +16,9 @@ class EditFlight extends EditRecord
     /*** @var string */
     protected static string $resource = FlightResource::class;
 
+    /*** @var string|null */
+    protected static ?string $title = 'Редагування';
+
     /*** @return array|Action[]|ActionGroup[] */
     protected function getHeaderActions(): array
     {
@@ -28,5 +31,11 @@ class EditFlight extends EditRecord
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
+    }
+
+    /*** @return array|string[] */
+    public function getBreadcrumbs(): array
+    {
+        return [];
     }
 }

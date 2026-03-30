@@ -18,6 +18,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  *
@@ -36,7 +37,7 @@ class FlightResource extends Resource
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 2;
+        return 4;
     }
 
     /**
@@ -81,7 +82,12 @@ class FlightResource extends Resource
     /*** @return bool */
     public static function canCreate(): bool
     {
-        return isRoleAdmin() || isRoleNavigator();
+        $shift = DB::table('shifts')
+            ->where('navigator_id', Auth::id())
+            ->whereNull('end_date')
+            ->pluck('navigator_id', 'id')
+            ->toArray();
+        return isRoleAdmin() || (isRoleNavigator() && ! empty($shift));
     }
 
     /**

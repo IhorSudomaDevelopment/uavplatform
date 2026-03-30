@@ -33,7 +33,7 @@ class AmmunitionResource extends Resource
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 4;
+        return 6;
     }
 
     /**

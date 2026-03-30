@@ -29,25 +29,31 @@ class TargetStatus
     /*** @var string */
     public const MINED = 'Заміновано';
     /*** @var string */
+    public const NOT_MINED = 'Не заміновано';
+    /*** @var string */
     public const DESTROYED = 'Знищено';
+    /*** @var string */
+    public const COMPLETED = 'Виконано';
 
     /*** @return string[] */
     public static function getList(): array
     {
         return [
-            self::NA                         => self::NA,
-            self::DELIVERED                  => self::DELIVERED,
-            self::AFFECTED                   => self::AFFECTED,
-            self::AFFECTED_AFTER_ADJUSTMENT  => self::AFFECTED_AFTER_ADJUSTMENT,
-            self::AFFECTED_BY_SIGNATURES     => self::AFFECTED_BY_SIGNATURES,
-            self::AFFECTED_BY_COORDS         => self::AFFECTED_BY_COORDS,
-            self::NOT_AFFECTED_NO_DETONATION  => self::NOT_AFFECTED_NO_DETONATION,
+            self::NA => self::NA,
+            self::DELIVERED => self::DELIVERED,
+            self::AFFECTED => self::AFFECTED,
+            self::AFFECTED_AFTER_ADJUSTMENT => self::AFFECTED_AFTER_ADJUSTMENT,
+            self::AFFECTED_BY_SIGNATURES => self::AFFECTED_BY_SIGNATURES,
+            self::AFFECTED_BY_COORDS => self::AFFECTED_BY_COORDS,
+            self::NOT_AFFECTED_NO_DETONATION => self::NOT_AFFECTED_NO_DETONATION,
             self::NOT_AFFECTED_MISSING_TARGET => self::NOT_AFFECTED_MISSING_TARGET,
-            self::NOT_AFFECTED_LOSS_OF_SIDE  => self::NOT_AFFECTED_LOSS_OF_SIDE,
-            self::NOT_AFFECTED_NOT_HEAT      => self::NOT_AFFECTED_NOT_HEAT,
-            self::NOT_AFFECTED_SUPPRESSION  => self::NOT_AFFECTED_SUPPRESSION,
-            self::MINED                      => self::MINED,
-            self::DESTROYED                  => self::DESTROYED,
+            self::NOT_AFFECTED_LOSS_OF_SIDE => self::NOT_AFFECTED_LOSS_OF_SIDE,
+            self::NOT_AFFECTED_NOT_HEAT => self::NOT_AFFECTED_NOT_HEAT,
+            self::NOT_AFFECTED_SUPPRESSION => self::NOT_AFFECTED_SUPPRESSION,
+            self::MINED => self::MINED,
+            self::NOT_MINED => self::NOT_MINED,
+            self::DESTROYED => self::DESTROYED,
+            self::COMPLETED => self::COMPLETED,
         ];
     }
 }

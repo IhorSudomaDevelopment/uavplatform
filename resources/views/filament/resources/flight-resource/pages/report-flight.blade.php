@@ -7,7 +7,7 @@
 			<br>
 			Ціль: {{ $record->target }}
 			<br>
-			Координати: 37U CP {{ $record->coordinates }}
+			Координати: {{ $record->coordinates }}
 			<br>
 			Статус: {{ $record->status }}
 			<br>
