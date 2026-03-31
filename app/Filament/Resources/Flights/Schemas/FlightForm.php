@@ -14,7 +14,6 @@ use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\DB;
-use function PHPUnit\Framework\isTrue;
 
 /**
  *
@@ -27,10 +26,14 @@ class FlightForm
      */
     public static function configure(Schema $schema): Schema
     {
-        $num = DB::table('flights')
-            ->whereDate('date', now('Europe/Kyiv'))
-            ->max('flight_number');
-        $num = ($num ?? 0) + 1;
+        if (isRoleNavigator()) {
+            $num = DB::table('flights')
+                ->whereDate('date', now('Europe/Kyiv'))
+                ->max('flight_number');
+            $num = ($num ?? 0) + 1;
+        } else {
+            $num = 1;
+        }
         return $schema
             ->columns()
             ->components([

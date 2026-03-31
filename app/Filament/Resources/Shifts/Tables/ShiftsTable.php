@@ -29,7 +29,7 @@ class ShiftsTable
                     ->getStateUsing(function ($record) {
                         return $record->end_date === null ? 'Активна' : 'Завершена';
                     })
-            ])
+            ])->recordUrl(NULL)
             ->filters([
                 //
             ])

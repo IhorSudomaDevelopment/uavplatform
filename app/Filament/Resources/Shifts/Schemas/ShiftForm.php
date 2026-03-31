@@ -26,8 +26,8 @@ class ShiftForm
                     ->options(DB::table('users')
                         ->where('role', 'navigator')
                         ->pluck('assigned_navigator', 'id')),
-                TextInput::make('start_date'),
-                TextInput::make('end_date'),
+                TextInput::make('start_date')->label('Початок зміни'),
+                TextInput::make('end_date')->label('Кінець зміни'),
                 Checkbox::make('is_night')->label('Нічна'),
             ]);
     }
