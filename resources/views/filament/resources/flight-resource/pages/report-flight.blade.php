@@ -14,6 +14,7 @@
 			БК:
 			@foreach($record->getAmmunition() as $ammunitionData)
 				{{ $ammunitionData['title'] }} - {{ $ammunitionData['quantity'] . 'шт' }}
+                <br>
 			@endforeach
             @if($record->is_drone_lost)
                 <br>

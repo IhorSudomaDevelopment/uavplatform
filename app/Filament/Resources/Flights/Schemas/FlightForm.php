@@ -29,6 +29,7 @@ class FlightForm
         if (isRoleNavigator()) {
             $num = DB::table('flights')
                 ->whereDate('date', now('Europe/Kyiv'))
+                ->where('user_id', auth()->id())
                 ->max('flight_number');
             $num = ($num ?? 0) + 1;
         } else {
@@ -82,7 +83,7 @@ class FlightForm
                             ->label('300')
                             ->default(0),
                     ])
-                    ->visible(fn(Get $get) => $get('target') === 'ОС' &&
+                    ->visible(fn(Get $get) => in_array($get('status'), [Target::PERSONNEL, Target::SHELTER]) &&
                         in_array($get('status'), [TargetStatus::DESTROYED, TargetStatus::AFFECTED])) // умова
                     ->columnSpanFull(),
                 Fieldset::make('БК')

@@ -38,7 +38,7 @@ class ListFlights extends ListRecords
             CreateAction::make()
                 ->label('Додати')
                 ->icon('heroicon-o-plus')
-                ->visible(fn () => static::getResource()::canCreate()),
+                ->visible(fn() => static::getResource()::canCreate()),
             Action::make('summaries')
                 ->label('Підсумки')
                 ->icon('heroicon-o-chart-bar-square')
@@ -67,14 +67,17 @@ class ListFlights extends ListRecords
                                     }
                                     $query = DB::table('flights')
                                         ->where('date', '>=', $from)
-                                        ->where('date', '<=', $to)
-                                        ->get();
+                                        ->where('date', '<=', $to);
+                                    if (isRoleNavigator()) {
+                                        $query->where('user_id', auth()->id());
+                                    }
+                                    $flights = $query->get();
                                     $status200 = 0;
                                     $status300 = 0;
                                     $coverHeat = 0;
                                     $coverDestroyed = 0;
                                     $uavDestroyed = 0;
-                                    foreach ($query as $flight) {
+                                    foreach ($flights as $flight) {
                                         if ($flight->target === Target::PERSONNEL && (str_contains($flight->status, '200') || str_contains($flight->status, '300'))) {
                                             if (str_contains($flight->status, '200')) {
                                                 $q200 = substr($flight->status, -7, 1);

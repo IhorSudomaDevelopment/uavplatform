@@ -11,6 +11,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -32,7 +33,7 @@ class FlightsTable
                 ->modalHeading('Деталі польоту')
                 ->schema([
                     TextInput::make('flight_number')->label('Номер польоту')->copyable(),
-                    TextInput::make('coordinates')->label('Координати (MGRS)')->copyable(),
+                    Textarea::make('coordinates')->label('Координати (MGRS)'),
                     TextInput::make('status')->label('Статус')->copyable(),
                 ]),
         ];

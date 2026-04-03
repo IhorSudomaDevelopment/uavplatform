@@ -6,6 +6,8 @@ use DB;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -34,6 +36,18 @@ class ShiftsTable
                 //
             ])
             ->recordActions([
+                ViewAction::make()
+                    ->modalHeading('Інформація про зміну')
+                    ->schema([
+                        TextInput::make('assigned')
+                            ->label('Штурман')
+                            ->formatStateUsing(function ($record) {
+                                return DB::table('users')
+                                    ->where('id', $record->navigator_id)
+                                    ->value('assigned_navigator');
+                            })
+                            ->copyable(),
+                    ]),
                 EditAction::make(),
             ])
             ->toolbarActions([

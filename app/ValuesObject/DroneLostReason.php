@@ -10,6 +10,8 @@ class DroneLostReason
     public const KILLED_BY_A_WEAPON = 'Збито зброєю';
     /*** @var string */
     public const SUPPRESSION = 'Подавлення';
+    /*** @var string */
+    public const ACB_DRAWDOWN = 'Просадка АКБ';
     public const OTHER = 'Інше';
 
     /*** @return string[] */
@@ -19,6 +21,7 @@ class DroneLostReason
             self::KILLED_BY_A_FPV => self::KILLED_BY_A_FPV,
             self::KILLED_BY_A_WEAPON => self::KILLED_BY_A_WEAPON,
             self::SUPPRESSION => self::SUPPRESSION,
+            self::ACB_DRAWDOWN => self::ACB_DRAWDOWN,
             self::OTHER => self::OTHER,
         ];
     }
