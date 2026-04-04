@@ -83,7 +83,7 @@ class FlightForm
                             ->label('300')
                             ->default(0),
                     ])
-                    ->visible(fn(Get $get) => in_array($get('status'), [Target::PERSONNEL, Target::SHELTER]) &&
+                    ->visible(fn(Get $get) => in_array($get('target'), [Target::PERSONNEL, Target::SHELTER]) &&
                         in_array($get('status'), [TargetStatus::DESTROYED, TargetStatus::AFFECTED])) // умова
                     ->columnSpanFull(),
                 Fieldset::make('БК')

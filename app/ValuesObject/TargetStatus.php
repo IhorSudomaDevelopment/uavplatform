@@ -27,6 +27,8 @@ class TargetStatus
     /*** @var string */
     public const NOT_AFFECTED_SUPPRESSION = 'Не уражено (подавлення)';
     /*** @var string */
+    public const NOT_AFFECTED_ACB = 'Не уражено (просадка АКБ)';
+    /*** @var string */
     public const MINED = 'Заміновано';
     /*** @var string */
     public const NOT_MINED = 'Не заміновано';
@@ -50,6 +52,7 @@ class TargetStatus
             self::NOT_AFFECTED_LOSS_OF_SIDE => self::NOT_AFFECTED_LOSS_OF_SIDE,
             self::NOT_AFFECTED_NOT_HEAT => self::NOT_AFFECTED_NOT_HEAT,
             self::NOT_AFFECTED_SUPPRESSION => self::NOT_AFFECTED_SUPPRESSION,
+            self::NOT_AFFECTED_ACB => self::NOT_AFFECTED_ACB,
             self::MINED => self::MINED,
             self::NOT_MINED => self::NOT_MINED,
             self::DESTROYED => self::DESTROYED,

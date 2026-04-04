@@ -91,7 +91,15 @@ class ListFlights extends ListRecords
                                             if ($flight->status === TargetStatus::DESTROYED) {
                                                 $coverDestroyed++;
                                             }
-                                            if ($flight->status === TargetStatus::AFFECTED) {
+                                            if (in_array(
+                                                $flight->status,
+                                                [
+                                                    TargetStatus::AFFECTED,
+                                                    TargetStatus::AFFECTED_AFTER_ADJUSTMENT,
+                                                    TargetStatus::AFFECTED_BY_SIGNATURES,
+                                                    TargetStatus::AFFECTED_BY_COORDS,
+                                                ]
+                                            )) {
                                                 $coverHeat++;
                                             }
                                         } else if ($flight->target === Target::UAV && $flight->status === TargetStatus::DESTROYED) {

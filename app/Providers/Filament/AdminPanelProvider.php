@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Система управління БПЛА')
+            ->brandName('Periti')
             ->colors([
                 'primary' => Color::Amber,
             ])
