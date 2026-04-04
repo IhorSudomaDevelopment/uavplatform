@@ -15,5 +15,6 @@ class Shift extends Model
         'navigator_id',
         'start_date',
         'end_date',
+        'status',
     ];
 }

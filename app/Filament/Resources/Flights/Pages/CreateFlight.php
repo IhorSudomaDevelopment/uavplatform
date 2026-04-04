@@ -34,6 +34,14 @@ class CreateFlight extends CreateRecord
      */
     protected function handleRecordCreation(array $data): Model
     {
+        if (isRoleAdmin() || isRoleManager()) {
+            $shift = $data['shift'];
+            $shiftData = implode('|', $shift);
+            $data['shift_id'] = $shiftData[0];
+            $data['position_id'] = $shiftData[0];
+        } else {
+            $data['shift_id'] = getShiftDetails()['shift_id'];
+        }
         $status = $data['status'];
         if (isset($data['personnel_200']) && $data['personnel_200'] > 0) {
             $status = $status . ', ' . $data['personnel_200'] . ' - 200';
@@ -42,8 +50,6 @@ class CreateFlight extends CreateRecord
             $status = $status . ', ' . $data['personnel_300'] . ' - 300';
         }
         $data['status'] = $status;
-        $shiftDetails = getShiftDetails();
-        $data['shift_id'] = isRoleAdmin() || isRoleManager() ? 0 : $shiftDetails['shift_id'];
         $data = array_merge($data, [
             'user_id' => auth()->id(),
             'ammunition' => $this->formatAmmunition($data['ammunition_items'] ?? []),

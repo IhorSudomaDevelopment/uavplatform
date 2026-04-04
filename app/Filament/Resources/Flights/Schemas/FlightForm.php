@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Flights\Schemas;
 
+use App\Models\Shift;
 use App\ValuesObject\DroneLostReason;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
@@ -26,6 +27,7 @@ class FlightForm
      */
     public static function configure(Schema $schema): Schema
     {
+        $preparedShifts = null;
         if (isRoleNavigator()) {
             $num = DB::table('flights')
                 ->whereDate('date', now('Europe/Kyiv'))
@@ -34,14 +36,29 @@ class FlightForm
             $num = ($num ?? 0) + 1;
         } else {
             $num = 1;
+            $shifts = DB::table('shifts')
+                ->where('status', 'Активна')
+                ->get();
+            foreach ($shifts as $shift) {
+                /*** @var Shift $shift */
+                $preparedShifts[$shift->id . '|' .
+                $shift->position_id . '|' .
+                $shift->navigator_id] = DB::table('positions')->where('id', $shift->position_id)->value('title') .
+                    ' (' . DB::table('users')->where('id', $shift->navigator_id)->value('assigned_navigator') . ')';
+            }
         }
         return $schema
             ->columns()
             ->components([
+                Select::make('shift')
+                    ->label('Зміна')
+                    ->options($preparedShifts)
+                    ->visible(fn(Get $get) => isRoleAdmin() || isRoleManager()),
                 TextInput::make('position')
                     ->label('Позиція')
                     ->default(getDefaultPosition() ?? getShiftDetails()['position_name'])
-                    ->required(),
+                    ->required()
+                    ->visible(fn(Get $get) => isRoleNavigator()),
                 TextInput::make('flight_number')
                     ->label('Номер')
                     ->default($num)
