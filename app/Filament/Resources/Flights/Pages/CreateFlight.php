@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Flights\Pages;
 
 use App\Filament\Resources\Flights\FlightResource;
+use App\Models\Position;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
@@ -36,9 +37,10 @@ class CreateFlight extends CreateRecord
     {
         if (isRoleAdmin() || isRoleManager()) {
             $shift = $data['shift'];
-            $shiftData = implode('|', $shift);
+            $shiftData = explode('|', $shift);
             $data['shift_id'] = $shiftData[0];
-            $data['position_id'] = $shiftData[0];
+            $data['position_id'] = $shiftData[1];
+            $data['position'] = Position::where('id', $data['position_id'])->value('title');
         } else {
             $data['shift_id'] = getShiftDetails()['shift_id'];
         }

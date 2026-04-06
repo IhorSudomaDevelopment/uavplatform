@@ -23,6 +23,8 @@ class Target
     /*** @var string */
     public const MACHINERY = 'Техніка';
     /*** @var string */
+    public const UAV_HUNT = 'Хант БПЛА';
+    /*** @var string */
     public const CROSSING_BARGE = 'Перегін борта';
 
     /*** @return string[] */
@@ -38,6 +40,7 @@ class Target
             self::DELIVERY               => self::DELIVERY,
             self::UAV                    => self::UAV,
             self::MACHINERY              => self::MACHINERY,
+            self::UAV_HUNT               => self::UAV_HUNT,
             self::CROSSING_BARGE         => self::CROSSING_BARGE,
         ];
     }

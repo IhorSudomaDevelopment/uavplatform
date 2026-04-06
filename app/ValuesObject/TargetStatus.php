@@ -35,6 +35,8 @@ class TargetStatus
     /*** @var string */
     public const DESTROYED = 'Знищено';
     /*** @var string */
+    public const NOT_DETECTED = 'Не виявлено';
+    /*** @var string */
     public const COMPLETED = 'Виконано';
 
     /*** @return string[] */
@@ -56,6 +58,7 @@ class TargetStatus
             self::MINED => self::MINED,
             self::NOT_MINED => self::NOT_MINED,
             self::DESTROYED => self::DESTROYED,
+            self::NOT_DETECTED => self::NOT_DETECTED,
             self::COMPLETED => self::COMPLETED,
         ];
     }
