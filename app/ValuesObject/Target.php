@@ -26,6 +26,10 @@ class Target
     public const UAV_HUNT = 'Хант БПЛА';
     /*** @var string */
     public const CROSSING_BARGE = 'Перегін борта';
+    /*** @var string */
+    public const UAV_EVACUATION = 'Евакуація борта';
+    /*** @var string */
+    public const SEARCH_MISSION = 'Пошукова місія';
 
     /*** @return string[] */
     public static function getList(): array
@@ -42,6 +46,8 @@ class Target
             self::MACHINERY              => self::MACHINERY,
             self::UAV_HUNT               => self::UAV_HUNT,
             self::CROSSING_BARGE         => self::CROSSING_BARGE,
+            self::UAV_EVACUATION         => self::UAV_EVACUATION,
+            self::SEARCH_MISSION         => self::SEARCH_MISSION,
         ];
     }
 }

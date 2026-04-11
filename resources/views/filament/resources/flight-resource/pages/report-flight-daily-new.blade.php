@@ -266,6 +266,10 @@
                     $notAffected--;
                     }
 
+                    elseif ($flight->target === Target::UAV_HUNT && $flight->status === TargetStatus::NOT_DETECTED) {
+                        $notAffected--;
+                    }
+
                     }
 
                 @endphp

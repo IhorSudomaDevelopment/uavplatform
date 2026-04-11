@@ -3,11 +3,19 @@
 namespace App\Filament\Resources\Shifts\Pages;
 
 use App\Filament\Resources\Shifts\ShiftResource;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
+/**
+ *
+ */
 class ListShifts extends ListRecords
 {
+    /**
+     * @var string
+     */
     protected static string $resource = ShiftResource::class;
 
     /*** @var string|null */
@@ -19,10 +27,12 @@ class ListShifts extends ListRecords
         return [];
     }
 
+    /*** @return array|Action[]|ActionGroup[] */
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->visible(fn() => static::getResource()::canCreate()),
         ];
     }
 }

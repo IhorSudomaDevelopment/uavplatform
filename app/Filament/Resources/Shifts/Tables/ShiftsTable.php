@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Shifts\Tables;
 
+use App\Models\Shift;
 use DB;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -48,7 +49,8 @@ class ShiftsTable
                             })
                             ->copyable(),
                     ]),
-                EditAction::make(),
+                EditAction::make()
+                    ->visible(fn () => auth()->user()->can('create', Shift::class))
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

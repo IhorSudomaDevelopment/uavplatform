@@ -12,7 +12,9 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ShiftResource extends Resource
 {
@@ -73,9 +75,15 @@ class ShiftResource extends Resource
         return isRoleAdmin() || isRoleManager();
     }
 
-    /*** @return bool */
-    public static function shouldRegisterNavigation(): bool
+    /**
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
     {
-        return isRoleAdmin() || isRoleManager();
+        $query = parent::getEloquentQuery();
+        if (isRoleNavigator()) {
+            $query->where('navigator_id', Auth::id());
+        }
+        return $query;
     }
 }

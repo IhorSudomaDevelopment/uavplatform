@@ -38,6 +38,12 @@ class TargetStatus
     public const NOT_DETECTED = 'Не виявлено';
     /*** @var string */
     public const COMPLETED = 'Виконано';
+    /*** @var string */
+    public const NOT_COMPLETED = 'Не виконано';
+    /*** @var string */
+    public const FOUND = 'Знайдено';
+    /*** @var string */
+    public const NOT_FOUND = 'Не знайдено';
 
     /*** @return string[] */
     public static function getList(): array
@@ -60,6 +66,9 @@ class TargetStatus
             self::DESTROYED => self::DESTROYED,
             self::NOT_DETECTED => self::NOT_DETECTED,
             self::COMPLETED => self::COMPLETED,
+            self::NOT_COMPLETED => self::NOT_DETECTED,
+            self::FOUND => self::FOUND,
+            self::NOT_FOUND => self::NOT_FOUND,
         ];
     }
 }
