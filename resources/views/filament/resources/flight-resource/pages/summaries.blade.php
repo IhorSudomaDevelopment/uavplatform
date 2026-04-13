@@ -13,9 +13,14 @@
             <br>
             Укриття (Уражено): {{ $coverHeat }}
             <br>
+            Мінування: {{ $mining }}
+            <br>
             БПЛА: {{ $uavDestroyed }}
             <br>
             Техніка:
+            <br>
+            <br>
+            Еквівалент у балах: {{ $points }}
         </div>
     </div>
 

@@ -83,14 +83,22 @@ class FlightForm
                     ->required()
                     ->options(Target::getList())
                     ->reactive(),
-                Textarea::make('coordinates')
-                    ->label('Координати (MGRS)')
-                    ->required(),
                 Select::make('status')
                     ->label('Статус по цілі')
                     ->required()
                     ->options(TargetStatus::getList())
                     ->reactive(),
+                Textarea::make('coordinates')
+                    ->label('Координати (MGRS)')
+                    ->required()
+                    ->visible(fn(Get $get) => ! in_array(
+                        $get('target'),
+                        [
+                            Target::CROSSING_BARGE,
+                            Target::SEARCH_MISSION,
+                            Target::UAV_EVACUATION,
+                            Target::UAV_HUNT
+                        ])),
                 Fieldset::make('200 / 300')
                     ->schema([
                         TextInput::make('personnel_200')
@@ -126,6 +134,8 @@ class FlightForm
                             ->collapsible(),
                     ])->visible(fn(Get $get) => $get('target') !== Target::CROSSING_BARGE)
                     ->columnSpanFull(),
+                Checkbox::make('is_uav_destroyed')
+                    ->label('Знищено ворожий БпЛА'),
                 Checkbox::make('is_drone_lost')
                     ->label('Втрата борта')
                     ->live(),

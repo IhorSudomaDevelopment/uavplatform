@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Flights\Pages;
 
 use App\Filament\Resources\Flights\FlightResource;
 use App\Models\Position;
+use App\ValuesObject\Target;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
@@ -44,12 +45,26 @@ class CreateFlight extends CreateRecord
         } else {
             $data['shift_id'] = getShiftDetails()['shift_id'];
         }
+        if (in_array(
+            $data['target'],
+            [
+                Target::CROSSING_BARGE,
+                Target::SEARCH_MISSION,
+                Target::UAV_EVACUATION,
+                Target::UAV_HUNT
+            ]
+        )) {
+            $data['coordinates'] = '-';
+        }
         $status = $data['status'];
         if (isset($data['personnel_200']) && $data['personnel_200'] > 0) {
             $status = $status . ', ' . $data['personnel_200'] . ' - 200';
         }
         if (isset($data['personnel_300']) && $data['personnel_300'] > 0) {
             $status = $status . ', ' . $data['personnel_300'] . ' - 300';
+        }
+        if ($data['is_uav_destroyed']) {
+            $status = $status . ', знищено ворожий БпЛА';
         }
         $data['status'] = $status;
         $data = array_merge($data, [

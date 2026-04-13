@@ -87,4 +87,10 @@ class UserResource extends Resource
     {
         return isRoleAdmin() || isRoleManager();
     }
+
+    /*** @return bool */
+    public static function shouldRegisterNavigation(): bool
+    {
+        return isRoleAdmin() || isRoleManager();
+    }
 }
