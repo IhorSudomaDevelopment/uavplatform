@@ -31,11 +31,8 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $q = Flight::where('position', 'Ланос')
-            ->where('date', '<=', '2026-04-13')
-            ->where('date', '=>', '2026-04-02')
-            ->get()
-            ->toArray();
-        print_r($q);
+        $flights = Flight::whereIn('id', [140,141,142,150])->get();
+        $sortedFlights = $flights->sortBy('date');
+        print_r($sortedFlights);
     }
 }

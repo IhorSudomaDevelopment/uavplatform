@@ -108,6 +108,6 @@ class FlightResource extends Resource
         if (isRoleNavigator()) {
             $query->where('user_id', Auth::id());
         }
-        return $query;
+        return $query->orderBy('date');
     }
 }

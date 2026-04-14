@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Flights\Tables;
 
+use App\Models\Position;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
 use Carbon\Carbon;
@@ -96,6 +97,10 @@ class FlightsTable
                     ->label('Статус')
                     ->multiple()
                     ->options(TargetStatus::getList()),
+                SelectFilter::make('position')
+                    ->label('Позиція')
+                    ->multiple()
+                    ->options(Position::all()->pluck('title', 'title')->toArray()),
                 Filter::make('by_date')
                     ->default([
                         'date' => now('Europe/Kyiv')->toDateString(),

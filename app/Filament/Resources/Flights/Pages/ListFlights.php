@@ -50,7 +50,6 @@ class ListFlights extends ListRecords
                 ->label('Додати')
                 ->icon('heroicon-o-plus')
                 ->visible(fn() => static::getResource()::canCreate()),
-
             Action::make('summaries')
                 ->label('Підсумки')
                 ->icon('heroicon-o-chart-bar-square')
@@ -62,13 +61,11 @@ class ListFlights extends ListRecords
                                 ->label('Дата від')
                                 ->default(now('Europe/Kyiv')->startOfMonth()->format('Y-m-d'))
                                 ->required(),
-
                             DatePicker::make('date_to')
                                 ->label('Дата до')
                                 ->default(now('Europe/Kyiv')->format('Y-m-d'))
                                 ->required(),
                         ]),
-
                     Step::make('Результати')
                         ->schema([
                             Placeholder::make('results')

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Flights\Pages;
 
 use App\Filament\Resources\Flights\FlightResource;
 use App\Models\Position;
+use App\Models\Shift;
 use App\ValuesObject\Target;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -42,8 +43,10 @@ class CreateFlight extends CreateRecord
             $data['shift_id'] = $shiftData[0];
             $data['position_id'] = $shiftData[1];
             $data['position'] = Position::where('id', $data['position_id'])->value('title');
+            $data['user_id'] = Shift::where('id', $data['shift_id'])->value('navigator_id');
         } else {
             $data['shift_id'] = getShiftDetails()['shift_id'];
+            $data['user_id'] = auth()->id();
         }
         if (in_array(
             $data['target'],
@@ -67,10 +70,7 @@ class CreateFlight extends CreateRecord
             $status = $status . ', знищено ворожий БпЛА';
         }
         $data['status'] = $status;
-        $data = array_merge($data, [
-            'user_id' => auth()->id(),
-            'ammunition' => $this->formatAmmunition($data['ammunition_items'] ?? []),
-        ]);
+        $data = array_merge($data, ['ammunition' => $this->formatAmmunition($data['ammunition_items'] ?? [])]);
         return static::getModel()::create($data);
     }
 
