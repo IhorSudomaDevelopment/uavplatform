@@ -22,6 +22,6 @@ class Settings extends Page
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 8;
+        return 9;
     }
 }

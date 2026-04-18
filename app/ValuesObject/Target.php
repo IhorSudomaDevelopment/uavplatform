@@ -11,6 +11,8 @@ class Target
     /*** @var string */
     public const SHELTER_WITH_PERSONNEL = 'Укриття з ОС';
     /*** @var string */
+    public const AMMUNITION_WARE = 'Склад БК';
+    /*** @var string */
     public const CROSSING = 'Переправа';
     /*** @var string */
     public const FIRE_FIGHTING = 'Пожежогасіння';
@@ -38,6 +40,7 @@ class Target
             self::PERSONNEL              => self::PERSONNEL,
             self::SHELTER                => self::SHELTER,
             self::SHELTER_WITH_PERSONNEL => self::SHELTER_WITH_PERSONNEL,
+            self::AMMUNITION_WARE        => self::AMMUNITION_WARE,
             self::CROSSING               => self::CROSSING,
             self::FIRE_FIGHTING          => self::FIRE_FIGHTING,
             self::MINING                 => self::MINING,

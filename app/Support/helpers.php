@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\Shift;
+
 if (!function_exists('isRoleAdmin')) {
     /*** @return bool */
     function isRoleAdmin(): bool
@@ -40,5 +43,21 @@ if (!function_exists('getShiftDetails')) {
         $positionName = DB::table('positions')
             ->where('id', $query->value('position_id'));
         return ['shift_id' => $query->value('id'), 'position_name' => $positionName];
+    }
+}
+if (!function_exists('getOnDutyNumber')) {
+    /*** @return int */
+    function getOnDutyNumber(): int
+    {
+        $q = Shift::where('navigator_id', auth()->id())->whereNull('end_date')->first();
+        if ($q === null) {
+            return 1;
+        } else {
+            if ($q->on_duty === 1) {
+                return 2;
+            } else {
+                return 3;
+            }
+        }
     }
 }

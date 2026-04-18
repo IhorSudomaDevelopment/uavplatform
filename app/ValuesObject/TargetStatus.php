@@ -66,7 +66,7 @@ class TargetStatus
             self::DESTROYED => self::DESTROYED,
             self::NOT_DETECTED => self::NOT_DETECTED,
             self::COMPLETED => self::COMPLETED,
-            self::NOT_COMPLETED => self::NOT_DETECTED,
+            self::NOT_COMPLETED => self::NOT_COMPLETED,
             self::FOUND => self::FOUND,
             self::NOT_FOUND => self::NOT_FOUND,
         ];
