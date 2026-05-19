@@ -195,21 +195,19 @@ class ListFlights extends ListRecords
                     $stats['coverHeat']++;
 
                     $countAdditional = 0;
-                    $positions = [];
                     $offset = 0;
                     while (($pos = strpos($flight->coordinates, '37T', $offset)) !== false) {
-                        $positions[] = $pos;
                         $offset = $pos + 1;
                         $countAdditional++;
                     }
                     if ($countAdditional >= 2) {
-                        $stats['coverHeat'] += $countAdditional - 1;
+                        $stats['coverHeat'] += $countAdditional;
                     }
 
                     if ($isAffected) {
                         $stats['coverHeatPoints']++;
                         if ($countAdditional >= 2) {
-                            $stats['coverHeatPoints'] += $countAdditional - 1;
+                            $stats['coverHeatPoints'] += $countAdditional;
                         }
 
                         if ($has200 || $has300) {
@@ -225,15 +223,13 @@ class ListFlights extends ListRecords
                     $stats['uavDestroyed']++;
 
                     $countAdditionalUav = 0;
-                    $positionsUav = [];
                     $offset = 0;
                     while (($pos = strpos($flight->coordinates, '37T', $offset)) !== false) {
-                        $positionsUav[] = $pos;
                         $offset = $pos + 1;
                         $countAdditionalUav++;
                     }
-                    if ($countAdditionalUav >= 2) {
-                        $stats['uavDestroyed'] += $countAdditionalUav - 1;
+                    if ($countAdditionalUav >= 1) {
+                        $stats['uavDestroyed'] += $countAdditionalUav;
                     }
                 }
                 break;

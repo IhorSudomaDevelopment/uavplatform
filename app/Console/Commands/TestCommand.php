@@ -32,7 +32,7 @@ class TestCommand extends Command
     public function handle()
     {
         $flight = Flight::where('id', 6)->first();
-
+        $p['s'] = 1;
         $count = 0;
         $positions = [];
         $offset = 0;
@@ -41,6 +41,9 @@ class TestCommand extends Command
             $offset = $pos + 1;
             $count++;
         }
-        echo $count;
+        if ($count >= 2) {
+            $p['s'] += $count - 1;
+        }
+        echo $p['s'];
     }
 }
