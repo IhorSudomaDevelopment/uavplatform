@@ -133,6 +133,7 @@ class ListFlights extends ListRecords
                 'coverHeat' => $stats['coverHeat'],
                 'coverDestroyed' => $stats['coverDestroyed'],
                 'mining' => $stats['mining'],
+                'ptm' => $stats['ptm'],
                 'uavDestroyed' => $stats['uavDestroyed'],
                 'points' => $points,
             ]
@@ -193,8 +194,23 @@ class ListFlights extends ListRecords
                 if ($isAffectedExtended) {
                     $stats['coverHeat']++;
 
+                    $countAdditional = 0;
+                    $positions = [];
+                    $offset = 0;
+                    while (($pos = strpos($flight->coordinates, '37T', $offset)) !== false) {
+                        $positions[] = $pos;
+                        $offset = $pos + 1;
+                        $countAdditional++;
+                    }
+                    if ($countAdditional >= 2) {
+                        $stats['coverHeat'] += $countAdditional - 1;
+                    }
+
                     if ($isAffected) {
                         $stats['coverHeatPoints']++;
+                        if ($countAdditional >= 2) {
+                            $stats['coverHeatPoints'] += $countAdditional - 1;
+                        }
 
                         if ($has200 || $has300) {
                             $addCasualties();
@@ -207,6 +223,18 @@ class ListFlights extends ListRecords
             case Target::UAV:
                 if ($flight->status === TargetStatus::DESTROYED) {
                     $stats['uavDestroyed']++;
+
+                    $countAdditionalUav = 0;
+                    $positionsUav = [];
+                    $offset = 0;
+                    while (($pos = strpos($flight->coordinates, '37T', $offset)) !== false) {
+                        $positionsUav[] = $pos;
+                        $offset = $pos + 1;
+                        $countAdditionalUav++;
+                    }
+                    if ($countAdditionalUav >= 2) {
+                        $stats['uavDestroyed'] += $countAdditionalUav - 1;
+                    }
                 }
                 break;
 
@@ -222,7 +250,7 @@ class ListFlights extends ListRecords
                     );
 
                     foreach ($ammunition as $item) {
-                        if ($item['title'] === 'ПТМ') {
+                        if ($item['title'] === 'ПТМ' || $item['title'] === 'ІБМ3') {
                             $stats['ptm'] += $item['quantity'];
                         }
                     }

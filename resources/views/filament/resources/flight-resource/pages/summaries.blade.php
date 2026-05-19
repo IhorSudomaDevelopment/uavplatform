@@ -13,7 +13,7 @@
             <br>
             Укриття (Уражено): {{ $coverHeat }}
             <br>
-            Мінування: {{ $mining }}
+            Мінування ({{ $ptm }}): {{ $mining }}
             <br>
             БПЛА: {{ $uavDestroyed }}
             <br>

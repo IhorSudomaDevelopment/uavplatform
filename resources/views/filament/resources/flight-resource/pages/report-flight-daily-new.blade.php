@@ -65,7 +65,6 @@
 
             @endforeach
 
-
         @else
 
             <div style="font-size:12pt">
@@ -186,36 +185,32 @@
                     $delivery = 0;
                     $technics = 0;
                     $technicType = '';
+                    $hunt = 0;
+                    $evacuationMission = 0;
+                    $crossingBarge = 0;
+                    $searchMission = 0;
                     $ammunitionData = [];
 
                     foreach ($flights as $flight) {
-
                     foreach ($flight->getAmmunition() as $ammo) {
                     $ammunitionData[$ammo['title']] =
                     ($ammunitionData[$ammo['title']] ?? 0) + $ammo['quantity'];
                     }
-
                     if (
                     $flight->target === Target::SHELTER &&
-                    ($flight->status === TargetStatus::AFFECTED ||
-                    $flight->status === TargetStatus::DESTROYED)
+                    (str_contains($flight->status, TargetStatus::AFFECTED) ||
+                        str_contains($flight->status, TargetStatus::DESTROYED))
                     ) {
-
                     $ukryttya++;
                     $notAffected--;
-
                     }
-
                     elseif (
-
                     ($flight->target === Target::PERSONNEL &&
                     (
                     str_starts_with($flight->status, TargetStatus::AFFECTED) ||
                     str_starts_with($flight->status, TargetStatus::DESTROYED)
                     ))
-
                     ||
-
                     ($flight->target === Target::SHELTER_WITH_PERSONNEL &&
                     str_starts_with($flight->status, TargetStatus::DESTROYED))
 
@@ -225,48 +220,46 @@
                     $notAffected--;
 
                     preg_match_all('/(\d+)\s*-\s*(\d+)/',$flight->status,$matches,PREG_SET_ORDER);
-
                     foreach ($matches as $match) {
-
                     if ($match[2] == '200') $personnel200 += $match[1];
                     elseif ($match[2] == '300') $personnel300 += $match[1];
-
                     }
-
                     }
-
                     elseif ($flight->status === TargetStatus::AFFECTED_BY_SIGNATURES) {
                     $bySignatures++;
                     $notAffected--;
                     }
-
                     elseif ($flight->status === TargetStatus::AFFECTED_BY_COORDS) {
                     $byCoords++;
                     $notAffected--;
                     }
-
                     elseif ($flight->target === Target::MINING) {
                     $mining++;
                     $notAffected--;
                     }
-
                     elseif ($flight->target === Target::FIRE_FIGHTING) {
                     $fire++;
                     $notAffected--;
                     }
-
                     elseif ($flight->target === Target::DELIVERY) {
                     $delivery++;
                     $notAffected--;
                     }
-
                     elseif ($flight->target === Target::UAV) {
                     $technics++;
                     $technicType = Target::UAV;
                     $notAffected--;
-                    }
-
-                    elseif ($flight->target === Target::UAV_HUNT && $flight->status === TargetStatus::NOT_DETECTED) {
+                    } else if ($flight->target === Target::CROSSING_BARGE) {
+                        $crossingBarge++;
+                        $notAffected--;
+                    } else if ($flight->target === Target::SEARCH_MISSION) {
+                        $searchMission++;
+                        $notAffected--;
+                    } else if ($flight->target === Target::UAV_EVACUATION) {
+                        $evacuationMission++;
+                        $notAffected--;
+                    } else if ($flight->target === Target::UAV_HUNT) {
+                        $hunt++;
                         $notAffected--;
                     }
 
@@ -303,11 +296,24 @@
                 Доставка: {{ $delivery }}
 
                 <br>
+                Перегін борта: {{ $crossingBarge }}
+
+                <br>
+                Евакуація борта: {{ $evacuationMission }}
+
+                <br>
                 МТЗ (матеріально технічні засоби): 0
 
                 <br>
                 Техніка (тип техніки): {{ $technics }} ({{ $technicType }})
 
+                <br>
+                Хант: {{ $hunt }}
+
+                <br>
+                Пошукова міссія: {{ $searchMission }}
+
+                <br>
                 <br>
 
                 Витрати БК:

@@ -31,8 +31,16 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $flights = Flight::whereIn('id', [140,141,142,150])->get();
-        $sortedFlights = $flights->sortBy('date');
-        print_r($sortedFlights);
+        $flight = Flight::where('id', 6)->first();
+
+        $count = 0;
+        $positions = [];
+        $offset = 0;
+        while (($pos = strpos($flight->coordinates, '37T', $offset)) !== false) {
+            $positions[] = $pos;
+            $offset = $pos + 1;
+            $count++;
+        }
+        echo $count;
     }
 }

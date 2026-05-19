@@ -24,7 +24,7 @@
                 <br>
                 Ціль: {{ $flight->target }}
                 <br>
-                Координати: 37U CP {{ $flight->coordinates }}
+                Координати: {{ $flight->coordinates }}
                 <br>
                 Статус: {{ $flight->status }}
                 <br>
@@ -51,6 +51,10 @@
                 $ammunitionData = [];
                 $technics = 0;
                 $technicType = '';
+                $hunt = 0;
+                $evacuationMission = 0;
+                $crossingBarge = 0;
+                $searchMission = 0;
 
                 foreach ($flights as $flight) {
                     foreach ($flight->getAmmunition() as $ammunition) {
@@ -61,7 +65,8 @@
                         }
                     }
                     if ($flight->target === 'Укриття' &&
-                    ($flight->status === TargetStatus::AFFECTED || $flight->status === TargetStatus::DESTROYED)
+                    (str_contains($fligh->status, TargetStatus::DESTROYED) || str_contains($fligh->status, TargetStatus::AFFECTED))
+                    ($fligh->sttatus === TargetStatus::AFFECTED || $flight->status === TargetStatus::DESTROYED)
                     ) {
                         $ukryttya++;
                         $notAffected--;
@@ -101,6 +106,18 @@
                         $technics++;
                         $technicType = Target::UAV;
                         $notAffected--;
+                    } else if ($flight->target === Target::CROSSING_BARGE) {
+                        $crossingBarge++;
+                        $notAffected--;
+                    } else if ($flight->target === Target::SEARCH_MISSION) {
+                        $searchMission++;
+                        $notAffected--;
+                    } else if ($flight->target === Target::UAV_EVACUATION) {
+                        $evacuationMission++;
+                        $notAffected--;
+                    } else if ($flight->target === Target::UAV_HUNT) {
+                        $hunt++;
+                        $notAffected--;
                     }
                 }
             @endphp
@@ -123,9 +140,15 @@
             <br>
             Доставка: {{ $delivery }}
             <br>
+            Перегін борта: {{ $crossingBarge }}
+            <br>
+            Евакуація борта: {{ $evacuationMission }}
+            <br>
             МТЗ (матеріально технічні засоби): 0
             <br>
             Техніка (тип техніки): {{ $technics }} {{ '('. $technicType . ')' }}
+            <br>
+            Хант: {{ $hunt }}
             <br>
             Витрати БК: @foreach($ammunitionData as $title => $quantity)
                 <br>
