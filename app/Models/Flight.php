@@ -24,13 +24,30 @@ class Flight extends Model
         'target',
         'coordinates',
         'status',
+        'personnel_200',
+        'personnel_300',
         'ammunition',
         'is_drone_lost',
         'drone_lost_reason',
     ];
 
     /*** @var string[] */
-    protected $casts = ['ammunition' => 'array'];
+    protected $casts = ['status' => 'array', 'ammunition' => 'array'];
+
+    /*** @return array */
+    public function getStatus(): array
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param array $status
+     * @return void
+     */
+    public function setStatus(array $status): void
+    {
+        $this->status = $status;
+    }
 
     /*** @return array */
     public function getAmmunition(): array

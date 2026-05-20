@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Flights\Tables;
 
 use App\Models\Position;
 use App\ValuesObject\Target;
-use App\ValuesObject\TargetStatus;
 use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
@@ -82,21 +81,15 @@ class FlightsTable
                     ->label('Посадка'),
                 TextColumn::make('target')
                     ->label('Ціль'),
-                TextColumn::make('coordinates')
-                    ->label('Координати')
-                    ->limit(18),
                 TextColumn::make('status')
-                    ->label('Статус'),
+                    ->label('Статус')
+                    ->limit(10),
             ])->recordUrl(NULL)
             ->filters([
                 SelectFilter::make('target')
                     ->label('Ціль')
                     ->multiple()
                     ->options(Target::getList()),
-                SelectFilter::make('status')
-                    ->label('Статус')
-                    ->multiple()
-                    ->options(TargetStatus::getList()),
                 SelectFilter::make('position')
                     ->label('Позиція')
                     ->multiple()

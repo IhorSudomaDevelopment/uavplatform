@@ -48,28 +48,37 @@ class CreateFlight extends CreateRecord
             $data['shift_id'] = getShiftDetails()['shift_id'];
             $data['user_id'] = auth()->id();
         }
+        $statuses = [];
+        $status200 = 0;
+        $status300 = 0;
+
         if (in_array(
             $data['target'],
             [
                 Target::CROSSING_BARGE,
                 Target::SEARCH_MISSION,
                 Target::UAV_EVACUATION,
-                Target::UAV_HUNT
+                //  Target::UAV_HUNT
             ]
         )) {
             $data['coordinates'] = '-';
+        } else {
+            $coordinates = [];
+            foreach ($data['coordinate_items'] as $coordinateItem) {
+                $coordinates[] = $coordinateItem['coordinate_item'];
+                $statuses[] = $coordinateItem['coordinate_status'] . ': ' . $coordinateItem['coordinate_item'];
+                $status200 += $coordinateItem['coordinate_status_200'];
+                $status300 += $coordinateItem['coordinate_status_300'];
+            }
+            $data['coordinates'] = implode(', ', $coordinates);
+            $data['status'] = $statuses;
         }
-        $status = $data['status'];
-        if (isset($data['personnel_200']) && $data['personnel_200'] > 0) {
-            $status = $status . ', ' . $data['personnel_200'] . ' - 200';
-        }
-        if (isset($data['personnel_300']) && $data['personnel_300'] > 0) {
-            $status = $status . ', ' . $data['personnel_300'] . ' - 300';
-        }
+
         if ($data['is_uav_destroyed']) {
-            $status = $status . ', знищено ворожий БпЛА';
+            $data['status'][] = 'знищено ворожий БпЛА';
         }
-        $data['status'] = $status;
+        $data['personnel_200'] = $status200;
+        $data['personnel_300'] = $status300;
         $data = array_merge($data, ['ammunition' => $this->formatAmmunition($data['ammunition_items'] ?? [])]);
         return static::getModel()::create($data);
     }
@@ -110,6 +119,7 @@ class CreateFlight extends CreateRecord
             return [
                 'title' => $item['ammunition'] ?? '-',
                 'quantity' => $item['quantity'] ?? 0,
+                'detonation' => $item['detonation'],
             ];
         }, $items);
     }

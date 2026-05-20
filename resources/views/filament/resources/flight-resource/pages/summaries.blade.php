@@ -5,15 +5,15 @@
             <b>Підсумки по польотах за {{ $from }} - {{ $to }}</b>
             <br>
             <br>
-            200: {{ $status200 }}
+            200: {{ $personnel200 }}
             <br>
-            300: {{ $status300 }}
+            300: {{ $personnel300 }}
             <br>
             Укриття (Знищено): {{ $coverDestroyed }}
             <br>
-            Укриття (Уражено): {{ $coverHeat }}
+            Укриття (Уражено): {{ $coverAffected }}
             <br>
-            Мінування ({{ $ptm }}): {{ $mining }}
+            Мінування ({{ $minedPoints }}): {{ $mined }}
             <br>
             БПЛА: {{ $uavDestroyed }}
             <br>

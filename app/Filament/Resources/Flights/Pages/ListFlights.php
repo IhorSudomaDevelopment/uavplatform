@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Flights\Pages;
 
 use App\Filament\Resources\Flights\FlightResource;
+use App\Models\Flight;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
 use Filament\Actions\Action;
@@ -14,7 +15,6 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Wizard\Step;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 use JsonException;
 
 /**
@@ -91,7 +91,7 @@ class ListFlights extends ListRecords
             return 'Оберіть дати';
         }
 
-        $query = DB::table('flights')
+        $query = Flight::query()
             ->whereBetween('date', [$from, $to]);
 
         if (isRoleNavigator()) {
@@ -101,14 +101,14 @@ class ListFlights extends ListRecords
         $flights = $query->get();
 
         $stats = [
-            'status200' => 0,
-            'status300' => 0,
+            'personnel200' => 0,
+            'personnel300' => 0,
             'coverHeat' => 0,
             'coverDestroyed' => 0,
-            'coverHeatPoints' => 0,
+            'coverAffected' => 0,
             'uavDestroyed' => 0,
-            'mining' => 0,
-            'ptm' => 0,
+            'mined' => 0,
+            'minedPoints' => 0,
         ];
 
         foreach ($flights as $flight) {
@@ -116,24 +116,24 @@ class ListFlights extends ListRecords
         }
 
         $points =
-            $stats['status200'] * 12 +
-            $stats['status300'] * 6 +
+            $stats['personnel200'] * 12 +
+            $stats['personnel300'] * 6 +
             $stats['coverDestroyed'] * 2 +
-            $stats['coverHeatPoints'] +
+            $stats['coverAffected'] +
             $stats['uavDestroyed'] * 2 +
-            $stats['ptm'];
+            $stats['minedPoints'];
 
         return view(
             'filament.resources.flight-resource.pages.summaries',
             [
                 'from' => $from,
                 'to' => $to,
-                'status200' => $stats['status200'],
-                'status300' => $stats['status300'],
-                'coverHeat' => $stats['coverHeat'],
+                'personnel200' => $stats['personnel200'],
+                'personnel300' => $stats['personnel300'],
                 'coverDestroyed' => $stats['coverDestroyed'],
-                'mining' => $stats['mining'],
-                'ptm' => $stats['ptm'],
+                'coverAffected' => $stats['coverAffected'],
+                'mined' => $stats['mined'],
+                'minedPoints' => $stats['minedPoints'],
                 'uavDestroyed' => $stats['uavDestroyed'],
                 'points' => $points,
             ]
@@ -144,117 +144,45 @@ class ListFlights extends ListRecords
      * @param $flight
      * @param array $stats
      * @return void
-     * @throws JsonException
      */
     private function processFlight($flight, array &$stats): void
     {
-        $status = $flight->status;
-
-        $has200 = str_contains($status, '200');
-        $has300 = str_contains($status, '300');
-        $isDestroyed = str_contains($status, TargetStatus::DESTROYED);
-        $isAffected = str_contains($status, TargetStatus::AFFECTED);
-
-        $isAffectedExtended = $isAffected || in_array($status, [
-                TargetStatus::AFFECTED_AFTER_ADJUSTMENT,
-                TargetStatus::AFFECTED_BY_SIGNATURES,
-                TargetStatus::AFFECTED_BY_COORDS,
-            ]);
-
-        $addCasualties = function () use (&$stats, $status, $has200, $has300) {
-            $count = (int)substr($status, -7, 1);
-
-            if ($has200) {
-                $stats['status200'] += $count;
-            }
-
-            if ($has300) {
-                $stats['status300'] += $count;
-            }
-        };
-
-        switch ($flight->target) {
-            case Target::PERSONNEL:
-                if ($has200 || $has300) {
-                    $addCasualties();
-                }
-                break;
-
-            case Target::SHELTER:
-            case Target::SHELTER_WITH_PERSONNEL:
-
-                if ($isDestroyed) {
+        $stats['personnel200'] += $flight->personnel_200;
+        $stats['personnel300'] += $flight->personnel_300;
+        if (in_array($flight->target, [Target::SHELTER, Target::SHELTER_WITH_PERSONNEL], true)) {
+            foreach ($flight->getStatus() as $statusData) {
+                if (str_contains($statusData, TargetStatus::DESTROYED)) {
                     $stats['coverDestroyed']++;
-                    if ($has200 || $has300) {
-                        $addCasualties();
-                    }
-                    break;
                 }
-
-                if ($isAffectedExtended) {
-                    $stats['coverHeat']++;
-
-                    $countAdditional = 0;
-                    $offset = 0;
-                    while (($pos = strpos($flight->coordinates, '37T', $offset)) !== false) {
-                        $offset = $pos + 1;
-                        $countAdditional++;
-                    }
-                    if ($countAdditional >= 2) {
-                        $stats['coverHeat'] += $countAdditional;
-                    }
-
-                    if ($isAffected) {
-                        $stats['coverHeatPoints']++;
-                        if ($countAdditional >= 2) {
-                            $stats['coverHeatPoints'] += $countAdditional;
-                        }
-
-                        if ($has200 || $has300) {
-                            $addCasualties();
-                        }
+                if (str_contains($statusData, TargetStatus::AFFECTED)) {
+                    $stats['coverAffected']++;
+                }
+            }
+        } else if ($flight->target === Target::MINING) {
+            $isMined = false;
+            foreach ($flight->getStatus() as $statusData) {
+                if (str_contains($statusData, TargetStatus::MINED)) {
+                    $isMined = true;
+                    $stats['mined']++;
+                }
+            }
+            if ($isMined) {
+                foreach ($flight->getAmmunition() as $ammunitionData) {
+                    if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3'], true)) {
+                        $stats['minedPoints']++;
                     }
                 }
-
-                break;
-
-            case Target::UAV:
-                if ($flight->status === TargetStatus::DESTROYED) {
+            }
+        } else if ($flight->target === Target::UAV) {
+            foreach ($flight->getStatus() as $statusData) {
+                if (str_contains($statusData, TargetStatus::DESTROYED)) {
                     $stats['uavDestroyed']++;
-
-                    $countAdditionalUav = 0;
-                    $offset = 0;
-                    while (($pos = strpos($flight->coordinates, '37T', $offset)) !== false) {
-                        $offset = $pos + 1;
-                        $countAdditionalUav++;
-                    }
-                    if ($countAdditionalUav >= 1) {
-                        $stats['uavDestroyed'] += $countAdditionalUav;
-                    }
                 }
-                break;
-
-            case Target::MINING:
-                if ($flight->status === TargetStatus::MINED) {
-                    $stats['mining']++;
-
-                    $ammunition = json_decode(
-                        $flight->ammunition,
-                        true,
-                        512,
-                        JSON_THROW_ON_ERROR
-                    );
-
-                    foreach ($ammunition as $item) {
-                        if ($item['title'] === 'ПТМ' || $item['title'] === 'ІБМ3') {
-                            $stats['ptm'] += $item['quantity'];
-                        }
-                    }
-                }
-                break;
+            }
         }
-        if (str_contains($status, 'знищено ворожий БпЛА')) {
-            $stats['uavDestroyed']++;
-        }
+
+//        if ($flight->getStatus() === 'знищено ворожий БпЛА') {
+//            $stats['uavDestroyed']++;
+//        }
     }
 }

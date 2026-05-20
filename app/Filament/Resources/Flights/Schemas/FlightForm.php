@@ -84,21 +84,56 @@ class FlightForm
                     ->options(Target::getList())
                     ->reactive(),
                 Select::make('status')
-                    ->label('Статус по цілі')
+                    ->label('Статус')
                     ->required()
                     ->options(TargetStatus::getList())
-                    ->reactive(),
-                Textarea::make('coordinates')
-                    ->label('Координати (MGRS)')
-                    ->required()
-                    ->visible(fn(Get $get) => ! in_array(
+                    ->visible(fn(Get $get) => in_array(
+                        $get('target'),
+                        [
+                            Target::CROSSING_BARGE,
+                            Target::SEARCH_MISSION,
+                            Target::UAV_EVACUATION,
+                            // Target::UAV_HUNT
+                        ])),
+
+                // -- TEST NEW COORDS INPUTS WITH STATUSES --
+                Fieldset::make('Координати (MGRS) та статус по цілі')
+                    ->schema([
+                        Repeater::make('coordinate_items')
+                            ->hiddenLabel()
+                            ->schema([
+                                Fieldset::make('')
+                                    ->hiddenLabel()
+                                    ->schema([
+                                        TextInput::make('coordinate_item')
+                                            ->label('Координати')
+                                            ->required(),
+                                        Select::make('coordinate_status')
+                                            ->label('Статус по цілі')
+                                            ->required()
+                                            ->options(TargetStatus::getList())
+                                            ->reactive(),
+                                        TextInput::make('coordinate_status_200')
+                                            ->label('ОС, 200')
+                                            ->default(0),
+                                        TextInput::make('coordinate_status_300')
+                                            ->label('ОС, 300')
+                                            ->default(0),
+                                    ])->columns(4),
+                            ])
+                            ->addActionLabel('Додати')
+                            ->columnSpanFull()
+                            ->collapsible(),
+                    ])->visible(fn(Get $get) => !in_array(
                         $get('target'),
                         [
                             Target::CROSSING_BARGE,
                             Target::SEARCH_MISSION,
                             Target::UAV_EVACUATION,
                             Target::UAV_HUNT
-                        ])),
+                        ]))
+                    ->columnSpanFull(),
+                //
                 Fieldset::make('200 / 300')
                     ->schema([
                         TextInput::make('personnel_200')
@@ -127,7 +162,15 @@ class FlightForm
                                             ->label('Кількість')
                                             ->required()
                                             ->default(1),
-                                    ]),
+                                        Select::make('detonation')
+                                            ->label('Детонація')
+                                            ->required()
+                                            ->options([
+                                                'Детон' => 'Детон',
+                                                'Не детон' => 'Не детон',
+                                                '-' => '-'
+                                            ]),
+                                    ])->columns(3)
                             ])
                             ->addActionLabel('Додати')
                             ->columnSpanFull()
