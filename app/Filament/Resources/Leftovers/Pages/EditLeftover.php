@@ -6,6 +6,7 @@ use App\Filament\Resources\Leftovers\LeftoverResource;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
 
 class EditLeftover extends EditRecord
@@ -33,5 +34,16 @@ class EditLeftover extends EditRecord
     public function getBreadcrumbs(): array
     {
         return [];
+    }
+
+    public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
+    {
+        return $schema
+            ->components([
+                TextInput::make('title'),
+                TextInput::make('quantity'),
+                TextInput::make('unit'),
+                TextInput::make('leftover_on'),
+            ]);
     }
 }

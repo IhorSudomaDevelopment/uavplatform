@@ -39,7 +39,6 @@ class Target
         return [
             self::PERSONNEL              => self::PERSONNEL,
             self::SHELTER                => self::SHELTER,
-            self::SHELTER_WITH_PERSONNEL => self::SHELTER_WITH_PERSONNEL,
             self::AMMUNITION_WARE        => self::AMMUNITION_WARE,
             self::CROSSING               => self::CROSSING,
             self::FIRE_FIGHTING          => self::FIRE_FIGHTING,

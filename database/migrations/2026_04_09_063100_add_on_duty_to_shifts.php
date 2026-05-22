@@ -6,23 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    /*** Run the migrations. */
     public function up(): void
     {
         Schema::table('shifts', function (Blueprint $table) {
             $table->boolean('on_duty')->after('is_night')->default(false)->comment('0 - no, 1 - yes');
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('shifts', function (Blueprint $table) {
-            //
         });
     }
 };

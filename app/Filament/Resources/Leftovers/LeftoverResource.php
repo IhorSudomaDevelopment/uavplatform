@@ -11,10 +11,7 @@ use App\Models\Leftover;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class LeftoverResource extends Resource
 {
@@ -61,6 +58,6 @@ class LeftoverResource extends Resource
     /*** @return bool */
     public static function canCreate(): bool
     {
-        return isRoleNavigator();
+        return true;
     }
 }

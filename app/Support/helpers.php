@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Shift;
+use Illuminate\Support\Facades\DB;
 
 if (!function_exists('isRoleAdmin')) {
     /*** @return bool */
@@ -59,5 +60,32 @@ if (!function_exists('getOnDutyNumber')) {
                 return 3;
             }
         }
+    }
+}
+if (!function_exists('getShiftAndPositionData')) {
+    /*** @return array */
+    function getShiftAndPositionData(): array
+    {
+        $preparedShifts = null;
+        if (isRoleNavigator()) {
+            $num = DB::table('flights')
+                ->whereDate('date', now('Europe/Kyiv'))
+                ->where('user_id', auth()->id())
+                ->max('flight_number');
+            $num = ($num ?? 0) + 1;
+        } else {
+            $num = 1;
+            $shifts = DB::table('shifts')
+                ->where('status', 'Активна')
+                ->get();
+            foreach ($shifts as $shift) {
+                /*** @var Shift $shift */
+                $preparedShifts[$shift->id . '|' .
+                $shift->position_id . '|' .
+                $shift->navigator_id] = DB::table('positions')->where('id', $shift->position_id)->value('title') .
+                    ' (' . DB::table('users')->where('id', $shift->navigator_id)->value('assigned_navigator') . ')';
+            }
+        }
+        return $preparedShifts;
     }
 }

@@ -13,6 +13,12 @@ class DroneType
     public const BAT = 'Кажан';
     /*** @var string */
     public const VAMPIRE = 'Вампір';
+    /*** @var string */
+    public const NEMESIS = 'Nemesis';
+    /*** @var string */
+    public const ZHVAVYY = 'Жвавий';
+    /*** @var string */
+    public const PERUN = 'Perun';
 
     /*** @return string[] */
     public static function getList(): array
@@ -21,6 +27,9 @@ class DroneType
             self::HEAVY_SHOT => self::HEAVY_SHOT,
             self::BAT => self::BAT,
             self::VAMPIRE => self::VAMPIRE,
+            self::NEMESIS => self::NEMESIS,
+            self::ZHVAVYY => self::ZHVAVYY,
+            self::PERUN => self::PERUN,
         ];
     }
 }

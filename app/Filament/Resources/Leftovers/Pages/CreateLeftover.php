@@ -3,14 +3,17 @@
 namespace App\Filament\Resources\Leftovers\Pages;
 
 use App\Filament\Resources\Leftovers\LeftoverResource;
-use App\Models\Shift;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ *
+ */
 class CreateLeftover extends CreateRecord
 {
+    /*** @var string */
     protected static string $resource = LeftoverResource::class;
 
     /*** @var bool */
@@ -34,13 +37,18 @@ class CreateLeftover extends CreateRecord
      */
     protected function handleRecordCreation(array $data): Model
     {
+
+        $shift = $data['shift'];
+        $shiftData = explode('|', $shift);
+        $data['position_id'] = $shiftData[1];
         $records = [];
         $items = $data['leftover_items'];
         foreach ($items as $item) {
             $records[] = static::getModel()::create([
-                'position_id' => Shift::where('navigator_id', auth()->id())
-                    ->whereNull('end_date')
-                    ->value('position_id'),
+//                'position_id' => Shift::where('navigator_id', auth()->id())
+//                    ->whereNull('end_date')
+//                    ->value('position_id'),
+                'position_id' => $data['position_id'],
                 'title' => $item['leftover_title'],
                 'quantity' => $item['leftover_quantity'],
                 'unit' => $item['leftover_unit'],

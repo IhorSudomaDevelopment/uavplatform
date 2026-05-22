@@ -9,6 +9,8 @@
     if ($count > 1) {
         $r = $flights->groupBy(['position','date']);
     }
+
+    /*** @var Flight $flight */
 @endphp
 
 <div x-data="{ copied: false }" class="space-y-4">
@@ -41,10 +43,10 @@
                                 Час: {{ $flight->time_start }} - {{ $flight->time_end }}
 
                                 <br>
-                                Ціль: Укриття
+                                Ціль: {{ $flight->target }}
 
                                 <br>
-                                Координати: 37U CP 37Y XY 00000 00001
+                                Координати: {{ $flight->coordinates }}
 
                                 <br>
                                 Статус: Знищено
@@ -105,14 +107,14 @@
                         Ціль: {{ $flight->target }}
 
                         <br>
-                        Координати: 37U CP {{ $flight->coordinates }}
+                        Координати: {{ $flight->coordinates }}
 
                         <br>
                         Статус: {{ $flight->status }}
 
                         <br>
                         БК:
-                        @foreach($flight->getAmmunition() as $ammo)
+                        @foreach(json_decode($flight->ammunition, TRUE, 512, JSON_THROW_ON_ERROR) as $ammo)
                             {{ $ammo['title'] }} - {{ $ammo['quantity'] }}шт
                         @endforeach
 
@@ -143,14 +145,14 @@
                             Ціль: {{ $flightData->target }}
 
                             <br>
-                            Координати: 37U CP {{ $flightData->coordinates }}
+                            Координати: {{ $flightData->coordinates }}
 
                             <br>
                             Статус: {{ $flightData->status }}
 
                             <br>
                             БК:
-                            @foreach($flightData->getAmmunition() as $ammo)
+                            @foreach(json_decode($flightData->ammunition, TRUE, 512, JSON_THROW_ON_ERROR) as $ammo)
                                 {{ $ammo['title'] }} - {{ $ammo['quantity'] }}шт
                             @endforeach
 
@@ -192,7 +194,7 @@
                     $ammunitionData = [];
 
                     foreach ($flights as $flight) {
-                    foreach ($flight->getAmmunition() as $ammo) {
+                    foreach (json_decode($flight->ammunition, TRUE, 512, JSON_THROW_ON_ERROR) as $ammo) {
                     $ammunitionData[$ammo['title']] =
                     ($ammunitionData[$ammo['title']] ?? 0) + $ammo['quantity'];
                     }

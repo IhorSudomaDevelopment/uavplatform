@@ -7,6 +7,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 /**
@@ -28,9 +29,17 @@ class LeftoverForm
             }
         }
         $preparedList['Бензин'] = 'Бензин';
+        $preparedList['ДП'] = 'ДП';
+        $preparedList['Вода (пак)'] = 'Вода (пак)';
+        $preparedList['Сухий пайок'] = 'Сухий пайок';
         return $schema
             ->columns(3)
             ->components([
+                Select::make('shift')
+                    ->label('Зміна')
+                    ->options(getShiftAndPositionData())
+                    ->required()
+                    ->visible(fn(Get $get) => isRoleAdmin() || isRoleManager()),
                 Fieldset::make('Перелік')
                     ->schema([
                         Repeater::make('leftover_items')
@@ -50,7 +59,8 @@ class LeftoverForm
                                         Select::make('leftover_unit')
                                             ->label('Одиниці')
                                             ->required()
-                                            ->options(['шт' => 'шт', 'л' => 'л']),
+                                            ->options(['шт' => 'шт', 'л' => 'л'])
+                                            ->default('шт'),
                                         TextInput::make('leftover_on')
                                             ->label('Залишок на')
                                             ->required()

@@ -9,8 +9,8 @@ return new class extends Migration
     /*** Run the migrations. */
     public function up(): void
     {
-        Schema::table('shifts', function (Blueprint $table) {
-            $table->string('status')->after('end_date')->default('Активна');
+        Schema::table('drones', function (Blueprint $table) {
+            $table->string('serial_number')->unique()->change();
         });
     }
 };

@@ -2,19 +2,16 @@
 
 namespace App\Filament\Resources\Flights\Schemas;
 
-use App\Models\Shift;
 use App\ValuesObject\DroneLostReason;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\DB;
 
 /**
  *
@@ -27,32 +24,12 @@ class FlightForm
      */
     public static function configure(Schema $schema): Schema
     {
-        $preparedShifts = null;
-        if (isRoleNavigator()) {
-            $num = DB::table('flights')
-                ->whereDate('date', now('Europe/Kyiv'))
-                ->where('user_id', auth()->id())
-                ->max('flight_number');
-            $num = ($num ?? 0) + 1;
-        } else {
-            $num = 1;
-            $shifts = DB::table('shifts')
-                ->where('status', 'Активна')
-                ->get();
-            foreach ($shifts as $shift) {
-                /*** @var Shift $shift */
-                $preparedShifts[$shift->id . '|' .
-                $shift->position_id . '|' .
-                $shift->navigator_id] = DB::table('positions')->where('id', $shift->position_id)->value('title') .
-                    ' (' . DB::table('users')->where('id', $shift->navigator_id)->value('assigned_navigator') . ')';
-            }
-        }
         return $schema
             ->columns()
             ->components([
                 Select::make('shift')
                     ->label('Зміна')
-                    ->options($preparedShifts)
+                    ->options(getShiftAndPositionData())
                     ->visible(fn(Get $get) => isRoleAdmin() || isRoleManager()),
                 TextInput::make('position')
                     ->label('Позиція')
@@ -61,7 +38,7 @@ class FlightForm
                     ->visible(fn(Get $get) => isRoleNavigator()),
                 TextInput::make('flight_number')
                     ->label('Номер')
-                    ->default($num)
+                    ->default(1)
                     ->required(),
                 TextInput::make('date')
                     ->label('Дата')
