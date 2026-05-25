@@ -3,14 +3,15 @@
 namespace App\Filament\Resources\Flights\Pages;
 
 use App\Filament\Resources\Flights\FlightResource;
-use App\Models\Position;
-use App\Models\Shift;
 use App\ValuesObject\Target;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ *
+ */
 class CreateFlight extends CreateRecord
 {
     /*** @var string */
@@ -31,55 +32,65 @@ class CreateFlight extends CreateRecord
         return 'Новий політ';
     }
 
+
     /**
      * @param array $data
      * @return Model
      */
     protected function handleRecordCreation(array $data): Model
     {
-        if (isRoleAdmin() || isRoleManager()) {
-            $shift = $data['shift'];
-            $shiftData = explode('|', $shift);
-            $data['shift_id'] = $shiftData[0];
-            $data['position_id'] = $shiftData[1];
-            $data['position'] = Position::where('id', $data['position_id'])->value('title');
-            $data['user_id'] = Shift::where('id', $data['shift_id'])->value('navigator_id');
-        } else {
-            $data['shift_id'] = getShiftDetails()['shift_id'];
-            $data['user_id'] = auth()->id();
-        }
-        $statuses = [];
+        $data['user_id'] = auth()->id();
+        $data['status'] = [];
         $status200 = 0;
         $status300 = 0;
-
-        if (in_array(
-            $data['target'],
-            [
-                Target::CROSSING_BARGE,
-                Target::SEARCH_MISSION,
-                Target::UAV_EVACUATION,
-                //  Target::UAV_HUNT
-            ]
-        )) {
+        $targetsWithoutCoordinates = [
+            Target::CROSSING_BARGE,
+            Target::SEARCH_MISSION,
+            Target::UAV_EVACUATION,
+        ];
+        if (in_array($data['target'], $targetsWithoutCoordinates, true)) {
             $data['coordinates'] = '-';
         } else {
             $coordinates = [];
+            $statuses = [];
             foreach ($data['coordinate_items'] as $coordinateItem) {
+                if (!isset($coordinateItem['coordinate_status_200'], $coordinateItem['coordinate_status_300'])) {
+                    $coordinateItem['coordinate_status_200'] = 0;
+                    $coordinateItem['coordinate_status_300'] = 0;
+                }
                 $coordinates[] = $coordinateItem['coordinate_item'];
-                $statuses[] = $coordinateItem['coordinate_status'] . ': ' . $coordinateItem['coordinate_item'];
-                $status200 += $coordinateItem['coordinate_status_200'];
-                $status300 += $coordinateItem['coordinate_status_300'];
+                $statusParts = [];
+                if ($coordinateItem['coordinate_status_200'] > 0) {
+                    $statusParts[] =
+                        $coordinateItem['coordinate_status_200'] . ' - 200';
+                    $status200 += $coordinateItem['coordinate_status_200'];
+                }
+                if ($coordinateItem['coordinate_status_300'] > 0) {
+                    $statusParts[] =
+                        $coordinateItem['coordinate_status_300'] . ' - 300';
+                    $status300 += $coordinateItem['coordinate_status_300'];
+                }
+                $additionalInfo = !empty($statusParts)
+                    ? ' (' . implode(', ', $statusParts) . ')'
+                    : '';
+                $statuses[] =
+                    $coordinateItem['coordinate_status']
+                    . $additionalInfo
+                    . ': '
+                    . $coordinateItem['coordinate_item'];
             }
             $data['coordinates'] = implode(', ', $coordinates);
             $data['status'] = $statuses;
         }
-
-        if ($data['is_uav_destroyed']) {
+        if (!empty($data['is_uav_destroyed'])) {
             $data['status'][] = 'знищено ворожий БпЛА';
         }
         $data['personnel_200'] = $status200;
         $data['personnel_300'] = $status300;
-        $data = array_merge($data, ['ammunition' => $this->formatAmmunition($data['ammunition_items'] ?? [])]);
+        $data['ammunition'] = $this->formatAmmunition(
+            $data['ammunition_items'] ?? []
+        );
+        unset($data['ammunition_items'], $data['coordinate_items']);
         return static::getModel()::create($data);
     }
 

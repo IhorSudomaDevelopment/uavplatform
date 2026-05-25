@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Flights\Schemas;
 
+use App\Models\Position;
 use App\ValuesObject\DroneLostReason;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
@@ -27,15 +28,10 @@ class FlightForm
         return $schema
             ->columns()
             ->components([
-                Select::make('shift')
-                    ->label('Зміна')
-                    ->options(getShiftAndPositionData())
-                    ->visible(fn(Get $get) => isRoleAdmin() || isRoleManager()),
-                TextInput::make('position')
+                Select::make('position')
                     ->label('Позиція')
-                    ->default(getDefaultPosition() ?? getShiftDetails()['position_name'])
-                    ->required()
-                    ->visible(fn(Get $get) => isRoleNavigator()),
+                    ->options(Position::all()->pluck('title', 'title'))
+                    ->required(),
                 TextInput::make('flight_number')
                     ->label('Номер')
                     ->default(1)
@@ -88,14 +84,16 @@ class FlightForm
                                         Select::make('coordinate_status')
                                             ->label('Статус по цілі')
                                             ->required()
-                                            ->options(TargetStatus::getList())
+                                            ->options(fn(Get $get) => TargetStatus::getStatusListForTarget($get('../../target') ?? 'all'))
                                             ->reactive(),
                                         TextInput::make('coordinate_status_200')
                                             ->label('ОС, 200')
-                                            ->default(0),
+                                            ->default(0)
+                                            ->visible(fn(Get $get) => in_array($get('../../target'), [Target::PERSONNEL, Target::SHELTER], true)),
                                         TextInput::make('coordinate_status_300')
                                             ->label('ОС, 300')
-                                            ->default(0),
+                                            ->default(0)
+                                            ->visible(fn(Get $get) => in_array($get('../../target'), [Target::PERSONNEL, Target::SHELTER], true)),
                                     ])->columns(4),
                             ])
                             ->addActionLabel('Додати')
@@ -111,18 +109,18 @@ class FlightForm
                         ]))
                     ->columnSpanFull(),
                 //
-                Fieldset::make('200 / 300')
-                    ->schema([
-                        TextInput::make('personnel_200')
-                            ->label('200')
-                            ->default(0),
-                        TextInput::make('personnel_300')
-                            ->label('300')
-                            ->default(0),
-                    ])
-                    ->visible(fn(Get $get) => in_array($get('target'), [Target::PERSONNEL, Target::SHELTER]) &&
-                        in_array($get('status'), [TargetStatus::DESTROYED, TargetStatus::AFFECTED])) // умова
-                    ->columnSpanFull(),
+//                Fieldset::make('200 / 300')
+//                    ->schema([
+//                        TextInput::make('personnel_200')
+//                            ->label('200')
+//                            ->default(0),
+//                        TextInput::make('personnel_300')
+//                            ->label('300')
+//                            ->default(0),
+//                    ])
+//                    ->visible(fn(Get $get) => in_array($get('target'), [Target::PERSONNEL, Target::SHELTER]) &&
+//                        in_array($get('status'), [TargetStatus::DESTROYED, TargetStatus::AFFECTED])) // умова
+//                    ->columnSpanFull(),
                 Fieldset::make('БК')
                     ->schema([
                         Repeater::make('ammunition_items')

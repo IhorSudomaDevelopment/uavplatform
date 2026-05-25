@@ -37,6 +37,13 @@ class Flight extends Model
     /*** @return array */
     public function getStatus(): array
     {
+        if (!is_array($this->status)) {
+            $decodedStatus = (array)json_decode($this->status, true);
+            if (empty($decodedStatus)) {
+                return [$this->status];
+            }
+            return (array)json_decode($this->status, true);
+        }
         return $this->status;
     }
 
@@ -52,6 +59,9 @@ class Flight extends Model
     /*** @return array */
     public function getAmmunition(): array
     {
+        if (!is_array($this->ammunition)) {
+            return (array)json_decode($this->ammunition, true);
+        }
         return $this->ammunition;
     }
 

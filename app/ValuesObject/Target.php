@@ -9,7 +9,7 @@ class Target
     /*** @var string */
     public const SHELTER = 'Укриття';
     /*** @var string */
-    public const SHELTER_WITH_PERSONNEL = 'Укриття з ОС';
+    public const ZPM = 'Ворожий ЗПМ';
     /*** @var string */
     public const AMMUNITION_WARE = 'Склад БК';
     /*** @var string */
@@ -39,6 +39,7 @@ class Target
         return [
             self::PERSONNEL              => self::PERSONNEL,
             self::SHELTER                => self::SHELTER,
+            self::ZPM                    => self::ZPM,
             self::AMMUNITION_WARE        => self::AMMUNITION_WARE,
             self::CROSSING               => self::CROSSING,
             self::FIRE_FIGHTING          => self::FIRE_FIGHTING,

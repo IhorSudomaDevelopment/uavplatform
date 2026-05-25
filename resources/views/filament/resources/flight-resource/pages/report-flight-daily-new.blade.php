@@ -49,13 +49,21 @@
                                 Координати: {{ $flight->coordinates }}
 
                                 <br>
-                                Статус: Знищено
+                                Статус: {{ implode(', ', $flight->status) }}
 
                                 <br>
                                 БК:
-                                @foreach($flight->getAmmunition() as $ammo)
-                                    {{ $ammo['title'] }} - {{ $ammo['quantity'] }}шт
-                                @endforeach
+                                @if(is_array($flight->ammunition))
+                                    @foreach($flight->ammunition as $ammo)
+                                        {{ $ammo['title'] }} - {{ $ammo['quantity'] }}шт
+                                        <br>
+                                    @endforeach
+                                @else
+                                    @foreach(json_decode($flight->ammunition) as $ammo)
+                                        {{ $ammo->title }} - {{ $ammo->quantity }}шт
+                                    @endforeach
+                                @endif
+
 
                                 <br>
 
@@ -110,13 +118,20 @@
                         Координати: {{ $flight->coordinates }}
 
                         <br>
-                        Статус: {{ $flight->status }}
+                        Статус: {{ implode(', ', $flight->status) }}
 
                         <br>
                         БК:
-                        @foreach(json_decode($flight->ammunition, TRUE, 512, JSON_THROW_ON_ERROR) as $ammo)
-                            {{ $ammo['title'] }} - {{ $ammo['quantity'] }}шт
-                        @endforeach
+                        @if(!is_array($flight->ammunition))
+                            @foreach(json_decode($flight->ammunition, TRUE, 512, JSON_THROW_ON_ERROR) as $ammo)
+                                {{ $ammo['title'] }} - {{ $ammo['quantity'] }}шт
+                            @endforeach
+                        @else
+                            @foreach($flight->ammunition as $ammo)
+                                {{ $ammo['title'] }} - {{ $ammo['quantity'] }}шт
+                            @endforeach
+                        @endif
+
 
                         <br>
 
@@ -148,7 +163,7 @@
                             Координати: {{ $flightData->coordinates }}
 
                             <br>
-                            Статус: {{ $flightData->status }}
+                            Статус: {{ implode(', ', $flight->status) }}
 
                             <br>
                             БК:
@@ -177,7 +192,7 @@
 
                     $notAffected = $flights->count();
                     $ukryttya = 0;
-                    $personnel = 0;
+
                     $personnel200 = 0;
                     $personnel300 = 0;
                     $bySignatures = 0;
@@ -194,64 +209,14 @@
                     $ammunitionData = [];
 
                     foreach ($flights as $flight) {
-                    foreach (json_decode($flight->ammunition, TRUE, 512, JSON_THROW_ON_ERROR) as $ammo) {
+                        $personnel200 += $flight->personnel_200;
+                        $personnel300 += $flight->personnel_300;
+
+                    foreach ($flight->ammunition as $ammo) {
                     $ammunitionData[$ammo['title']] =
                     ($ammunitionData[$ammo['title']] ?? 0) + $ammo['quantity'];
                     }
-                    if (
-                    $flight->target === Target::SHELTER &&
-                    (str_contains($flight->status, TargetStatus::AFFECTED) ||
-                        str_contains($flight->status, TargetStatus::DESTROYED))
-                    ) {
-                    $ukryttya++;
-                    $notAffected--;
-                    }
-                    elseif (
-                    ($flight->target === Target::PERSONNEL &&
-                    (
-                    str_starts_with($flight->status, TargetStatus::AFFECTED) ||
-                    str_starts_with($flight->status, TargetStatus::DESTROYED)
-                    ))
-                    ||
-                    ($flight->target === Target::SHELTER_WITH_PERSONNEL &&
-                    str_starts_with($flight->status, TargetStatus::DESTROYED))
-
-                    ) {
-
-                    $personnel++;
-                    $notAffected--;
-
-                    preg_match_all('/(\d+)\s*-\s*(\d+)/',$flight->status,$matches,PREG_SET_ORDER);
-                    foreach ($matches as $match) {
-                    if ($match[2] == '200') $personnel200 += $match[1];
-                    elseif ($match[2] == '300') $personnel300 += $match[1];
-                    }
-                    }
-                    elseif ($flight->status === TargetStatus::AFFECTED_BY_SIGNATURES) {
-                    $bySignatures++;
-                    $notAffected--;
-                    }
-                    elseif ($flight->status === TargetStatus::AFFECTED_BY_COORDS) {
-                    $byCoords++;
-                    $notAffected--;
-                    }
-                    elseif ($flight->target === Target::MINING) {
-                    $mining++;
-                    $notAffected--;
-                    }
-                    elseif ($flight->target === Target::FIRE_FIGHTING) {
-                    $fire++;
-                    $notAffected--;
-                    }
-                    elseif ($flight->target === Target::DELIVERY) {
-                    $delivery++;
-                    $notAffected--;
-                    }
-                    elseif ($flight->target === Target::UAV) {
-                    $technics++;
-                    $technicType = Target::UAV;
-                    $notAffected--;
-                    } else if ($flight->target === Target::CROSSING_BARGE) {
+                    if ($flight->target === Target::CROSSING_BARGE) {
                         $crossingBarge++;
                         $notAffected--;
                     } else if ($flight->target === Target::SEARCH_MISSION) {
@@ -278,9 +243,6 @@
 
                 <br>
                 Відпрацювали по координатах: {{ $byCoords }}
-
-                <br>
-                Уражень ОС: {{ $personnel }}
 
                 <br>
                 200 - {{ $personnel200 }}

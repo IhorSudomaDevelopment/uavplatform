@@ -149,7 +149,7 @@ class ListFlights extends ListRecords
     {
         $stats['personnel200'] += $flight->personnel_200;
         $stats['personnel300'] += $flight->personnel_300;
-        if (in_array($flight->target, [Target::SHELTER, Target::SHELTER_WITH_PERSONNEL], true)) {
+        if ($flight->target === Target::SHELTER) {
             foreach ($flight->getStatus() as $statusData) {
                 if (str_contains($statusData, TargetStatus::DESTROYED)) {
                     $stats['coverDestroyed']++;
@@ -169,7 +169,7 @@ class ListFlights extends ListRecords
             if ($isMined) {
                 foreach ($flight->getAmmunition() as $ammunitionData) {
                     if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3'], true)) {
-                        $stats['minedPoints']++;
+                        $stats['minedPoints'] += $ammunitionData['quantity'];
                     }
                 }
             }
