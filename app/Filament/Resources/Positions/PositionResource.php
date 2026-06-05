@@ -14,7 +14,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,7 +56,7 @@ class PositionResource extends Resource
         return PositionsTable::configure($table);
     }
 
-    /*** @return array|\class-string[]|RelationGroup[]|RelationManagerConfiguration[] */
+    /*** @return array|class-string[]|RelationGroup[]|RelationManagerConfiguration[] */
     public static function getRelations(): array
     {
         return [

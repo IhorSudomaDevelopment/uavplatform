@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CreateShift extends CreateRecord
 {
+    /*** @var string */
     protected static string $resource = ShiftResource::class;
 
     /*** @var bool */

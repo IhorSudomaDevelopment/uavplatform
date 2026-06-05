@@ -2,6 +2,9 @@
 
 namespace App\ValuesObject;
 
+/**
+ *
+ */
 class TargetStatus
 {
     /*** @var string */
@@ -75,6 +78,10 @@ class TargetStatus
         ];
     }
 
+    /**
+     * @param string $target
+     * @return array|string[]
+     */
     public static function getStatusListForTarget(string $target): array
     {
         if ($target === 'all') {
@@ -102,6 +109,8 @@ class TargetStatus
                     self::NOT_AFFECTED_ACB,
                 ];
                 break;
+            case Target::UAV_EVACUATION:
+            case Target::CROSSING_BARGE:
             case Target::FIRE_FIGHTING:
                 $list = [
                     self::COMPLETED,
@@ -118,6 +127,23 @@ class TargetStatus
                 $list = [
                     self::DELIVERED,
                     self::NOT_DELIVERED,
+                ];
+                break;
+            case Target::UAV_HUNT:
+                $list = [
+                    self::DESTROYED,
+                    self::AFFECTED,
+                    self::NOT_AFFECTED_NO_DETONATION,
+                    self::NOT_AFFECTED_LOSS_OF_SIDE,
+                    self::NOT_AFFECTED_NOT_HEAT,
+                    self::NOT_AFFECTED_SUPPRESSION,
+                    self::NOT_DETECTED,
+                ];
+                break;
+            case Target::SEARCH_MISSION:
+                $list = [
+                    self::FOUND,
+                    self::NOT_FOUND,
                 ];
         }
         return $list;

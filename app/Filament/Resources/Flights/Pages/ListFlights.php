@@ -117,10 +117,10 @@ class ListFlights extends ListRecords
 
         $points =
             $stats['personnel200'] * 12 +
-            $stats['personnel300'] * 6 +
+            $stats['personnel300'] * 8 +
             $stats['coverDestroyed'] * 2 +
             $stats['coverAffected'] +
-            $stats['uavDestroyed'] * 2 +
+            $stats['uavDestroyed'] * 6 +
             $stats['minedPoints'];
 
         return view(

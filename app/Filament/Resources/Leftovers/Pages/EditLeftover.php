@@ -8,9 +8,15 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Schemas\Schema;
 
+/**
+ *
+ */
 class EditLeftover extends EditRecord
 {
+
+    /*** @var string */
     protected static string $resource = LeftoverResource::class;
 
     /*** @var string|null */
@@ -36,7 +42,11 @@ class EditLeftover extends EditRecord
         return [];
     }
 
-    public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
+    /**
+     * @param Schema $schema
+     * @return Schema
+     */
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->components([

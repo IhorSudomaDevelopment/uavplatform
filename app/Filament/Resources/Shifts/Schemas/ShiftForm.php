@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class ShiftForm
 {
+    /**
+     * @param Schema $schema
+     * @return Schema
+     */
     public static function configure(Schema $schema): Schema
     {
         return $schema

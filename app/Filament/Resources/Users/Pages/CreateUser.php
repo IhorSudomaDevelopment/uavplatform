@@ -7,8 +7,12 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
+/**
+ *
+ */
 class CreateUser extends CreateRecord
 {
+    /*** @var string */
     protected static string $resource = UserResource::class;
 
     /*** @var bool */

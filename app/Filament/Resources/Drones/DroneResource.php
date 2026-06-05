@@ -20,14 +20,10 @@ use Filament\Tables\Table;
  */
 class DroneResource extends Resource
 {
-    /**
-     * @var string|null
-     */
+    /*** @var string|null */
     protected static ?string $model = Drone::class;
 
-    /**
-     * @var string|BackedEnum|null
-     */
+    /*** @var string|BackedEnum|null */
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-paper-airplane';
 
     /*** @var string|null */

@@ -8,8 +8,15 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
+/**
+ *
+ */
 class DroneForm
 {
+    /**
+     * @param Schema $schema
+     * @return Schema
+     */
     public static function configure(Schema $schema): Schema
     {
         return $schema

@@ -13,9 +13,7 @@ use Filament\Resources\Pages\ListRecords;
  */
 class ListShifts extends ListRecords
 {
-    /**
-     * @var string
-     */
+    /*** @var string */
     protected static string $resource = ShiftResource::class;
 
     /*** @var string|null */

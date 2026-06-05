@@ -9,6 +9,9 @@ use App\Filament\Resources\Shifts\Schemas\ShiftForm;
 use App\Filament\Resources\Shifts\Tables\ShiftsTable;
 use App\Models\Shift;
 use BackedEnum;
+use Filament\Resources\Pages\PageRegistration;
+use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -16,6 +19,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ *
+ */
 class ShiftResource extends Resource
 {
     /*** @var string|null */
@@ -34,16 +40,25 @@ class ShiftResource extends Resource
         return 3;
     }
 
+    /**
+     * @param Schema $schema
+     * @return Schema
+     */
     public static function form(Schema $schema): Schema
     {
         return ShiftForm::configure($schema);
     }
 
+    /**
+     * @param Table $table
+     * @return Table
+     */
     public static function table(Table $table): Table
     {
         return ShiftsTable::configure($table);
     }
 
+    /*** @return array|class-string[]|RelationGroup[]|RelationManagerConfiguration[] */
     public static function getRelations(): array
     {
         return [
@@ -51,6 +66,7 @@ class ShiftResource extends Resource
         ];
     }
 
+    /*** @return array|PageRegistration[] */
     public static function getPages(): array
     {
         return [
@@ -75,9 +91,7 @@ class ShiftResource extends Resource
         return isRoleAdmin() || isRoleManager();
     }
 
-    /**
-     * @return Builder
-     */
+    /*** @return Builder */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();

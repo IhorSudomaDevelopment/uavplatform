@@ -45,9 +45,6 @@ class CreateLeftover extends CreateRecord
         $items = $data['leftover_items'];
         foreach ($items as $item) {
             $records[] = static::getModel()::create([
-//                'position_id' => Shift::where('navigator_id', auth()->id())
-//                    ->whereNull('end_date')
-//                    ->value('position_id'),
                 'position_id' => $data['position_id'],
                 'title' => $item['leftover_title'],
                 'quantity' => $item['leftover_quantity'],

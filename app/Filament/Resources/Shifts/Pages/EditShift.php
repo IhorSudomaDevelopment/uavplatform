@@ -8,8 +8,13 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
+/**
+ *
+ */
 class EditShift extends EditRecord
 {
+
+    /*** @var string */
     protected static string $resource = ShiftResource::class;
 
     /*** @var string|null */

@@ -13,9 +13,7 @@ use Filament\Resources\Pages\ListRecords;
  */
 class ListLeftovers extends ListRecords
 {
-    /**
-     * @var string
-     */
+    /*** @var string */
     protected static string $resource = LeftoverResource::class;
 
     /*** @var string|null */
