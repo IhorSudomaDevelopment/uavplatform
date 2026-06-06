@@ -37,15 +37,11 @@ class CreateLeftover extends CreateRecord
      */
     protected function handleRecordCreation(array $data): Model
     {
-
-        $shift = $data['shift'];
-        $shiftData = explode('|', $shift);
-        $data['position_id'] = $shiftData[1];
         $records = [];
         $items = $data['leftover_items'];
         foreach ($items as $item) {
             $records[] = static::getModel()::create([
-                'position_id' => $data['position_id'],
+                'position_id' => $data['position'],
                 'title' => $item['leftover_title'],
                 'quantity' => $item['leftover_quantity'],
                 'unit' => $item['leftover_unit'],

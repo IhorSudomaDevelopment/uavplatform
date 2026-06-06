@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Leftovers\Schemas;
 
 use App\Models\Ammunition;
+use App\Models\Position;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -35,9 +36,9 @@ class LeftoverForm
         return $schema
             ->columns(3)
             ->components([
-                Select::make('shift')
-                    ->label('Зміна')
-                    ->options(getShiftAndPositionData())
+                Select::make('position')
+                    ->label('Позиція')
+                    ->options(Position::all()->pluck('title', 'id')->toArray())
                     ->required()
                     ->visible(fn(Get $get) => isRoleAdmin() || isRoleManager()),
                 Fieldset::make('Перелік')

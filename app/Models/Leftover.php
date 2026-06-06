@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Leftover extends Model
 {
@@ -17,4 +18,9 @@ class Leftover extends Model
         'unit',
         'leftover_on'
     ];
+
+    public function position(): BelongsTo
+    {
+        return $this->belongsTo(Position::class);
+    }
 }

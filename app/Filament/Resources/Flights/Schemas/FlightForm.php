@@ -59,13 +59,13 @@ class FlightForm
                 Select::make('status')
                     ->label('Статус')
                     ->required()
-                    ->options(TargetStatus::getList())
+                    ->options(fn(Get $get) => TargetStatus::getStatusListForTarget($get('target') ?? 'all'))
                     ->visible(fn(Get $get) => in_array(
                         $get('target'),
                         [
-                            Target::CROSSING_BARGE,
-                            Target::SEARCH_MISSION,
-                            Target::UAV_EVACUATION,
+                            Target::CROSSING_BARGE => Target::CROSSING_BARGE,
+                            Target::SEARCH_MISSION => Target::SEARCH_MISSION,
+                            Target::UAV_EVACUATION => Target::UAV_EVACUATION,
                             // Target::UAV_HUNT
                         ])),
 

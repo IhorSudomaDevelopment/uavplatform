@@ -21,10 +21,11 @@ class PositionsTable
     {
         return $table
             ->columns([
-                TextColumn::make('title')->label('Назва')
+                TextColumn::make('title')->label('Назва'),
+                TextColumn::make('status')->label('Статус'),
             ])->recordUrl(NULL)
             ->filters([
-                //
+
             ])
             ->recordActions([
                 EditAction::make(),

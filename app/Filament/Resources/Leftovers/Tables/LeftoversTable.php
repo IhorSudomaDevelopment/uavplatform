@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Leftovers\Tables;
 
+use App\Models\Position;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -10,16 +11,23 @@ use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
+/**
+ *
+ */
 class LeftoversTable
 {
+    /**
+     * @param Table $table
+     * @return Table
+     */
     public static function configure(Table $table): Table
     {
         $isCouldBeShow = false;
         if (isRoleAdmin() || isRoleManager()) {
             $isCouldBeShow = true;
-
         }
         $bulkActions = [];
         if (auth()->user()->isPremium()) {
@@ -37,7 +45,7 @@ class LeftoversTable
         }
         return $table
             ->columns([
-                TextColumn::make('position')->label('Позиція')
+                TextColumn::make('position.title')->label('Позиція')
                     ->visible(fn() => $isCouldBeShow),
                 TextColumn::make('title')->label('Назвка'),
                 TextColumn::make('quantity')->label('Кількість'),
@@ -45,7 +53,10 @@ class LeftoversTable
                 TextColumn::make('leftover_on')->label('Залишок станом на'),
             ])->recordUrl(NULL)
             ->filters([
-                //
+                SelectFilter::make('position_id')
+                    ->label('Позиція')
+                    ->multiple()
+                    ->options(Position::all()->pluck('title', 'id')),
             ])
             ->recordActions([
                 ViewAction::make()

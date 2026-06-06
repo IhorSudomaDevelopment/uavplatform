@@ -96,55 +96,57 @@ class TargetStatus
             case Target::CROSSING:
             case Target::UAV:
                 $list = [
-                    self::DESTROYED,
-                    self::AFFECTED,
-                    self::AFFECTED_AFTER_ADJUSTMENT,
-                    self::AFFECTED_BY_SIGNATURES,
-                    self::AFFECTED_BY_COORDS,
-                    self::NOT_AFFECTED_NO_DETONATION,
-                    self::NOT_AFFECTED_MISSING_TARGET,
-                    self::NOT_AFFECTED_LOSS_OF_SIDE,
-                    self::NOT_AFFECTED_NOT_HEAT,
-                    self::NOT_AFFECTED_SUPPRESSION,
-                    self::NOT_AFFECTED_ACB,
+                    self::DESTROYED => self::DESTROYED,
+                    self::AFFECTED => self::AFFECTED,
+                    self::AFFECTED_AFTER_ADJUSTMENT => self::AFFECTED_AFTER_ADJUSTMENT,
+                    self::AFFECTED_BY_SIGNATURES => self::AFFECTED_BY_SIGNATURES,
+                    self::AFFECTED_BY_COORDS => self::AFFECTED_BY_COORDS,
+                    self::NOT_AFFECTED_NO_DETONATION => self::NOT_AFFECTED_NO_DETONATION,
+                    self::NOT_AFFECTED_MISSING_TARGET => self::NOT_AFFECTED_MISSING_TARGET,
+                    self::NOT_AFFECTED_LOSS_OF_SIDE => self::NOT_AFFECTED_LOSS_OF_SIDE,
+                    self::NOT_AFFECTED_NOT_HEAT => self::NOT_AFFECTED_NOT_HEAT,
+                    self::NOT_AFFECTED_SUPPRESSION => self::NOT_AFFECTED_SUPPRESSION,
+                    self::NOT_AFFECTED_ACB => self::NOT_AFFECTED_ACB,
                 ];
                 break;
             case Target::UAV_EVACUATION:
             case Target::CROSSING_BARGE:
             case Target::FIRE_FIGHTING:
+            case Target::LOGISTIC_MISSION:
                 $list = [
-                    self::COMPLETED,
-                    self::NOT_COMPLETED,
+                    self::COMPLETED => self::COMPLETED,
+                    self::NOT_COMPLETED => self::NOT_COMPLETED,
                 ];
                 break;
             case Target::MINING:
                 $list = [
-                    self::MINED,
-                    self::NOT_MINED,
+                    self::MINED => self::MINED,
+                    self::NOT_MINED => self::NOT_MINED,
                 ];
                 break;
             case Target::DELIVERY:
                 $list = [
-                    self::DELIVERED,
-                    self::NOT_DELIVERED,
+                    self::DELIVERED => self::DELIVERED,
+                    self::NOT_DELIVERED => self::NOT_DELIVERED,
                 ];
                 break;
             case Target::UAV_HUNT:
                 $list = [
-                    self::DESTROYED,
-                    self::AFFECTED,
-                    self::NOT_AFFECTED_NO_DETONATION,
-                    self::NOT_AFFECTED_LOSS_OF_SIDE,
-                    self::NOT_AFFECTED_NOT_HEAT,
-                    self::NOT_AFFECTED_SUPPRESSION,
-                    self::NOT_DETECTED,
+                    self::DESTROYED => self::DESTROYED,
+                    self::AFFECTED => self::AFFECTED,
+                    self::NOT_AFFECTED_NO_DETONATION => self::NOT_AFFECTED_NO_DETONATION,
+                    self::NOT_AFFECTED_LOSS_OF_SIDE => self::NOT_AFFECTED_LOSS_OF_SIDE,
+                    self::NOT_AFFECTED_NOT_HEAT => self::NOT_AFFECTED_NOT_HEAT,
+                    self::NOT_AFFECTED_SUPPRESSION => self::NOT_AFFECTED_SUPPRESSION,
+                    self::NOT_DETECTED => self::NOT_DETECTED,
                 ];
                 break;
             case Target::SEARCH_MISSION:
                 $list = [
-                    self::FOUND,
-                    self::NOT_FOUND,
+                    self::FOUND => self::FOUND,
+                    self::NOT_FOUND => self::NOT_FOUND,
                 ];
+                break;
         }
         return $list;
     }
