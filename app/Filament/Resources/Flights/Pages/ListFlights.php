@@ -106,9 +106,11 @@ class ListFlights extends ListRecords
             'coverHeat' => 0,
             'coverDestroyed' => 0,
             'coverAffected' => 0,
-            'uavDestroyed' => 0,
             'mined' => 0,
             'minedPoints' => 0,
+            'delivery' => 0,
+            'uavDestroyed' => 0,
+            'droneLost' => 0,
         ];
 
         foreach ($flights as $flight) {
@@ -134,8 +136,10 @@ class ListFlights extends ListRecords
                 'coverAffected' => $stats['coverAffected'],
                 'mined' => $stats['mined'],
                 'minedPoints' => $stats['minedPoints'],
+                'delivery' => $stats['delivery'],
                 'uavDestroyed' => $stats['uavDestroyed'],
                 'points' => $points,
+                'droneLost' => $stats['droneLost'],
             ]
         );
     }
@@ -147,6 +151,9 @@ class ListFlights extends ListRecords
      */
     private function processFlight($flight, array &$stats): void
     {
+        if ($flight->is_drone_lost === 1) {
+            $stats['droneLost']++;
+        }
         $stats['personnel200'] += $flight->personnel_200;
         $stats['personnel300'] += $flight->personnel_300;
         if ($flight->target === Target::SHELTER) {
@@ -171,6 +178,12 @@ class ListFlights extends ListRecords
                     if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3'], true)) {
                         $stats['minedPoints'] += $ammunitionData['quantity'];
                     }
+                }
+            }
+        } else if ($flight->target === Target::DELIVERY) {
+            foreach ($flight->getStatus() as $statusData) {
+                if (str_contains($statusData, TargetStatus::DELIVERED)) {
+                    $stats['delivery']++;
                 }
             }
         } else if ($flight->target === Target::UAV) {

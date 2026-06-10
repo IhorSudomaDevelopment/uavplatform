@@ -15,9 +15,14 @@
             <br>
             Мінування ({{ $minedPoints }}): {{ $mined }}
             <br>
+            Доставлено посилок: {{ $delivery }}
+            <br>
             БПЛА: {{ $uavDestroyed }}
             <br>
             Техніка:
+            <br>
+            <br>
+            Втрачено дронів: {{ $droneLost }}
             <br>
             <br>
             Еквівалент у балах: {{ $points }}

@@ -163,11 +163,11 @@
                             Координати: {{ $flightData->coordinates }}
 
                             <br>
-                            Статус: {{ implode(', ', $flight->status) }}
+                            Статус: {{ implode(', ', $flightData->status) }}
 
                             <br>
                             БК:
-                            @foreach(json_decode($flightData->ammunition, TRUE, 512, JSON_THROW_ON_ERROR) as $ammo)
+                            @foreach($flightData->ammunition as $ammo)
                                 {{ $ammo['title'] }} - {{ $ammo['quantity'] }}шт
                             @endforeach
 
@@ -213,8 +213,10 @@
                         $personnel300 += $flight->personnel_300;
 
                     foreach ($flight->ammunition as $ammo) {
-                    $ammunitionData[$ammo['title']] =
-                    ($ammunitionData[$ammo['title']] ?? 0) + $ammo['quantity'];
+                        if (isset($ammo['title'])) {
+                            $ammunitionData[$ammo['title']] =
+                            ($ammunitionData[$ammo['title']] ?? 0) + (int)$ammo['quantity'];
+                        }
                     }
                     if ($flight->target === Target::CROSSING_BARGE) {
                         $crossingBarge++;
@@ -227,6 +229,17 @@
                         $notAffected--;
                     } else if ($flight->target === Target::UAV_HUNT) {
                         $hunt++;
+                        $notAffected--;
+                    } else if ($flight->target === Target::SHELTER) {
+                        foreach ($flight->status as $status) {
+                            if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
+                                $ukryttya++;
+                                $notAffected--;
+                            }
+                        }
+                    } else if ($flight->target === Target::DELIVERY) {
+                        $notAffected--;
+                    } else if ($flight->target === Target::MINING) {
                         $notAffected--;
                     }
 

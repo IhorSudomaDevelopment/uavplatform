@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Drones\Pages;
 use App\Filament\Resources\Drones\DroneResource;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
 
 class CreateDrone extends CreateRecord
 {
@@ -12,6 +13,16 @@ class CreateDrone extends CreateRecord
 
     /*** @var bool */
     protected static bool $canCreateAnother = false;
+
+    /**
+     * @param array $data
+     * @return Model
+     */
+    protected function handleRecordCreation(array $data): Model
+    {
+        $data['serial_number'] = str_replace(' ', '', $data['serial_number']);
+        return static::getModel()::create($data);
+    }
 
     /*** @return array|string[] */
     public function getBreadcrumbs(): array

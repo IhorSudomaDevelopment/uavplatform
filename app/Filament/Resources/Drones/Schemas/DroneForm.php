@@ -25,7 +25,14 @@ class DroneForm
                     ->label('Назва'),
                 TextInput::make('serial_number')
                     ->label('Серійний номер')
-                    ->required(),
+                    ->required()
+                    ->unique(
+                        table: 'drones',
+                        column: 'serial_number'
+                    )
+                    ->validationMessages([
+                        'unique' => 'Дрон з таким серійним номером вже існує.',
+                    ]),
                 TextInput::make('kit')
                     ->label('KIT'),
                 TextInput::make('password')
