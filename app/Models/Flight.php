@@ -14,7 +14,6 @@ class Flight extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'shift_id',
         'user_id',
         'position',
         'flight_number',

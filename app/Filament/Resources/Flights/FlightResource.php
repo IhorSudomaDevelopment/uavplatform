@@ -82,12 +82,8 @@ class FlightResource extends Resource
     /*** @return bool */
     public static function canCreate(): bool
     {
-        $shift = DB::table('shifts')
-            ->where('navigator_id', Auth::id())
-            ->whereNull('end_date')
-            ->pluck('navigator_id', 'id')
-            ->toArray();
-        return isRoleAdmin() || (isRoleNavigator() && ! empty($shift));
+
+        return isRoleAdmin() || isRoleNavigator();
     }
 
     /**

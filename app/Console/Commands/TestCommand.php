@@ -2,15 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Flight;
-use App\Models\Shift;
-use App\ValuesObject\Target;
-use App\ValuesObject\TargetStatus;
-use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use PhpMath\MGRS\MGRS;
 
 class TestCommand extends Command
 {
