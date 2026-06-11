@@ -7,8 +7,6 @@
                 <div style="font-size: 14pt">Контакти</div>
                 <div style="font-size: 10pt">
                     <br>
-                    <div>Хаб НРК: +380759232084</div>
-                    <br>
                     <div>ОЧ 1 рота: +380759318546</div>
                 </div>
             </div>
