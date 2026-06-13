@@ -8,6 +8,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -27,10 +28,18 @@ class DronesTable
             ViewAction::make()
                 ->modalHeading('Борт')
                 ->schema([
+                    Section::make()
+                ->columns(2)
+                ->schema([
                     TextInput::make('title')->label('Назва')->copyable(),
                     TextInput::make('serial_number')->label('СН')->copyable(),
+                    TextInput::make('starlink_serial_number')->label('СН Starlink')->copyable(),
                     TextInput::make('kit')->label('KIT')->copyable(),
-                ]),
+                    TextInput::make('password')->label('Пароль')->password()->revealable()->copyable(),
+                    TextInput::make('additional_info')->label('Додаткова інформація')->copyable(),
+                    TextInput::make('type')->label('Тип')->copyable(),
+                    TextInput::make('status')->label('Статус')->copyable(),
+                ])]),
         ];
         $bulkActions = [];
         if (isRoleAdmin()) {
@@ -41,7 +50,6 @@ class DronesTable
                 TextColumn::make('title')->label('Назва'),
                 TextColumn::make('serial_number')->label('СН')->searchable(),
                 TextColumn::make('kit')->label('KIT'),
-                TextColumn::make('password')->label('Пароль'),
                 TextColumn::make('type')->label('Тип'),
                 TextColumn::make('status')->label('Статус'),
             ])->recordUrl(NULL)
