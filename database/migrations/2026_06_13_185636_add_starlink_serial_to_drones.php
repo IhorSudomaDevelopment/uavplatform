@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('drones', function (Blueprint $table) {
-            //
+            $table->string('starlink_serial_number')->after('serial_number')->nullable();
+            $table->string('additional_info')->after('password')->nullable();
         });
     }
 

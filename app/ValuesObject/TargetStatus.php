@@ -95,6 +95,7 @@ class TargetStatus
             case Target::AMMUNITION_WARE:
             case Target::CROSSING:
             case Target::UAV:
+            case Target::MACHINERY:
                 $list = [
                     self::DESTROYED => self::DESTROYED,
                     self::AFFECTED => self::AFFECTED,

@@ -33,10 +33,14 @@ class DroneForm
                     ->validationMessages([
                         'unique' => 'Дрон з таким серійним номером вже існує.',
                     ]),
+                TextInput::make('starlink_serial_number')
+                    ->label('Серійний номер Starlink'),
                 TextInput::make('kit')
                     ->label('KIT'),
                 TextInput::make('password')
                     ->label('Пароль'),
+                TextInput::make('additional_info')
+                    ->label('Додатова інформація'),
                 Select::make('type')
                     ->label('Тип')
                     ->options(DroneType::getList())

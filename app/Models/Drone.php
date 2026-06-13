@@ -13,8 +13,10 @@ class Drone extends Model
     protected $fillable = [
         'title',
         'serial_number',
+        'starlink_serial_number',
         'kit',
         'password',
+        'additional_info',
         'type',
         'status',
     ];

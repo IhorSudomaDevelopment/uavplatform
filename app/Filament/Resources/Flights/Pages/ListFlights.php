@@ -175,7 +175,7 @@ class ListFlights extends ListRecords
             }
             if ($isMined) {
                 foreach ($flight->getAmmunition() as $ammunitionData) {
-                    if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3'], true)) {
+                    if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3', 'ІБП'], true)) {
                         $stats['minedPoints'] += $ammunitionData['quantity'];
                     }
                 }

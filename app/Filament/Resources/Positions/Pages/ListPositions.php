@@ -22,12 +22,12 @@ class ListPositions extends ListRecords
         return [];
     }
 
-
     /*** @return array|Action[]|ActionGroup[] */
     protected function getHeaderActions(): array
     {
-        return [
-            CreateAction::make(),
-        ];
+        $actions[] = CreateAction::make()
+            ->label('Додати')
+            ->icon('heroicon-o-plus');
+        return $actions;
     }
 }

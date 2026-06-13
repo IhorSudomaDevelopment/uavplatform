@@ -30,6 +30,8 @@ class ListLeftovers extends ListRecords
     {
         return [
             CreateAction::make()
+                ->label('Додати')
+                ->icon('heroicon-o-plus')
                 ->visible(fn() => static::getResource()::canCreate()),
         ];
     }
