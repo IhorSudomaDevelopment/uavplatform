@@ -167,16 +167,21 @@ class ListFlights extends ListRecords
             }
         } else if ($flight->target === Target::MINING) {
             $isMined = false;
+            $forPointsQuantity = 0;
             foreach ($flight->getStatus() as $statusData) {
                 if (str_contains($statusData, TargetStatus::MINED)) {
                     $isMined = true;
                     $stats['mined']++;
+                    $forPointsQuantity++;
                 }
             }
             if ($isMined) {
                 foreach ($flight->getAmmunition() as $ammunitionData) {
                     if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3', 'ІБП', 'ІБМ-1', 'ІБП-1', 'ІБМ-3'], true)) {
-                        $stats['minedPoints'] += $ammunitionData['quantity'];
+                        if ($forPointsQuantity > 0) {
+                            $stats['minedPoints']++;
+                        }
+                        $forPointsQuantity--;
                     }
                 }
             }
