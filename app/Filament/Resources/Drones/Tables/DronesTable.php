@@ -29,17 +29,17 @@ class DronesTable
                 ->modalHeading('Борт')
                 ->schema([
                     Section::make()
-                ->columns(2)
-                ->schema([
-                    TextInput::make('title')->label('Назва')->copyable(),
-                    TextInput::make('serial_number')->label('СН')->copyable(),
-                    TextInput::make('starlink_serial_number')->label('СН Starlink')->copyable(),
-                    TextInput::make('kit')->label('KIT')->copyable(),
-                    TextInput::make('password')->label('Пароль')->password()->revealable()->copyable(),
-                    TextInput::make('additional_info')->label('Додаткова інформація')->copyable(),
-                    TextInput::make('type')->label('Тип')->copyable(),
-                    TextInput::make('status')->label('Статус')->copyable(),
-                ])]),
+                        ->columns()
+                        ->schema([
+                            TextInput::make('title')->label('Назва')->copyable(),
+                            TextInput::make('serial_number')->label('СН')->copyable(),
+                            TextInput::make('starlink_serial_number')->label('СН Starlink')->copyable(),
+                            TextInput::make('kit')->label('KIT')->copyable(),
+                            TextInput::make('password')->label('Пароль')->password()->revealable()->copyable(),
+                            TextInput::make('additional_info')->label('Додаткова інформація')->copyable(),
+                            TextInput::make('type')->label('Тип')->copyable(),
+                            TextInput::make('status')->label('Статус')->copyable(),
+                        ])]),
         ];
         $bulkActions = [];
         if (isRoleAdmin()) {

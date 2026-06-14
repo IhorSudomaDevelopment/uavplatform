@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Flights\Tables;
 
 use App\Models\Position;
-use App\Services\MGRSService;
 use App\ValuesObject\Target;
 use Carbon\Carbon;
 use Filament\Actions\Action;
