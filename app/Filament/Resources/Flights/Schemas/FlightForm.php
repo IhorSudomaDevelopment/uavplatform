@@ -30,6 +30,7 @@ class FlightForm
             ->components([
                 Select::make('position')
                     ->label('Позиція')
+                    ->placeholder('Вибрати')
                     ->options(Position::all()->pluck('title', 'title'))
                     ->required(),
                 TextInput::make('flight_number')
@@ -53,11 +54,13 @@ class FlightForm
                     ->columnSpanFull(),
                 Select::make('target')
                     ->label('Ціль')
+                    ->placeholder('Вибрати')
                     ->required()
                     ->options(Target::getList())
                     ->reactive(),
                 Select::make('status')
                     ->label('Статус')
+                    ->placeholder('Вибрати')
                     ->required()
                     ->options(fn(Get $get) => TargetStatus::getStatusListForTarget($get('target') ?? 'all'))
                     ->visible(fn(Get $get) => in_array(
@@ -83,6 +86,7 @@ class FlightForm
                                             ->required(),
                                         Select::make('coordinate_status')
                                             ->label('Статус по цілі')
+                                            ->placeholder('Вибрати')
                                             ->required()
                                             ->options(fn(Get $get) => TargetStatus::getStatusListForTarget($get('../../target') ?? 'all'))
                                             ->reactive(),
@@ -131,6 +135,7 @@ class FlightForm
                                     ->schema([
                                         Select::make('ammunition')
                                             ->label('Назва')
+                                            ->placeholder('Вибрати')
                                             ->required()
                                             ->options(ammunitionController()->getTitleList()),
                                         TextInput::make('quantity')
@@ -139,6 +144,7 @@ class FlightForm
                                             ->default(1),
                                         Select::make('detonation')
                                             ->label('Детонація')
+                                            ->placeholder('Вибрати')
                                             ->required()
                                             ->options([
                                                 'Детон' => 'Детон',
@@ -159,6 +165,7 @@ class FlightForm
                     ->live(),
                 Select::make('drone_lost_reason')
                     ->label('Причина втрати борта')
+                    ->placeholder('Вибрати')
                     ->options(fn(Get $get) => $get('is_drone_lost') ? DroneLostReason::getList() : [])
                     ->visible(fn(Get $get) => $get('is_drone_lost'))
                     ->columnSpanFull(),

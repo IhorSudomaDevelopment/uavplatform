@@ -38,6 +38,7 @@ class LeftoverForm
             ->components([
                 Select::make('position')
                     ->label('Позиція')
+                    ->placeholder('Вибрати')
                     ->options(Position::all()->pluck('title', 'id')->toArray())
                     ->required()
                     ->visible(fn(Get $get) => isRoleAdmin() || isRoleManager()),
@@ -51,6 +52,7 @@ class LeftoverForm
                                     ->schema([
                                         Select::make('leftover_title')
                                             ->label('Назва')
+                                            ->placeholder('Вибрати')
                                             ->required()
                                             ->options($preparedList),
                                         TextInput::make('leftover_quantity')
@@ -59,6 +61,7 @@ class LeftoverForm
                                             ->default(1),
                                         Select::make('leftover_unit')
                                             ->label('Одиниці')
+                                            ->placeholder('Вибрати')
                                             ->required()
                                             ->options(['шт' => 'шт', 'л' => 'л'])
                                             ->default('шт'),

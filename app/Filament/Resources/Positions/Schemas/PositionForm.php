@@ -23,6 +23,8 @@ class PositionForm
                 TextInput::make('title')
                     ->label('Назва'),
                 Select::make('status')
+                    ->label('Статус')
+                    ->placeholder('Вибрати')
                     ->options(PositionStatus::getList())
             ]);
     }

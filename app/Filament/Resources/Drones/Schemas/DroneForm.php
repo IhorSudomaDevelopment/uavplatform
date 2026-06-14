@@ -43,10 +43,12 @@ class DroneForm
                     ->label('Додатова інформація'),
                 Select::make('type')
                     ->label('Тип')
+                    ->placeholder('Вибрати')
                     ->options(DroneType::getList())
                     ->required(),
                 Select::make('status')
                     ->label('Статус')
+                    ->placeholder('Вибрати')
                     ->options(DroneStatus::getList()),
             ]);
     }
