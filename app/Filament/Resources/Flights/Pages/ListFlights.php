@@ -180,6 +180,7 @@ class ListFlights extends ListRecords
                 if (count($flight->getAmmunition()) === 1) {
                     $getFromAmmunition = true;
                 }
+                $pointsFromAmmo = false;
                 foreach ($flight->getAmmunition() as $ammunitionData) {
                     if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3', 'ІБП', 'ІБМ-1', 'ІБП-1', 'ІБМ-3'], true)) {
                         if ($getFromAmmunition) {
@@ -188,9 +189,12 @@ class ListFlights extends ListRecords
                                 $forPointsQuantity--;
                             }
                         } else {
-                            $stats['minedPoints'] += $forPointsQuantity;
+                            $pointsFromAmmo = true;
                         }
                     }
+                }
+                if ($pointsFromAmmo) {
+                    $stats['minedPoints'] += $forPointsQuantity;
                 }
             }
         } else if ($flight->target === Target::DELIVERY) {
