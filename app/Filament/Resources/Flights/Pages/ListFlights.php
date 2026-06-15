@@ -172,7 +172,6 @@ class ListFlights extends ListRecords
                 if (str_contains($statusData, TargetStatus::MINED)) {
                     $isMined = true;
                     $stats['mined']++;
-                    $stats['minedPoints']++;
                     $forPointsQuantity++;
                 }
             }
@@ -188,6 +187,8 @@ class ListFlights extends ListRecords
                                 $stats['minedPoints']++;
                                 $forPointsQuantity--;
                             }
+                        } else {
+                            $stats['minedPoints'] += $forPointsQuantity;
                         }
                     }
                 }
