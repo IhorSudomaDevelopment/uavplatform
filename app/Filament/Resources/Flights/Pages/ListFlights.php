@@ -176,12 +176,20 @@ class ListFlights extends ListRecords
                 }
             }
             if ($isMined) {
+                $getFromAmmunition = false;
+                if (count($flight->getAmmunition()) === 1) {
+                    $getFromAmmunition = true;
+                }
                 foreach ($flight->getAmmunition() as $ammunitionData) {
                     if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3', 'ІБП', 'ІБМ-1', 'ІБП-1', 'ІБМ-3'], true)) {
-                        if ($forPointsQuantity > 0) {
-                            $stats['minedPoints']++;
+                        if ($getFromAmmunition) {
+                            while ($forPointsQuantity > 0) {
+                                $stats['minedPoints']++;
+                                $forPointsQuantity--;
+                            }
+                        } else {
+                            $stats['minedPoints'] += $ammunitionData['quantity'];
                         }
-                        $forPointsQuantity--;
                     }
                 }
             }
