@@ -9,6 +9,7 @@ use App\ValuesObject\TargetStatus;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Utilities\Get;
@@ -158,6 +159,8 @@ class FlightForm
                             ->collapsible(),
                     ])->visible(fn(Get $get) => $get('target') !== Target::CROSSING_BARGE)
                     ->columnSpanFull(),
+                TextInput::make('commentar')
+                    ->label('Коментар'),
                 Checkbox::make('is_uav_destroyed')
                     ->label('Знищено ворожий БпЛА'),
                 Checkbox::make('is_drone_lost')

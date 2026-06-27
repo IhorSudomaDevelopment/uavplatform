@@ -34,6 +34,8 @@ class Target
     public const UAV_EVACUATION = 'Евакуація борта';
     /*** @var string */
     public const SEARCH_MISSION = 'Пошукова місія';
+    /*** @var string */
+    public const AREA_CLEANING = 'Зачистка ділянки';
 
     /*** @return string[] */
     public static function getList(): array
@@ -54,6 +56,7 @@ class Target
             self::LOGISTIC_MISSION       => self::LOGISTIC_MISSION,
             self::UAV_EVACUATION         => self::UAV_EVACUATION,
             self::SEARCH_MISSION         => self::SEARCH_MISSION,
+            self::AREA_CLEANING          => self::AREA_CLEANING,
         ];
     }
 }

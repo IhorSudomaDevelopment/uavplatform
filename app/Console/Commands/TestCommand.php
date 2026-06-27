@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Flight;
+use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
 use Illuminate\Console\Command;
 
@@ -27,45 +28,124 @@ class TestCommand extends Command
      */
     public function handle()
     {
+        $stats['droneLost'] = 0;
+        $stats['personnel200'] = 0;
+        $stats['personnel300'] = 0;
+        $stats['coverDestroyed'] = 0;
+        $stats['coverAffected'] = 0;
         $stats['mined'] = 0;
         $stats['minedPoints'] = 0;
+        $stats['delivery'] = 0;
+        $stats['uavDestroyed'] = 0;
 
-        $flights = Flight::query()->whereIn('id', [215, 217])->get();
 
+        $statsToyota['droneLost'] = 0;
+        $statsToyota['personnel200'] = 0;
+        $statsToyota['personnel300'] = 0;
+        $statsToyota['coverDestroyed'] = 0;
+        $statsToyota['coverAffected'] = 0;
+        $statsToyota['mined'] = 0;
+        $statsToyota['minedPoints'] = 0;
+        $statsToyota['delivery'] = 0;
+        $statsToyota['uavDestroyed'] = 0;
+
+
+        $flights = Flight::all();
         foreach ($flights as $flight) {
-            $isMined = false;
-            $forPointsQuantity = 0;
-            foreach ($flight->getStatus() as $statusData) {
-                if (str_contains($statusData, TargetStatus::MINED)) {
-                    $isMined = true;
-                    $stats['mined']++;
-                    $forPointsQuantity++;
-                }
+            if ($flight->is_drone_lost === 1) {
+                $stats['droneLost']++;
             }
-            if ($isMined) {
-                $getFromAmmunition = false;
-                if (count($flight->getAmmunition()) === 1) {
-                    $getFromAmmunition = true;
-                }
-                $pointsFromAmmo = false;
-                foreach ($flight->getAmmunition() as $ammunitionData) {
-                    if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3', 'ІБП', 'ІБМ-1', 'ІБП-1', 'ІБМ-3'], true)) {
-                        if ($getFromAmmunition) {
-                            while ($forPointsQuantity > 0) {
-                                $stats['minedPoints']++;
-                                $forPointsQuantity--;
-                            }
-                        } else {
-                            $pointsFromAmmo = true;
+            $stats['personnel200'] += $flight->personnel_200;
+            if ($flight->position === 'Тойота') {
+                $statsToyota['personnel200'] += $flight->personnel_200;
+            }
+            $stats['personnel300'] += $flight->personnel_300;
+            if ($flight->position === 'Тойота') {
+                $statsToyota['personnel300'] += $flight->personnel_300;
+            }
+            if ($flight->target === Target::SHELTER) {
+                foreach ($flight->getStatus() as $statusData) {
+                    if (str_contains($statusData, TargetStatus::DESTROYED)) {
+                        $stats['coverDestroyed']++;
+                        if ($flight->position === 'Тойота') {
+                            $statsToyota['coverDestroyed']++;
+                        }
+                    }
+                    if (str_contains($statusData, TargetStatus::AFFECTED)) {
+                        $stats['coverAffected']++;
+                        if ($flight->position === 'Тойота') {
+                            $statsToyota['coverAffected']++;
                         }
                     }
                 }
-                if ($pointsFromAmmo) {
-                    $stats['minedPoints'] += $forPointsQuantity;
+            } else if ($flight->target === Target::MINING) {
+                $isMined = false;
+                $forPointsQuantity = 0;
+                foreach ($flight->getStatus() as $statusData) {
+                    if (str_contains($statusData, TargetStatus::MINED)) {
+                        $isMined = true;
+                        $stats['mined']++;
+                        if ($flight->position === 'Тойота') {
+                            $statsToyota['mined']++;
+                        }
+                        $forPointsQuantity++;
+                    }
+                }
+                if ($isMined) {
+                    $getFromAmmunition = false;
+                    if (count($flight->getAmmunition()) === 1) {
+                        $getFromAmmunition = true;
+                    }
+                    $pointsFromAmmo = false;
+                    foreach ($flight->getAmmunition() as $ammunitionData) {
+                        if (in_array($ammunitionData['title'], ['ПТМ', 'ІБМ3', 'ІБП', 'ІБМ-1', 'ІБП-1', 'ІБМ-3'], true)) {
+                            if ($getFromAmmunition) {
+                                while ($forPointsQuantity > 0) {
+                                    $stats['minedPoints']++;
+                                    if ($flight->position === 'Тойота') {
+                                        $statsToyota['minedPoints']++;
+                                    }
+                                    $forPointsQuantity--;
+                                }
+                            } else {
+                                $pointsFromAmmo = true;
+                            }
+                        }
+                    }
+                    if ($pointsFromAmmo) {
+                        $stats['minedPoints'] += $forPointsQuantity;
+                        if ($flight->position === 'Тойота') {
+                            $statsToyota['minedPoints'] += $forPointsQuantity;
+                        }
+                    }
+                }
+            } else if ($flight->target === Target::DELIVERY) {
+                foreach ($flight->getStatus() as $statusData) {
+                    if (str_contains($statusData, TargetStatus::DELIVERED)) {
+                        $stats['delivery']++;
+                        if ($flight->position === 'Тойота') {
+                            $statsToyota['delivery']++;
+                        }
+                    }
+                }
+            } else if ($flight->target === Target::UAV) {
+                foreach ($flight->getStatus() as $statusData) {
+                    if (str_contains($statusData, TargetStatus::DESTROYED)) {
+                        $stats['uavDestroyed']++;
+                    }
                 }
             }
         }
-        //echo $stats['mined'] . PHP_EOL;
-        echo $stats['minedPoints'] . PHP_EOL;
+        $toyotaPoints = ($statsToyota['personnel200'] * 12) + ($statsToyota['personnel300'] * 8) +
+            ($statsToyota['coverDestroyed'] * 2) + ($statsToyota['coverAffected']) + $statsToyota['minedPoints'];
+        echo '200:' . $statsToyota['personnel200'] . PHP_EOL;
+        echo '300:' . $statsToyota['personnel300'] . PHP_EOL;
+        echo 'Укриття знищено: ' . $statsToyota['coverDestroyed'] . PHP_EOL;
+        echo 'Укриття уражено: ' . $statsToyota['coverAffected'] . PHP_EOL;
+        echo 'Мінувань: ' . $statsToyota['mined'] . PHP_EOL;
+        echo 'Мінувань на бали: ' . $statsToyota['minedPoints'] . PHP_EOL;
+        echo 'БпЛА: ' . $statsToyota['uavDestroyed'] . PHP_EOL;
+        echo 'Доставок: ' . $statsToyota['delivery'] . PHP_EOL;
+        echo $toyotaPoints;
     }
 }

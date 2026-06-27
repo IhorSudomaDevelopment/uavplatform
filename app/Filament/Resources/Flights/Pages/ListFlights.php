@@ -11,6 +11,7 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Wizard\Step;
 use Illuminate\Contracts\View\Factory;
@@ -65,6 +66,9 @@ class ListFlights extends ListRecords
                                 ->label('Дата до')
                                 ->default(now('Europe/Kyiv')->format('Y-m-d'))
                                 ->required(),
+                            TextInput::make('not_verified')
+                                ->label('Не подано')
+                                ->default(0)
                         ]),
                     Step::make('Результати')
                         ->schema([
@@ -125,6 +129,8 @@ class ListFlights extends ListRecords
             $stats['uavDestroyed'] * 6 +
             $stats['minedPoints'];
 
+        $pointsFact = $points - $get('not_verified');
+
         return view(
             'filament.resources.flight-resource.pages.summaries',
             [
@@ -139,6 +145,7 @@ class ListFlights extends ListRecords
                 'delivery' => $stats['delivery'],
                 'uavDestroyed' => $stats['uavDestroyed'],
                 'points' => $points,
+                'pointsFact' => $pointsFact,
                 'droneLost' => $stats['droneLost'],
             ]
         );
