@@ -69,8 +69,6 @@ class PositionLeftoversModal extends Component implements HasActions, HasSchemas
                 TextColumn::make('unit')
                     ->label('Одиниця'),
 
-                TextColumn::make('leftover_on')
-                    ->label('Станом на'),
             ])
             ->filters([
                 //
