@@ -32,6 +32,8 @@
 </head>
 <body>
 
+<div id="report">
+
 <h2>Звіт по залишках</h2>
 
 <p><strong>Позиція:</strong> {{ $position->title }}</p>
@@ -87,7 +89,42 @@
     </table>
 @endif
 
-<p><strong>Станом на:</strong> {{ now('Europe/Kyiv')->format('d-m-Y') }}</p>
+<p><strong>Станом на:</strong> {{ now('Europe/Kyiv')->format('d.m.Y') }}</p>
 
+</div>
+<div style="margin-bottom: 20px;">
+    <button onclick="copyReport()">
+        📋 Скопіювати
+    </button>
+
+    <button onclick="window.print()">
+        🖨 Друк
+    </button>
+</div>
+
+<script>
+    function copyReport() {
+        let text = '';
+
+        document.querySelectorAll('table').forEach(table => {
+
+            table.querySelectorAll('tr').forEach((row, index) => {
+
+                const cols = [...row.querySelectorAll('th,td')]
+                    .map(td => td.innerText.trim());
+
+                if (index > 0 && cols.length >= 3) {
+                    text += `${cols[0]} - ${cols[1]} ${cols[2]}\n`;
+                }
+            });
+
+            text += '\n';
+        });
+
+        navigator.clipboard.writeText(text);
+
+        alert('Звіт скопійовано!');
+    }
+</script>
 </body>
 </html>
