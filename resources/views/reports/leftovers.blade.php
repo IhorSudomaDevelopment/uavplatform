@@ -1,4 +1,4 @@
-@php use App\Models\Drone; @endphp
+@php use App\Models\Drone;use App\ValuesObject\DroneStatus; @endphp
     <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -34,62 +34,62 @@
 
 <div id="report">
 
-<h2>Звіт по залишках</h2>
+    <h2>Звіт по залишках</h2>
 
-<p><strong>Позиція:</strong> {{ $position->title }}</p>
+    <p><strong>Позиція:</strong> {{ $position->title }}</p>
 
-<table>
-
-    <thead>
-    <tr>
-        <th>Назва</th>
-        <th>Кількість</th>
-        <th>Од.</th>
-    </tr>
-    </thead>
-
-    <tbody>
-
-    @foreach($leftovers as $leftover)
-        <tr>
-            <td>{{ $leftover->title }}</td>
-            <td>{{ $leftover->quantity }}</td>
-            <td>{{ $leftover->unit }}</td>
-        </tr>
-    @endforeach
-
-    </tbody>
-
-</table>
-
-@php
-    $drones = Drone::where('position_id', $position->id)->get();
-@endphp
-
-<p style="align-self: center; align-content: center; align-items: center"><strong>БОРТИ</strong></p>
-
-@if(!empty($drones))
     <table>
+
         <thead>
         <tr>
-            <th>Борт</th>
-            <th>СН</th>
-            <th>-</th>
+            <th>Назва</th>
+            <th>Кількість</th>
+            <th>Од.</th>
         </tr>
         </thead>
+
         <tbody>
-        @foreach($drones as $drone)
+
+        @foreach($leftovers as $leftover)
             <tr>
-                <td>{{ $drone->type }}</td>
-                <td>{{ $drone->serial_number }}</td>
-                <td>{{ $drone->additional_info }}</td>
+                <td>{{ $leftover->title }}</td>
+                <td>{{ $leftover->quantity }}</td>
+                <td>{{ $leftover->unit }}</td>
             </tr>
         @endforeach
-        </tbody>
-    </table>
-@endif
 
-<p><strong>Станом на:</strong> {{ now('Europe/Kyiv')->format('d.m.Y') }}</p>
+        </tbody>
+
+    </table>
+
+    @php
+        $drones = Drone::where('position_id', $position->id)->whereIn('status', [DroneStatus::WORK, DroneStatus::NOT_WORK])->get();
+    @endphp
+
+    <p style="align-self: center; align-content: center; align-items: center"><strong>БОРТИ</strong></p>
+
+    @if(!empty($drones))
+        <table>
+            <thead>
+            <tr>
+                <th>Борт</th>
+                <th>СН</th>
+                <th>-</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($drones as $drone)
+                <tr>
+                    <td>{{ $drone->type }}</td>
+                    <td>{{ $drone->serial_number }}</td>
+                    <td>{{ $drone->additional_info }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    @endif
+
+    <p><strong>Станом на:</strong> {{ now('Europe/Kyiv')->format('d.m.Y') }}</p>
 
 </div>
 <div style="margin-bottom: 20px;">
