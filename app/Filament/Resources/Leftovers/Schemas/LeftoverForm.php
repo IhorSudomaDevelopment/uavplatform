@@ -36,7 +36,7 @@ class LeftoverForm
         return $schema
             ->columns(3)
             ->components([
-                Select::make('position')
+                Select::make('position_id')
                     ->label('Позиція')
                     ->placeholder('Вибрати')
                     ->options(Position::all()->pluck('title', 'id')->toArray())

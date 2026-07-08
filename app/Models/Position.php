@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Position extends Model
 {
@@ -14,4 +15,9 @@ class Position extends Model
         'title',
         'status',
     ];
+
+    public function leftovers(): HasMany
+    {
+        return $this->hasMany(Leftover::class);
+    }
 }

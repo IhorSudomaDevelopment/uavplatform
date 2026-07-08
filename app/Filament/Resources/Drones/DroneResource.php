@@ -8,12 +8,16 @@ use App\Filament\Resources\Drones\Pages\ListDrones;
 use App\Filament\Resources\Drones\Schemas\DroneForm;
 use App\Filament\Resources\Drones\Tables\DronesTable;
 use App\Models\Drone;
+use App\Models\Position;
 use BackedEnum;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\PageRegistration;use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 /**
  *
@@ -74,6 +78,24 @@ class DroneResource extends Resource
     /*** @return bool */
     public static function shouldRegisterNavigation(): bool
     {
-        return isRoleAdmin() || isRoleManager();
+        $isAssigned = false;
+        $assignedUser = Position::where('user_id', auth()->user()->id)->first();
+        if ($assignedUser !== null) {
+            $isAssigned = true;
+        }
+        return isRoleAdmin() || isRoleManager() || $isAssigned;
+    }
+
+    /*** @return Builder */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        if (isRoleNavigator()) {
+            $positionWithUser = Position::where('user_id', Auth::id())->first();
+            if ($positionWithUser !== null) {
+                $query->where('position_id', $positionWithUser->id);
+            }
+        }
+        return $query;
     }
 }

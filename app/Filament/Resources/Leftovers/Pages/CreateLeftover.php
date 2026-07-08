@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Leftovers\Pages;
 
 use App\Filament\Resources\Leftovers\LeftoverResource;
+use App\Models\Leftover;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
@@ -37,18 +38,9 @@ class CreateLeftover extends CreateRecord
      */
     protected function handleRecordCreation(array $data): Model
     {
-        $records = [];
-        $items = $data['leftover_items'];
-        foreach ($items as $item) {
-            $records[] = static::getModel()::create([
-                'position_id' => $data['position'],
-                'title' => $item['leftover_title'],
-                'quantity' => $item['leftover_quantity'],
-                'unit' => $item['leftover_unit'],
-                'leftover_on' => $item['leftover_on'],
-            ]);
-        }
-        return current($records);
+        Leftover::createMany($data);
+
+        return Leftover::latest()->first();
     }
 
     /*** @return Action */

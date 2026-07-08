@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Drones\Tables;
 
 use App\ValuesObject\DroneStatus;
 use App\ValuesObject\DroneType;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -40,11 +41,14 @@ class DronesTable
                             TextInput::make('type')->label('Тип')->copyable(),
                             TextInput::make('status')->label('Статус')->copyable(),
                         ])]),
+            EditAction::make(),
+            DeleteAction::make()
+                ->modalHeading('Видалити дрон')
+                ->modalDescription('Ви впевнені, що хочете видалити цей дрон?')
+                ->modalSubmitActionLabel('Видалити')
+                ->modalCancelActionLabel('Скасувати')
+                ->successNotificationTitle('Дрон успішно видалено')
         ];
-        $bulkActions = [];
-        if (isRoleAdmin()) {
-            $actions[] = EditAction::make();
-        }
         return $table
             ->columns([
                 TextColumn::make('title')->label('Назва'),

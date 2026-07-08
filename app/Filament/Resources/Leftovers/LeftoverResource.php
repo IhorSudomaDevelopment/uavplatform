@@ -8,10 +8,13 @@ use App\Filament\Resources\Leftovers\Pages\ListLeftovers;
 use App\Filament\Resources\Leftovers\Schemas\LeftoverForm;
 use App\Filament\Resources\Leftovers\Tables\LeftoversTable;
 use App\Models\Leftover;
+use App\Models\Position;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class LeftoverResource extends Resource
 {
@@ -59,5 +62,31 @@ class LeftoverResource extends Resource
     public static function canCreate(): bool
     {
         return true;
+    }
+
+    /*** @return bool */
+    public static function shouldRegisterNavigation(): bool
+    {
+        $isAssigned = false;
+        $assignedUser = Position::where('user_id', auth()->user()->id)->first();
+        if ($assignedUser !== null) {
+            $isAssigned = true;
+        }
+        return isRoleAdmin() || isRoleManager() || $isAssigned;
+    }
+
+    /**
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        if (isRoleNavigator()) {
+            $positionWithUser = Position::where('user_id', Auth::id())->first();
+            if ($positionWithUser !== null) {
+                $query->where('position_id', $positionWithUser->id);
+            }
+        }
+        return $query;
     }
 }

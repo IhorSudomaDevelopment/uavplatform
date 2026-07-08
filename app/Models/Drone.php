@@ -11,6 +11,7 @@ class Drone extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'position_id',
         'title',
         'serial_number',
         'starlink_serial_number',

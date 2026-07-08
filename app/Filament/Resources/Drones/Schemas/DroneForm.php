@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\Drones\Schemas;
 
+use App\Models\Position;
 use App\ValuesObject\DroneStatus;
 use App\ValuesObject\DroneType;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 /**
@@ -21,6 +23,12 @@ class DroneForm
     {
         return $schema
             ->components([
+                Select::make('position_id')
+                    ->label('Позиція')
+                    ->placeholder('Вибрати')
+                    ->options(Position::all()->pluck('title', 'id')->toArray())
+                    ->required()
+                    ->visible(fn(Get $get) => isRoleAdmin() || isRoleManager()),
                 TextInput::make('title')
                     ->label('Назва'),
                 TextInput::make('serial_number')

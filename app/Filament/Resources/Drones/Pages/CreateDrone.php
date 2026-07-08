@@ -3,9 +3,11 @@
 namespace App\Filament\Resources\Drones\Pages;
 
 use App\Filament\Resources\Drones\DroneResource;
+use App\Models\Position;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class CreateDrone extends CreateRecord
 {
@@ -20,7 +22,16 @@ class CreateDrone extends CreateRecord
      */
     protected function handleRecordCreation(array $data): Model
     {
+        if (isset($data['position_id'])) {
+            $positionId = $data['position_id'];
+        } else {
+            $positionWithUser = Position::where('user_id', Auth::id())->first();
+            if ($positionWithUser !== null) {
+                $positionId = $positionWithUser->id;
+            }
+        }
         $data['serial_number'] = str_replace(' ', '', $data['serial_number']);
+        $data['position_id'] = $positionId;
         return static::getModel()::create($data);
     }
 

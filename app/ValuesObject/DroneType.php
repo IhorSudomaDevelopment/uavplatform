@@ -16,9 +16,9 @@ class DroneType
     /*** @var string */
     public const NEMESIS = 'Nemesis';
     /*** @var string */
-    public const ZHVAVYY = 'Жвавий';
+    public const ZHVAVYY = 'Heavy Shot (Жвавий)';
     /*** @var string */
-    public const PERUN = 'Perun';
+    public const PERUN = 'Перун';
 
     /*** @return string[] */
     public static function getList(): array

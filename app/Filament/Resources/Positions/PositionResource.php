@@ -10,8 +10,6 @@ use App\Filament\Resources\Positions\Tables\PositionsTable;
 use App\Models\Position;
 use BackedEnum;
 use Filament\Resources\Pages\PageRegistration;
-use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -56,14 +54,6 @@ class PositionResource extends Resource
         return PositionsTable::configure($table);
     }
 
-    /*** @return array|class-string[]|RelationGroup[]|RelationManagerConfiguration[] */
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     /*** @return array|PageRegistration[] */
     public static function getPages(): array
     {
@@ -71,6 +61,8 @@ class PositionResource extends Resource
             'index' => ListPositions::route('/'),
             'create' => CreatePosition::route('/create'),
             'edit' => EditPosition::route('/{record}/edit'),
+
+            'leftovers' => Pages\ManageLeftovers::route('/{record}/leftovers'),
         ];
     }
 
