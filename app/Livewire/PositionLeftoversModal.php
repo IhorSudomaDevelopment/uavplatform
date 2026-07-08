@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Ammunition;
 use App\Models\Leftover;
 use App\Models\Position;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -75,6 +76,14 @@ class PositionLeftoversModal extends Component implements HasActions, HasSchemas
                 //
             ])
             ->headerActions([
+                Action::make('report')
+                    ->label('Звіт')
+                    ->icon('heroicon-o-printer')
+                    ->color('gray')
+                    ->url(fn () => route('reports.leftovers', [
+                        'position' => $this->position->id,
+                    ]))
+                    ->openUrlInNewTab(),
                 CreateAction::make()
                     ->mutateDataUsing(function (array $data): array {
                         $data['position_id'] = $this->position->id;

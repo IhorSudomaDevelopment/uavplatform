@@ -11,6 +11,13 @@
             {{ $leftover->title }} - {{ $leftover->quantity }}{{ $leftover->unit }}
             <br>
         @endforeach
+        @php
+            $drones = \App\Models\Drone::where('position_id', 4)->get();
+        @endphp
+        <br>
+        @foreach($drones as $drone)
+            {{ $drone->type}} - {{ $drone->serial_number}}
+        @endforeach
     </div>
 
     <div class="flex items-center gap-3">
