@@ -50,7 +50,6 @@ class LeftoversTable
                 TextColumn::make('title')->label('Назвка'),
                 TextColumn::make('quantity')->label('Кількість'),
                 TextColumn::make('unit')->label('Одиниці'),
-                TextColumn::make('leftover_on')->label('Залишок станом на'),
             ])->recordUrl(NULL)
             ->filters([
                 SelectFilter::make('position_id')

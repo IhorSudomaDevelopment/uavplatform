@@ -20,7 +20,6 @@ class Leftover extends Model
         'title',
         'quantity',
         'unit',
-        'leftover_on'
     ];
 
     /*** @return BelongsTo */
@@ -49,7 +48,6 @@ class Leftover extends Model
                     'title' => $item['leftover_title'],
                     'quantity' => $item['leftover_quantity'],
                     'unit' => $item['leftover_unit'],
-                    'leftover_on' => $item['leftover_on'],
                 ]);
         }
     }

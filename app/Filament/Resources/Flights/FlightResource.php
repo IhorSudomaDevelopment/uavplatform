@@ -8,6 +8,7 @@ use App\Filament\Resources\Flights\Pages\ListFlights;
 use App\Filament\Resources\Flights\Schemas\FlightForm;
 use App\Filament\Resources\Flights\Tables\FlightsTable;
 use App\Models\Flight;
+use App\Models\Position;
 use BackedEnum;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -102,7 +103,11 @@ class FlightResource extends Resource
     {
         $query = parent::getEloquentQuery();
         if (isRoleNavigator()) {
-            $query->where('user_id', Auth::id());
+
+            $positionData = Position::where('user_id', Auth::id())->first();
+            if ($positionData !== null) {
+               $query->where('position', $positionData->title);
+            }
         }
         return $query->orderBy('date');
     }

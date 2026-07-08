@@ -65,9 +65,6 @@ class LeftoverForm
                                             ->required()
                                             ->options(['шт' => 'шт', 'л' => 'л'])
                                             ->default('шт'),
-                                        TextInput::make('leftover_on')
-                                            ->label('Залишок на')
-                                            ->required()
                                     ]),
                             ])
                             ->addActionLabel('Додати')

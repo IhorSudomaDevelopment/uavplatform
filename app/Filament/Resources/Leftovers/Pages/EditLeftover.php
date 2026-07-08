@@ -53,7 +53,6 @@ class EditLeftover extends EditRecord
                 TextInput::make('title'),
                 TextInput::make('quantity'),
                 TextInput::make('unit'),
-                TextInput::make('leftover_on'),
             ]);
     }
 }
