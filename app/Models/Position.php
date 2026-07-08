@@ -12,6 +12,7 @@ class Position extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'title',
         'status',
     ];

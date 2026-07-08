@@ -36,6 +36,8 @@ class Target
     public const SEARCH_MISSION = 'Пошукова місія';
     /*** @var string */
     public const AREA_CLEANING = 'Зачистка ділянки';
+    /*** @var string */
+    public const MINE = 'Міна';
 
     /*** @return string[] */
     public static function getList(): array
@@ -57,6 +59,7 @@ class Target
             self::UAV_EVACUATION         => self::UAV_EVACUATION,
             self::SEARCH_MISSION         => self::SEARCH_MISSION,
             self::AREA_CLEANING          => self::AREA_CLEANING,
+            self::MINE                   => self::MINE,
         ];
     }
 }
