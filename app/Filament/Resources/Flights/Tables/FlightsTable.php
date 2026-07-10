@@ -150,16 +150,6 @@ class FlightsTable
                     ->label('Номер'),
                 TextColumn::make('target')
                     ->label('Ціль'),
-//                TextColumn::make('coordinates')
-//                    ->action(
-//                        Action::make('showMap')
-//                            ->modalContent(function ($record) {
-//                                return view('filament.modals.google-map', [
-//                                    'lat' => 0,
-//                                    'lng' => 0,
-//                                ]);
-//                            })
-//                    ),
                 TextColumn::make('status')
                     ->label('Статус')
                     ->limit(10),

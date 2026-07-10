@@ -23,27 +23,19 @@ use JsonException;
  */
 class ListFlights extends ListRecords
 {
-    /**
-     * @var string
-     */
+    /*** @var string */
     protected static string $resource = FlightResource::class;
 
-    /**
-     * @var string|null
-     */
+    /*** @var string|null */
     protected static ?string $title = 'Польоти';
 
-    /**
-     * @return array|string[]
-     */
+    /*** @return array|string[] */
     public function getBreadcrumbs(): array
     {
         return [];
     }
 
-    /**
-     * @return array|Action[]|ActionGroup[]
-     */
+    /*** @return array|Action[]|ActionGroup[] */
     protected function getHeaderActions(): array
     {
         return [

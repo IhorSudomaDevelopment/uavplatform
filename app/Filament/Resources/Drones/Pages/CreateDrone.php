@@ -9,8 +9,12 @@ use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ *
+ */
 class CreateDrone extends CreateRecord
 {
+    /*** @var string */
     protected static string $resource = DroneResource::class;
 
     /*** @var bool */

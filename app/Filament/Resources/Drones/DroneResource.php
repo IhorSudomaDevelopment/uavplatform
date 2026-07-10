@@ -60,9 +60,7 @@ class DroneResource extends Resource
     /*** @return array|class-string[]|RelationGroup[]|RelationManagerConfiguration[] */
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     /*** @return array|PageRegistration[] */

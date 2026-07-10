@@ -13,7 +13,6 @@ use Filament\Resources\Pages\ListRecords;
  */
 class ListDrones extends ListRecords
 {
-
     /*** @var string */
     protected static string $resource = DroneResource::class;
 

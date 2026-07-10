@@ -29,7 +29,6 @@ class PositionResource extends Resource
     /*** @var string|null */
     protected static ?string $navigationLabel = 'Позиції';
 
-
     /*** @return int */
     public static function getNavigationSort(): int
     {

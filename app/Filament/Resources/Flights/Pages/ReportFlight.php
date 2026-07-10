@@ -13,6 +13,7 @@ class ReportFlight extends Page
 {
 	/*** @var string */
 	protected static string $resource = FlightResource::class;
+
 	/*** @var string */
 	protected string $view = 'filament.resources.flight-resource.pages.report-flight';
 }

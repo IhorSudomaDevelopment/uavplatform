@@ -43,6 +43,10 @@ class EditFlight extends EditRecord
         return [];
     }
 
+    /**
+     * @param Schema $schema
+     * @return Schema
+     */
     public function form(Schema $schema): Schema
     {
         return $schema

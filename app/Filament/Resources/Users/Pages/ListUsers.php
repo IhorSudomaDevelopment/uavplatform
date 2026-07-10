@@ -13,7 +13,6 @@ use Filament\Resources\Pages\ListRecords;
  */
 class ListUsers extends ListRecords
 {
-
     /*** @var string */
     protected static string $resource = UserResource::class;
 

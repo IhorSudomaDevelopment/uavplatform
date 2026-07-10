@@ -96,9 +96,7 @@ class FlightResource extends Resource
         return isRoleAdmin() || isRoleManager();
     }
 
-    /**
-     * @return Builder
-     */
+    /*** @return Builder */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();

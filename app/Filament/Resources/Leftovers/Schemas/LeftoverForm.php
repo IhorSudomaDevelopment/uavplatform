@@ -72,12 +72,6 @@ class LeftoverForm
                             ->collapsible(),
                     ])
                     ->columnSpanFull(),
-                //->visible(fn(Get $get) => isRoleAdmin() || isRoleManager()),
-//                TextInput::make('position')
-//                    ->label('Позиція')
-//                    ->default(getDefaultPosition() ?? getShiftDetails()['position_name'])
-//                    ->required()
-//                    ->visible(fn(Get $get) => isRoleNavigator()),
             ]);
     }
 }

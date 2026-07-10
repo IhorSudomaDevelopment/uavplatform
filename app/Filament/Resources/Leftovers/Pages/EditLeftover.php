@@ -15,7 +15,6 @@ use Filament\Schemas\Schema;
  */
 class EditLeftover extends EditRecord
 {
-
     /*** @var string */
     protected static string $resource = LeftoverResource::class;
 
@@ -50,9 +49,9 @@ class EditLeftover extends EditRecord
     {
         return $schema
             ->components([
-                TextInput::make('title'),
-                TextInput::make('quantity'),
-                TextInput::make('unit'),
+                TextInput::make('title')->label('Назва'),
+                TextInput::make('quantity')->label('Кількість'),
+                TextInput::make('unit')->label('Одиниця'),
             ]);
     }
 }

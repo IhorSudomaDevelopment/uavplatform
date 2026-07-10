@@ -14,6 +14,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Schemas\Schema;
 
+/**
+ *
+ */
 class EditPosition extends EditRecord
 {
     /*** @var string */
@@ -42,6 +45,10 @@ class EditPosition extends EditRecord
         return [];
     }
 
+    /**
+     * @param Schema $schema
+     * @return Schema
+     */
     public function form(Schema $schema): Schema
     {
         return $schema

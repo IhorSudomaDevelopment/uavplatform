@@ -72,8 +72,6 @@ class FlightForm
                             Target::UAV_EVACUATION => Target::UAV_EVACUATION,
                             // Target::UAV_HUNT
                         ])),
-
-                // -- TEST NEW COORDS INPUTS WITH STATUSES --
                 Fieldset::make('Координати (MGRS) та статус по цілі')
                     ->schema([
                         Repeater::make('coordinate_items')
@@ -113,19 +111,6 @@ class FlightForm
                             Target::UAV_HUNT
                         ]))
                     ->columnSpanFull(),
-                //
-//                Fieldset::make('200 / 300')
-//                    ->schema([
-//                        TextInput::make('personnel_200')
-//                            ->label('200')
-//                            ->default(0),
-//                        TextInput::make('personnel_300')
-//                            ->label('300')
-//                            ->default(0),
-//                    ])
-//                    ->visible(fn(Get $get) => in_array($get('target'), [Target::PERSONNEL, Target::SHELTER]) &&
-//                        in_array($get('status'), [TargetStatus::DESTROYED, TargetStatus::AFFECTED])) // умова
-//                    ->columnSpanFull(),
                 Fieldset::make('БК')
                     ->schema([
                         Repeater::make('ammunition_items')
