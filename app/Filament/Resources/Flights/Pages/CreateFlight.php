@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Flights\Pages;
 
 use App\Filament\Resources\Flights\FlightResource;
+use App\Models\Leftover;
+use App\Models\Position;
 use App\ValuesObject\Target;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -88,6 +90,7 @@ class CreateFlight extends CreateRecord
         $data['personnel_200'] = $status200;
         $data['personnel_300'] = $status300;
         $data['ammunition'] = $this->formatAmmunition(
+            $data['position'],
             $data['ammunition_items'] ?? []
         );
         unset($data['ammunition_items'], $data['coordinate_items']);
@@ -121,11 +124,22 @@ class CreateFlight extends CreateRecord
     }
 
     /**
+     * @param string $position
      * @param array $items
      * @return array
      */
-    protected function formatAmmunition(array $items): array
+    protected function formatAmmunition(string $position, array $items): array
     {
+        $position = Position::where('title', $position)->first();
+        $leftovers = Leftover::where('position_id', $position->id)->get();
+        foreach ($leftovers as $leftover) {
+            foreach ($items as $item) {
+                if ($leftover->title === $item['ammunition']) {
+                    $leftover->quantity -= $item['quantity'];
+                    $leftover->save();
+                }
+            }
+        }
         return array_map(function ($item) {
             return [
                 'title' => $item['ammunition'] ?? '-',
