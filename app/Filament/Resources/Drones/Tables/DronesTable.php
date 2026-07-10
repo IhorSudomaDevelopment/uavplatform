@@ -51,11 +51,22 @@ class DronesTable
         ];
         return $table
             ->columns([
-                TextColumn::make('title')->label('Назва'),
-                TextColumn::make('serial_number')->label('СН')->searchable(),
-                TextColumn::make('kit')->label('KIT'),
-                TextColumn::make('type')->label('Тип'),
-                TextColumn::make('status')->label('Статус'),
+                TextColumn::make('position.title')
+                    ->label('Позиція')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('title')
+                    ->label('Назва'),
+                TextColumn::make('serial_number')
+                    ->label('СН')
+                    ->searchable(),
+                TextColumn::make('kit')
+                    ->label('KIT')
+                    ->searchable(),
+                TextColumn::make('type')
+                    ->label('Тип'),
+                TextColumn::make('status')
+                    ->label('Статус'),
             ])->recordUrl(NULL)
             ->filters([
                 SelectFilter::make('type')
