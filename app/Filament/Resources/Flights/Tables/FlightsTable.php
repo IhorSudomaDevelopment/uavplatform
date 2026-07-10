@@ -190,26 +190,48 @@ class FlightsTable
                     ->multiple()
                     ->options(Position::all()->pluck('title', 'title')->toArray()),
                 Filter::make('by_date')
-                    ->default([
-                        'date' => now('Europe/Kyiv')->toDateString(),
-                    ])
                     ->schema([
-                        DatePicker::make('date')
-                            ->native(FALSE)
-                            //->default(now('Europe/Kyiv')->toDateString())
+                        DatePicker::make('date_from')
+                            ->native(false)
                             ->displayFormat('Y-m-d')
-                            ->label('Дата'),
+                            ->label('Дата від'),
+
+                        DatePicker::make('date_to')
+                            ->native(false)
+                            ->displayFormat('Y-m-d')
+                            ->label('Дата до'),
                     ])
-                    ->query(function (Builder $query, array $data) {
-                        return $query->when(
-                            $data['date'],
-                            fn(Builder $query, $date) => $query->whereDate('date', $date)
-                        );
-                    })->indicateUsing(function (array $data) {
-                        if (!$data['date']) {
-                            return NULL;
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'] ?? null,
+                                fn(Builder $query, $date) => $query->whereDate('date', '>=', $date)
+                            )
+                            ->when(
+                                $data['date_to'] ?? null,
+                                fn(Builder $query, $date) => $query->whereDate('date', '<=', $date)
+                            );
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        $from = $data['date_from'] ?? null;
+                        $to = $data['date_to'] ?? null;
+
+                        if ($from && $to) {
+                            return 'Дата: ' .
+                                Carbon::parse($from)->format('Y-m-d') .
+                                ' — ' .
+                                Carbon::parse($to)->format('Y-m-d');
                         }
-                        return 'Дата: ' . Carbon::parse($data['date'])->format('Y-m-d');
+
+                        if ($from) {
+                            return 'Дата від: ' . Carbon::parse($from)->format('Y-m-d');
+                        }
+
+                        if ($to) {
+                            return 'Дата до: ' . Carbon::parse($to)->format('Y-m-d');
+                        }
+
+                        return null;
                     }),
             ])
             ->recordActions($actions)
