@@ -26,7 +26,7 @@ class DronesTable
     public static function configure(Table $table): Table
     {
         $actions = [
-            ViewAction::make()
+            ViewAction::make()->label('Перегл.')
                 ->modalHeading('Борт')
                 ->schema([
                     Section::make()
@@ -41,8 +41,8 @@ class DronesTable
                             TextInput::make('type')->label('Тип')->copyable(),
                             TextInput::make('status')->label('Статус')->copyable(),
                         ])]),
-            EditAction::make(),
-            DeleteAction::make()
+            EditAction::make()->label('Ред.'),
+            DeleteAction::make()->label('Видалити')
                 ->modalHeading('Видалити дрон')
                 ->modalDescription('Ви впевнені, що хочете видалити цей дрон?')
                 ->modalSubmitActionLabel('Видалити')

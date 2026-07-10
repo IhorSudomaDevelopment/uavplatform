@@ -58,14 +58,14 @@ class LeftoversTable
                     ->options(Position::all()->pluck('title', 'id')),
             ])
             ->recordActions([
-                ViewAction::make()
+                ViewAction::make()->label('Перегл.')
                     ->modalHeading('Деталі по залишку')
                     ->schema([
                         TextInput::make('title')->label('Назва')->copyable(),
                         Textarea::make('quantity')->label('Кількість'),
                         TextInput::make('unit')->label('Одиниця')->copyable(),
                     ]),
-                EditAction::make(),
+                EditAction::make()->label('Ред.'),
             ])
             ->toolbarActions($bulkActions)
             ->emptyStateHeading('Записів не знайдено');

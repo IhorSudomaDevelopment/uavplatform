@@ -34,13 +34,13 @@ class PositionsTable
 
             ])
             ->recordActions([
-                ViewAction::make()
+                ViewAction::make()->label('Перегл.')
                     ->modalHeading('Деталі позиції')
                     ->schema([
                         TextInput::make('title')->label('Нзва')->copyable(),
                         TextInput::make('status')->label('Статус')->copyable(),
                     ]),
-                EditAction::make(),
+                EditAction::make()->label('Ред.'),
 //                Action::make('leftovers')
 //                    ->label('Залишки')
 //                    ->icon('heroicon-o-archive-box')

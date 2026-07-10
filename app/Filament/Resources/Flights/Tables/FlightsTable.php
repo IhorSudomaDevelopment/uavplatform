@@ -33,7 +33,7 @@ class FlightsTable
     public static function configure(Table $table): Table
     {
         $actions = [
-            ViewAction::make()
+            ViewAction::make()->label('Перегл.')
                 ->modalHeading('Деталі польоту')
                 ->schema([
                     TextInput::make('flight_number')->label('Номер польоту')->copyable(),
@@ -56,7 +56,7 @@ class FlightsTable
         }
 
         if (isRoleAdmin()) {
-            $actions[] = EditAction::make();
+            $actions[] = EditAction::make()->label('Ред.');
         }
         if (auth()->user()->isPremium()) {
             $bulkActions[] = BulkAction::make('report-bulk')

@@ -20,7 +20,7 @@ class AmmunitionsTable
     {
         $actions = [];
         if (isRoleAdmin()) {
-            $actions[] = EditAction::make();
+            $actions[] = EditAction::make()->label('Ред.');
         }
         return $table
             ->columns([

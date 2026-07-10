@@ -30,7 +30,7 @@ class UsersTable
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()->label('Ред.'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
