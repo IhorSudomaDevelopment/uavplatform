@@ -109,10 +109,6 @@ class PositionLeftoversModal extends Component implements HasActions, HasSchemas
                                 'л' => 'л',
                             ])
                             ->required(),
-
-                        TextInput::make('leftover_on')
-                            ->label('Залишок на')
-                            ->required(),
                     ]),
                 DeleteAction::make()
                     ->modalHeading('Видалити залишок')
