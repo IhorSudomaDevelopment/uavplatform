@@ -238,8 +238,10 @@
                             }
                         }
                     } else if ($flight->target === Target::DELIVERY) {
+                        $delivery++;
                         $notAffected--;
                     } else if ($flight->target === Target::MINING) {
+                        $mining++;
                         $notAffected--;
                     }
 
