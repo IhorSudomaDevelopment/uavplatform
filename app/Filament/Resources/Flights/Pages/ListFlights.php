@@ -209,9 +209,10 @@ class ListFlights extends ListRecords
                 }
             }
         }
-
-//        if ($flight->getStatus() === 'знищено ворожий БпЛА') {
-//            $stats['uavDestroyed']++;
-//        }
+        foreach ($flight->getStatus() as $statusData) {
+            if (str_contains($statusData, 'Знищено ворожий БпЛА')) {
+                $stats['uavDestroyed']++;
+            }
+        }
     }
 }

@@ -206,6 +206,7 @@
                     $evacuationMission = 0;
                     $crossingBarge = 0;
                     $searchMission = 0;
+                    $logisticMission = 0;
                     $ammunitionData = [];
 
                     foreach ($flights as $flight) {
@@ -243,6 +244,9 @@
                     } else if ($flight->target === Target::MINING) {
                         $mining++;
                         $notAffected--;
+                    } else if ($flight->target === Target::LOGISTIC_MISSION) {
+                        $logisticMission++;
+                        $notAffected--;
                     }
 
                     }
@@ -275,6 +279,9 @@
                 Доставка: {{ $delivery }}
 
                 <br>
+                Логістична місія: {{ $logisticMission }}
+
+                <br>
                 Перегін борта: {{ $crossingBarge }}
 
                 <br>
@@ -287,10 +294,16 @@
                 Техніка (тип техніки): {{ $technics }} ({{ $technicType }})
 
                 <br>
+                БпЛА: 0
+
+                <br>
                 Хант: {{ $hunt }}
 
                 <br>
                 Пошукова міссія: {{ $searchMission }}
+
+                <br>
+                Не Уражено: {{ $notAffected }}
 
                 <br>
                 <br>
@@ -304,9 +317,8 @@
 
                 @endforeach
 
-                <br><br>
-
-                Не Уражено: {{ $notAffected }}
+                <br>
+                <br>
 
             </div>
 
