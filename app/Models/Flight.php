@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Flight extends Model
 {
+    use LogsActivity;
+
     /**
      * The attributes that are mass assignable.
      * @var array<int, string>

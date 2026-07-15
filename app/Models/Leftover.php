@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
  */
 class Leftover extends Model
 {
+    use LogsActivity;
+
     /**
      * The attributes that are mass assignable.
      * @var array<int, string>
