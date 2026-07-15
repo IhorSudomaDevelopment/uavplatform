@@ -138,6 +138,23 @@ class LogResource extends Resource
                             ->badge(),
                     ]),
 
+                Section::make('Інформація про запит')
+                    ->icon('heroicon-o-computer-desktop')
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextEntry::make('ip')
+                            ->label('IP-адреса')
+                            ->icon('heroicon-o-globe-alt')
+                            ->copyable(),
+
+                        TextEntry::make('user_agent')
+                            ->label('User-Agent')
+                            ->copyable()
+                            ->wrap()
+                            ->columnSpanFull(),
+                    ]),
+
                 Section::make('Зміни')
                     ->columnSpanFull()
                     ->schema([
@@ -206,7 +223,7 @@ class LogResource extends Resource
                                                     'updated_at' => 'Оновлено',
                                                     'serial_number' => 'Серійний №',
                                                     'additional_info' => 'Додаткова інформація',
-                                                    'starlink_serial_number' => 'Starlink №',
+                                                    'starlink_serial_number' => 'Starlink СН',
                                                 ];
 
                                                 return collect($record->new_values)
