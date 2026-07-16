@@ -99,7 +99,6 @@ class ListFlights extends ListRecords
         $stats = [
             'personnel200' => 0,
             'personnel300' => 0,
-            'coverHeat' => 0,
             'coverDestroyed' => 0,
             'coverAffected' => 0,
             'mined' => 0,
@@ -117,7 +116,6 @@ class ListFlights extends ListRecords
             $byPositions[$position] = [
                 'personnel200' => 0,
                 'personnel300' => 0,
-                'coverHeat' => 0,
                 'coverDestroyed' => 0,
                 'coverAffected' => 0,
                 'mined' => 0,
