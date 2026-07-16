@@ -101,11 +101,12 @@ class ListFlights extends ListRecords
             'personnel300' => 0,
             'coverDestroyed' => 0,
             'coverAffected' => 0,
+            'zpm' => 0,
             'mined' => 0,
             'minedPoints' => 0,
             'delivery' => 0,
             'uavDestroyed' => 0,
-            'zpm' => 0,
+
             'droneLost' => 0,
         ];
 
@@ -118,11 +119,12 @@ class ListFlights extends ListRecords
                 'personnel300' => 0,
                 'coverDestroyed' => 0,
                 'coverAffected' => 0,
+                'zpm' => 0,
                 'mined' => 0,
                 'minedPoints' => 0,
                 'delivery' => 0,
                 'uavDestroyed' => 0,
-                'zpm' => 0,
+
                 'droneLost' => 0,
             ];
         }
@@ -151,11 +153,11 @@ class ListFlights extends ListRecords
                 'personnel300' => $stats['personnel300'],
                 'coverDestroyed' => $stats['coverDestroyed'],
                 'coverAffected' => $stats['coverAffected'],
+                'zpm' => $stats['zpm'],
                 'mined' => $stats['mined'],
                 'minedPoints' => $stats['minedPoints'],
                 'delivery' => $stats['delivery'],
                 'uavDestroyed' => $stats['uavDestroyed'],
-                'zpm' => $stats['zpm'],
                 'points' => $points,
                 'pointsFact' => $pointsFact,
                 'droneLost' => $stats['droneLost'],
