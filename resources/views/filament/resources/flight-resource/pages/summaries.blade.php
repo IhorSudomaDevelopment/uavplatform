@@ -19,6 +19,8 @@
             <br>
             БПЛА: {{ $uavDestroyed }}
             <br>
+            ЗПМ: {{ $zpm }}
+            <br>
             Техніка:
             <br>
             <br>
@@ -39,9 +41,9 @@
                 $labels = [
                     'personnel200'   => '200',
                     'personnel300'   => '300',
-                    'coverHeat'      => 'Нагрів',
                     'coverDestroyed' => 'Укриття знищено',
                     'coverAffected'  => 'Укриття уражено',
+                    'zpm'            => 'ЗПМ',
                     'mined'          => 'Мінування',
                     'minedPoints'    => 'Мінування техніка',
                     'delivery'       => 'Доставка',

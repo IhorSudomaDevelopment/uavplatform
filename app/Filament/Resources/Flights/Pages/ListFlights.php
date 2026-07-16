@@ -106,6 +106,7 @@ class ListFlights extends ListRecords
             'minedPoints' => 0,
             'delivery' => 0,
             'uavDestroyed' => 0,
+            'zpm' => 0,
             'droneLost' => 0,
         ];
 
@@ -123,6 +124,7 @@ class ListFlights extends ListRecords
                 'minedPoints' => 0,
                 'delivery' => 0,
                 'uavDestroyed' => 0,
+                'zpm' => 0,
                 'droneLost' => 0,
             ];
         }
@@ -137,6 +139,7 @@ class ListFlights extends ListRecords
             $stats['coverDestroyed'] * 2 +
             $stats['coverAffected'] +
             $stats['uavDestroyed'] * 6 +
+            $stats['zpm'] +
             $stats['minedPoints'];
 
         $pointsFact = $points - $get('not_verified');
@@ -154,6 +157,7 @@ class ListFlights extends ListRecords
                 'minedPoints' => $stats['minedPoints'],
                 'delivery' => $stats['delivery'],
                 'uavDestroyed' => $stats['uavDestroyed'],
+                'zpm' => $stats['zpm'],
                 'points' => $points,
                 'pointsFact' => $pointsFact,
                 'droneLost' => $stats['droneLost'],
@@ -239,6 +243,13 @@ class ListFlights extends ListRecords
                 if (str_contains($statusData, TargetStatus::DESTROYED)) {
                     $stats['uavDestroyed']++;
                     $byPositions[$flight->position]['uavDestroyed']++;
+                }
+            }
+        } else if ($flight->target === Target::ZPM) {
+            foreach ($flight->getStatus() as $statusData) {
+                if (str_contains($statusData, TargetStatus::AFFECTED)) {
+                    $stats['zpm']++;
+                    $byPositions[$flight->position]['zpm']++;
                 }
             }
         }
