@@ -46,7 +46,7 @@ class ListFlights extends ListRecords
             Action::make('summaries')
                 ->label('Підсумки')
                 ->icon('heroicon-o-chart-bar-square')
-                ->modalWidth('xl')
+                ->modalWidth('2xl')
                 ->steps([
                     Step::make('Вибір дат')
                         ->schema([
@@ -109,8 +109,26 @@ class ListFlights extends ListRecords
             'droneLost' => 0,
         ];
 
+        $allPositions = $flights->pluck('position', 'id');
+        $positions = array_unique($allPositions->toArray());
+        $byPositions = [];
+        foreach ($positions as $position) {
+            $byPositions[$position] = [
+                'personnel200' => 0,
+                'personnel300' => 0,
+                'coverHeat' => 0,
+                'coverDestroyed' => 0,
+                'coverAffected' => 0,
+                'mined' => 0,
+                'minedPoints' => 0,
+                'delivery' => 0,
+                'uavDestroyed' => 0,
+                'droneLost' => 0,
+            ];
+        }
+
         foreach ($flights as $flight) {
-            $this->processFlight($flight, $stats);
+            $this->processFlight($flight, $stats, $byPositions);
         }
 
         $points =
@@ -139,6 +157,8 @@ class ListFlights extends ListRecords
                 'points' => $points,
                 'pointsFact' => $pointsFact,
                 'droneLost' => $stats['droneLost'],
+
+                'byPositions' => $byPositions
             ]
         );
     }
@@ -146,22 +166,30 @@ class ListFlights extends ListRecords
     /**
      * @param $flight
      * @param array $stats
+     * @param array $byPositions
      * @return void
      */
-    private function processFlight($flight, array &$stats): void
+    private function processFlight($flight, array &$stats, array &$byPositions): void
     {
         if ($flight->is_drone_lost === 1) {
             $stats['droneLost']++;
         }
+
         $stats['personnel200'] += $flight->personnel_200;
+        $byPositions[$flight->position]['personnel200'] += $flight->personnel_200;
+
         $stats['personnel300'] += $flight->personnel_300;
+        $byPositions[$flight->position]['personnel300'] += $flight->personnel_300;
+
         if ($flight->target === Target::SHELTER) {
             foreach ($flight->getStatus() as $statusData) {
                 if (str_contains($statusData, TargetStatus::DESTROYED)) {
                     $stats['coverDestroyed']++;
+                    $byPositions[$flight->position]['coverDestroyed']++;
                 }
                 if (str_contains($statusData, TargetStatus::AFFECTED)) {
                     $stats['coverAffected']++;
+                    $byPositions[$flight->position]['coverAffected']++;
                 }
             }
         } else if ($flight->target === Target::MINING) {
@@ -171,6 +199,7 @@ class ListFlights extends ListRecords
                 if (str_contains($statusData, TargetStatus::MINED)) {
                     $isMined = true;
                     $stats['mined']++;
+                    $byPositions[$flight->position]['mined']++;
                     $forPointsQuantity++;
                 }
             }
@@ -185,6 +214,7 @@ class ListFlights extends ListRecords
                         if ($getFromAmmunition) {
                             while ($forPointsQuantity > 0) {
                                 $stats['minedPoints']++;
+                                $byPositions[$flight->position]['minedPoints']++;
                                 $forPointsQuantity--;
                             }
                         } else {
@@ -194,24 +224,28 @@ class ListFlights extends ListRecords
                 }
                 if ($pointsFromAmmo) {
                     $stats['minedPoints'] += $forPointsQuantity;
+                    $byPositions[$flight->position]['minedPoints'] += $forPointsQuantity;
                 }
             }
         } else if ($flight->target === Target::DELIVERY) {
             foreach ($flight->getStatus() as $statusData) {
                 if (str_contains($statusData, TargetStatus::DELIVERED)) {
                     $stats['delivery']++;
+                    $byPositions[$flight->position]['delivery']++;
                 }
             }
         } else if ($flight->target === Target::UAV) {
             foreach ($flight->getStatus() as $statusData) {
                 if (str_contains($statusData, TargetStatus::DESTROYED)) {
                     $stats['uavDestroyed']++;
+                    $byPositions[$flight->position]['uavDestroyed']++;
                 }
             }
         }
         foreach ($flight->getStatus() as $statusData) {
             if (str_contains($statusData, 'Знищено ворожий БпЛА')) {
                 $stats['uavDestroyed']++;
+                $byPositions[$flight->position]['uavDestroyed']++;
             }
         }
     }

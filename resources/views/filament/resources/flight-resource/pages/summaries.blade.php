@@ -27,6 +27,55 @@
             <br>
             Еквівалент у балах: {{ $points }}, Фактично балів: {{ $pointsFact }}
         </div>
+
+        <br>
+
+        <div>
+            {{--            <pre>--}}
+            {{--            {{ print_r($byPositions, true) }}--}}
+            {{--            </pre>--}}
+
+            @php
+                $labels = [
+                    'personnel200'   => '200',
+                    'personnel300'   => '300',
+                    'coverHeat'      => 'Нагрів',
+                    'coverDestroyed' => 'Укриття знищено',
+                    'coverAffected'  => 'Укриття уражено',
+                    'mined'          => 'Мінування',
+                    'minedPoints'    => 'Мінування техніка',
+                    'delivery'       => 'Доставка',
+                    'uavDestroyed'   => 'БпЛА',
+                    'droneLost'      => 'Втрачено БпЛА',
+                ];
+
+                $columns = array_keys(reset($byPositions));
+            @endphp
+
+            <table class="summary-table">
+                <thead>
+                <tr>
+                    <th>Позиція</th>
+
+                    @foreach($columns as $column)
+                        <th>{{ $labels[$column] ?? $column }}</th>
+                    @endforeach
+                </tr>
+                </thead>
+
+                <tbody>
+                @foreach($byPositions as $position => $values)
+                    <tr>
+                        <td>{{ $position }}</td>
+
+                        @foreach($columns as $column)
+                            <td>{{ $values[$column] }}</td>
+                        @endforeach
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="flex items-center gap-3">
@@ -46,4 +95,31 @@
             Скопійовано!
         </span>
     </div>
+
+    <style>
+        .summary-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 18px 10px;
+            font-size: 14px;
+        }
+
+        .summary-table th {
+            font-weight: 700;
+            color: #fff;
+            padding-bottom: 8px;
+        }
+
+        .summary-table td {
+            padding: 4px 0;
+            text-align: center;
+        }
+
+        .summary-table td:first-child,
+        .summary-table th:first-child {
+            text-align: left;
+            padding-right: 30px;
+            font-weight: 600;
+        }
+    </style>
 </div>

@@ -29,18 +29,28 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $positionId = 4;
-        $items = [['title' => 'ОГ-Б1', 'quantity' => 2], ['title' => 'МОА-900', 'quantity' => 1]];
-        $leftovers = Leftover::where('position_id', $positionId)->get();
-        foreach ($leftovers as $leftover) {
-           // echo $leftover->title . ' - ' . $leftover->quantity . PHP_EOL;
-            foreach ($items as $item) {
-                if ($leftover->title === $item['title']) {
-                    $leftover->quantity -= $item['quantity'];
-                    $leftover->save();
-                }
-            }
-        }
+        $from = '2026-07-01';
+        $to = '2026-07-31';
+        $query = Flight::query()
+            ->whereBetween('date', [$from, $to]);
+        $flights = $query->get();
+
+        $allPositions = $flights->pluck('position', 'id');
+        $positions = array_unique($allPositions->toArray());
+        print_r($positions);
+
+//        $positionId = 4;
+//        $items = [['title' => 'ОГ-Б1', 'quantity' => 2], ['title' => 'МОА-900', 'quantity' => 1]];
+//        $leftovers = Leftover::where('position_id', $positionId)->get();
+//        foreach ($leftovers as $leftover) {
+//           // echo $leftover->title . ' - ' . $leftover->quantity . PHP_EOL;
+//            foreach ($items as $item) {
+//                if ($leftover->title === $item['title']) {
+//                    $leftover->quantity -= $item['quantity'];
+//                    $leftover->save();
+//                }
+//            }
+//        }
 
 //        $stats['droneLost'] = 0;
 //        $stats['personnel200'] = 0;
@@ -64,7 +74,7 @@ class TestCommand extends Command
 //        $statsToyota['uavDestroyed'] = 0;
 //
 //
-//        $flights = Flight::all();
+//        $flights = Flight::where('date', '>=', '2026-07-01')->where('date', '<=', '2026-07-31')->get();
 //        foreach ($flights as $flight) {
 //            if ($flight->is_drone_lost === 1) {
 //                $stats['droneLost']++;
