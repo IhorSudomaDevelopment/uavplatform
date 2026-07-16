@@ -46,7 +46,7 @@ class ListFlights extends ListRecords
             Action::make('summaries')
                 ->label('Підсумки')
                 ->icon('heroicon-o-chart-bar-square')
-                ->modalWidth('2xl')
+                ->modalWidth('3xl')
                 ->steps([
                     Step::make('Вибір дат')
                         ->schema([
