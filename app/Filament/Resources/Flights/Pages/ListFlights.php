@@ -247,7 +247,7 @@ class ListFlights extends ListRecords
             }
         } else if ($flight->target === Target::ZPM) {
             foreach ($flight->getStatus() as $statusData) {
-                if (str_contains($statusData, TargetStatus::AFFECTED)) {
+                if (str_contains($statusData, TargetStatus::AFFECTED) || str_contains($statusData, TargetStatus::DESTROYED)) {
                     $stats['zpm']++;
                     $byPositions[$flight->position]['zpm']++;
                 }

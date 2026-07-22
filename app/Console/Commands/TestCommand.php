@@ -29,15 +29,32 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $from = '2026-07-01';
-        $to = '2026-07-31';
-        $query = Flight::query()
-            ->whereBetween('date', [$from, $to]);
-        $flights = $query->get();
+        $coverDestroyed = 0;
+        $coverAffected = 0;
+        $flight = Flight::where('id', 649)->first();
+        if ($flight->target === Target::SHELTER) {
+            foreach ($flight->getStatus() as $statusData) {
+                if (str_contains($statusData, TargetStatus::DESTROYED)) {
+                    $coverDestroyed++;
 
-        $allPositions = $flights->pluck('position', 'id');
-        $positions = array_unique($allPositions->toArray());
-        print_r($positions);
+                }
+                if (str_contains($statusData, TargetStatus::AFFECTED)) {
+                    $coverAffected++;
+                }
+            }
+        }
+        echo $coverAffected . PHP_EOL;
+        echo $coverDestroyed . PHP_EOL;
+
+//        $from = '2026-07-01';
+//        $to = '2026-07-31';
+//        $query = Flight::query()
+//            ->whereBetween('date', [$from, $to]);
+//        $flights = $query->get();
+//
+//        $allPositions = $flights->pluck('position', 'id');
+//        $positions = array_unique($allPositions->toArray());
+//        print_r($positions);
 
 //        $positionId = 4;
 //        $items = [['title' => 'ОГ-Б1', 'quantity' => 2], ['title' => 'МОА-900', 'quantity' => 1]];

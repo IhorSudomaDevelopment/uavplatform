@@ -34,6 +34,8 @@ class TargetStatus
     /*** @var string */
     public const NOT_AFFECTED_ACB = 'Не уражено (просадка АКБ)';
     /*** @var string */
+    public const NOT_AFFECTED_EMERGENCY_RESET = 'Не уражено (аварійний скид)';
+    /*** @var string */
     public const MINED = 'Заміновано';
     /*** @var string */
     public const NOT_MINED = 'Не заміновано';
