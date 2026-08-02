@@ -36,7 +36,7 @@ class LeftoverResource extends Resource
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 6;
+        return 7;
     }
 
     /**

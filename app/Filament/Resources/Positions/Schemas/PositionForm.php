@@ -21,8 +21,10 @@ class PositionForm
         return $schema
             ->components([
                 TextInput::make('title')
+                    ->required()
                     ->label('Назва'),
                 Select::make('status')
+                    ->required()
                     ->label('Статус')
                     ->placeholder('Вибрати')
                     ->options(PositionStatus::getList())

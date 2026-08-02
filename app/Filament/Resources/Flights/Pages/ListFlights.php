@@ -191,7 +191,7 @@ class ListFlights extends ListRecords
                     $stats['coverDestroyed']++;
                     $byPositions[$flight->position]['coverDestroyed']++;
                 }
-                if (str_contains($statusData, TargetStatus::AFFECTED)) {
+                if (str_contains($statusData, TargetStatus::AFFECTED . ',')) {
                     $stats['coverAffected']++;
                     $byPositions[$flight->position]['coverAffected']++;
                 }
@@ -247,7 +247,7 @@ class ListFlights extends ListRecords
             }
         } else if ($flight->target === Target::ZPM) {
             foreach ($flight->getStatus() as $statusData) {
-                if (str_contains($statusData, TargetStatus::AFFECTED) || str_contains($statusData, TargetStatus::DESTROYED)) {
+                if (str_contains($statusData, TargetStatus::AFFECTED . ',') || str_contains($statusData, TargetStatus::DESTROYED)) {
                     $stats['zpm']++;
                     $byPositions[$flight->position]['zpm']++;
                 }
