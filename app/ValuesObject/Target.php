@@ -11,6 +11,8 @@ class Target
     /*** @var string */
     public const ZPM = 'Ворожий ЗПМ';
     /*** @var string */
+    public const ARTILLERY = 'Гаубиця';
+    /*** @var string */
     public const AMMUNITION_WARE = 'Склад БК';
     /*** @var string */
     public const CROSSING = 'Переправа';
@@ -46,6 +48,7 @@ class Target
             self::PERSONNEL              => self::PERSONNEL,
             self::SHELTER                => self::SHELTER,
             self::ZPM                    => self::ZPM,
+            self::ARTILLERY               => self::ARTILLERY,
             self::AMMUNITION_WARE        => self::AMMUNITION_WARE,
             self::CROSSING               => self::CROSSING,
             self::FIRE_FIGHTING          => self::FIRE_FIGHTING,

@@ -69,6 +69,7 @@ class TargetStatus
             self::NOT_AFFECTED_NOT_HEAT => self::NOT_AFFECTED_NOT_HEAT,
             self::NOT_AFFECTED_SUPPRESSION => self::NOT_AFFECTED_SUPPRESSION,
             self::NOT_AFFECTED_ACB => self::NOT_AFFECTED_ACB,
+            self::NOT_AFFECTED_EMERGENCY_RESET => self::NOT_AFFECTED_EMERGENCY_RESET,
             self::MINED => self::MINED,
             self::NOT_MINED => self::NOT_MINED,
             self::DESTROYED => self::DESTROYED,
@@ -94,6 +95,7 @@ class TargetStatus
             case Target::PERSONNEL:
             case Target::SHELTER:
             case Target::ZPM:
+            case Target::ARTILLERY:
             case Target::AMMUNITION_WARE:
             case Target::CROSSING:
             case Target::UAV:
