@@ -10,6 +10,7 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
+use function PHPUnit\Framework\isNull;
 
 /**
  *
@@ -42,7 +43,11 @@ class CreateFlight extends CreateRecord
     protected function handleRecordCreation(array $data): Model
     {
         $data['user_id'] = auth()->id();
-        $data['status'] = [];
+        if (isset($data['status'])) {
+            $data['status'] = [$data['status']];
+        } else {
+            $data['status'] = [];
+        }
         $status200 = 0;
         $status300 = 0;
         $targetsWithoutCoordinates = [

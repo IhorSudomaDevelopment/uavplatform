@@ -107,8 +107,7 @@ class FlightForm
                         [
                             Target::CROSSING_BARGE,
                             Target::SEARCH_MISSION,
-                            Target::UAV_EVACUATION,
-                            Target::UAV_HUNT
+                            Target::UAV_EVACUATION
                         ]))
                     ->columnSpanFull(),
                 Fieldset::make('БК')
