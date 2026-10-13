@@ -94,6 +94,8 @@ class TargetStatus
         switch ($target) {
             case Target::PERSONNEL:
             case Target::SHELTER:
+            case Target::BELOV_GROUND_SHELTER:
+            case Target::ABOVE_GROUND_STRUCTURE:
             case Target::ZPM:
             case Target::ARTILLERY:
             case Target::AMMUNITION_WARE:
@@ -113,6 +115,7 @@ class TargetStatus
                     self::NOT_AFFECTED_NOT_HEAT => self::NOT_AFFECTED_NOT_HEAT,
                     self::NOT_AFFECTED_SUPPRESSION => self::NOT_AFFECTED_SUPPRESSION,
                     self::NOT_AFFECTED_ACB => self::NOT_AFFECTED_ACB,
+                    self::NOT_AFFECTED_EMERGENCY_RESET => self::NOT_AFFECTED_EMERGENCY_RESET,
                 ];
                 break;
             case Target::UAV_EVACUATION:

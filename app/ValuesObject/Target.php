@@ -9,6 +9,10 @@ class Target
     /*** @var string */
     public const SHELTER = 'Укриття';
     /*** @var string */
+    public const BELOV_GROUND_SHELTER = 'Підземне укриття';
+    /*** @var string */
+    public const ABOVE_GROUND_STRUCTURE = 'Наземна споруда';
+    /*** @var string */
     public const ZPM = 'Ворожий ЗПМ';
     /*** @var string */
     public const ARTILLERY = 'Гаубиця';
@@ -47,8 +51,10 @@ class Target
         return [
             self::PERSONNEL              => self::PERSONNEL,
             self::SHELTER                => self::SHELTER,
+            self::BELOV_GROUND_SHELTER   => self::BELOV_GROUND_SHELTER,
+            self::ABOVE_GROUND_STRUCTURE => self::ABOVE_GROUND_STRUCTURE,
             self::ZPM                    => self::ZPM,
-            self::ARTILLERY               => self::ARTILLERY,
+            self::ARTILLERY              => self::ARTILLERY,
             self::AMMUNITION_WARE        => self::AMMUNITION_WARE,
             self::CROSSING               => self::CROSSING,
             self::FIRE_FIGHTING          => self::FIRE_FIGHTING,
