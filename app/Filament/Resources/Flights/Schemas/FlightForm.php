@@ -69,7 +69,7 @@ class FlightForm
                         [
                             Target::CROSSING_BARGE => Target::CROSSING_BARGE,
                             Target::SEARCH_MISSION => Target::SEARCH_MISSION,
-                            Target::UAV_EVACUATION => Target::UAV_EVACUATION,
+                            Target::EVACUATION_MISSION => Target::EVACUATION_MISSION,
                             // Target::UAV_HUNT
                         ])),
                 Fieldset::make('Координати (MGRS) та статус по цілі')
@@ -107,7 +107,7 @@ class FlightForm
                         [
                             Target::CROSSING_BARGE,
                             Target::SEARCH_MISSION,
-                            Target::UAV_EVACUATION
+                            Target::EVACUATION_MISSION
                         ]))
                     ->columnSpanFull(),
                 Fieldset::make('БК')

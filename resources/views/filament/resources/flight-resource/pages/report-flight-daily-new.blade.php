@@ -225,7 +225,7 @@
                     } else if ($flight->target === Target::SEARCH_MISSION) {
                         $searchMission++;
                         $notAffected--;
-                    } else if ($flight->target === Target::UAV_EVACUATION) {
+                    } else if ($flight->target === Target::EVACUATION_MISSION) {
                         $evacuationMission++;
                         $notAffected--;
                     } else if ($flight->target === Target::UAV_HUNT) {
@@ -329,10 +329,10 @@
     <div class="flex items-center gap-3">
 
         <x-filament::button
-            type="button"
-            color="primary"
-            style="margin-top:8px"
-            x-on:click="
+                type="button"
+                color="primary"
+                style="margin-top:8px"
+                x-on:click="
 navigator.clipboard.writeText(
 document.getElementById('reportText').innerText
 ).then(()=>copied=true)

@@ -112,7 +112,7 @@
                     } else if ($flight->target === Target::SEARCH_MISSION) {
                         $searchMission++;
                         $notAffected--;
-                    } else if ($flight->target === Target::UAV_EVACUATION) {
+                    } else if ($flight->target === Target::EVACUATION_MISSION) {
                         $evacuationMission++;
                         $notAffected--;
                     } else if ($flight->target === Target::UAV_HUNT) {
@@ -157,59 +157,62 @@
             <br>
             <br>
             Не Уражено: {{ $notAffected }}
-	</div>
-</div>
-<style>
-	.js-date, .js-position, .js-crew, .js-drone-serial {
-		margin-bottom:    5px;
-		margin-top:       5px;
-		background-color: #18181b;
-		border:           2px solid #FFBF00;
-		border-radius:    4px;
-		outline:          none !important;
-		outline-offset:   0;
-		box-shadow:       none;
-	}
-	.js-date:hover, .js-position:hover, .js-crew:hover, .js-drone-serial:hover {
-		background-color: #18181b;
-		border:           2px solid #FFBF00;
-		border-radius:    4px;
-		outline:          none !important;
-		outline-offset:   0;
-		box-shadow:       none;
-	}
-	.js-date:active, .js-position:active, .js-crew:active, .js-drone-serial:active {
-		background-color: #18181b;
-		border:           2px solid #FFBF00;
-		border-radius:    4px;
-		outline:          none !important;
-		outline-offset:   0;
-		box-shadow:       none;
-	}
-	.js-date:focus, .js-position:focus, .js-crew:focus, .js-drone-serial:focus {
-		background-color: #18181b;
-		border:           2px solid #FFBF00;
-		border-radius:    4px;
-		outline:          none !important;
-		outline-offset:   0;
-		box-shadow:       none;
-	}
-</style>
-<div class="flex items-center gap-3">
-	<x-filament::button
-			type="button"
-			color="primary"
-            style="margin-top: 8px"
-			x-on:click="
+        </div>
+    </div>
+    <style>
+        .js-date, .js-position, .js-crew, .js-drone-serial {
+            margin-bottom: 5px;
+            margin-top: 5px;
+            background-color: #18181b;
+            border: 2px solid #FFBF00;
+            border-radius: 4px;
+            outline: none !important;
+            outline-offset: 0;
+            box-shadow: none;
+        }
+
+        .js-date:hover, .js-position:hover, .js-crew:hover, .js-drone-serial:hover {
+            background-color: #18181b;
+            border: 2px solid #FFBF00;
+            border-radius: 4px;
+            outline: none !important;
+            outline-offset: 0;
+            box-shadow: none;
+        }
+
+        .js-date:active, .js-position:active, .js-crew:active, .js-drone-serial:active {
+            background-color: #18181b;
+            border: 2px solid #FFBF00;
+            border-radius: 4px;
+            outline: none !important;
+            outline-offset: 0;
+            box-shadow: none;
+        }
+
+        .js-date:focus, .js-position:focus, .js-crew:focus, .js-drone-serial:focus {
+            background-color: #18181b;
+            border: 2px solid #FFBF00;
+            border-radius: 4px;
+            outline: none !important;
+            outline-offset: 0;
+            box-shadow: none;
+        }
+    </style>
+    <div class="flex items-center gap-3">
+        <x-filament::button
+                type="button"
+                color="primary"
+                style="margin-top: 8px"
+                x-on:click="
                 navigator.clipboard.writeText(
                     document.getElementById('reportText').innerText
                 ).then(() => copied = true)
             "
-	>
-		Скопіювати
-	</x-filament::button>
-	<span x-show="copied" x-transition class="text-sm text-green-600">
+        >
+            Скопіювати
+        </x-filament::button>
+        <span x-show="copied" x-transition class="text-sm text-green-600">
             Скопійовано!
         </span>
-</div>
+    </div>
 </div>

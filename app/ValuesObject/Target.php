@@ -37,13 +37,15 @@ class Target
     /*** @var string */
     public const LOGISTIC_MISSION = 'Логістична місія';
     /*** @var string */
-    public const UAV_EVACUATION = 'Евакуація борта';
+    public const EVACUATION_MISSION = 'Евакуаційна місія';
     /*** @var string */
     public const SEARCH_MISSION = 'Пошукова місія';
     /*** @var string */
     public const AREA_CLEANING = 'Зачистка ділянки';
     /*** @var string */
     public const MINE = 'Міна';
+    /*** @var string */
+    public const CAMERA_INSTALL = 'Встановлення камери';
 
     /*** @return string[] */
     public static function getList(): array
@@ -65,10 +67,11 @@ class Target
             self::UAV_HUNT               => self::UAV_HUNT,
             self::CROSSING_BARGE         => self::CROSSING_BARGE,
             self::LOGISTIC_MISSION       => self::LOGISTIC_MISSION,
-            self::UAV_EVACUATION         => self::UAV_EVACUATION,
+            self::EVACUATION_MISSION         => self::EVACUATION_MISSION,
             self::SEARCH_MISSION         => self::SEARCH_MISSION,
             self::AREA_CLEANING          => self::AREA_CLEANING,
             self::MINE                   => self::MINE,
+            self::CAMERA_INSTALL         => self::CAMERA_INSTALL,
         ];
     }
 }

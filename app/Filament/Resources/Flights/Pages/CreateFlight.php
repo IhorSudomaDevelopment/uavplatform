@@ -53,7 +53,7 @@ class CreateFlight extends CreateRecord
         $targetsWithoutCoordinates = [
             Target::CROSSING_BARGE,
             Target::SEARCH_MISSION,
-            Target::UAV_EVACUATION,
+            Target::EVACUATION_MISSION,
         ];
         if (in_array($data['target'], $targetsWithoutCoordinates, true)) {
             $data['coordinates'] = '-';

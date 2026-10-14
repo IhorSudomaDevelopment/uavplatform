@@ -118,10 +118,11 @@ class TargetStatus
                     self::NOT_AFFECTED_EMERGENCY_RESET => self::NOT_AFFECTED_EMERGENCY_RESET,
                 ];
                 break;
-            case Target::UAV_EVACUATION:
+            case Target::EVACUATION_MISSION:
             case Target::CROSSING_BARGE:
             case Target::FIRE_FIGHTING:
             case Target::LOGISTIC_MISSION:
+            case Target::CAMERA_INSTALL:
                 $list = [
                     self::COMPLETED => self::COMPLETED,
                     self::NOT_COMPLETED => self::NOT_COMPLETED,
