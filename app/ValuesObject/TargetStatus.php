@@ -102,6 +102,7 @@ class TargetStatus
             case Target::CROSSING:
             case Target::UAV:
             case Target::MACHINERY:
+            case Target::SAU:
             case Target::MINE:
                 $list = [
                     self::DESTROYED => self::DESTROYED,
@@ -123,6 +124,7 @@ class TargetStatus
             case Target::FIRE_FIGHTING:
             case Target::LOGISTIC_MISSION:
             case Target::CAMERA_INSTALL:
+            case Target::AMBUSH:
                 $list = [
                     self::COMPLETED => self::COMPLETED,
                     self::NOT_COMPLETED => self::NOT_COMPLETED,

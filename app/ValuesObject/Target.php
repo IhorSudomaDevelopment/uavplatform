@@ -31,6 +31,10 @@ class Target
     /*** @var string */
     public const MACHINERY = 'Техніка';
     /*** @var string */
+    public const SAU = 'САУ';
+    /*** @var string */
+    public const AMBUSH = 'Засідка';
+    /*** @var string */
     public const UAV_HUNT = 'Хант БПЛА';
     /*** @var string */
     public const CROSSING_BARGE = 'Перегін борта';
@@ -64,10 +68,12 @@ class Target
             self::DELIVERY               => self::DELIVERY,
             self::UAV                    => self::UAV,
             self::MACHINERY              => self::MACHINERY,
+            self::SAU                    => self::SAU,
+            self::AMBUSH                 => self::AMBUSH,
             self::UAV_HUNT               => self::UAV_HUNT,
             self::CROSSING_BARGE         => self::CROSSING_BARGE,
             self::LOGISTIC_MISSION       => self::LOGISTIC_MISSION,
-            self::EVACUATION_MISSION         => self::EVACUATION_MISSION,
+            self::EVACUATION_MISSION     => self::EVACUATION_MISSION,
             self::SEARCH_MISSION         => self::SEARCH_MISSION,
             self::AREA_CLEANING          => self::AREA_CLEANING,
             self::MINE                   => self::MINE,
