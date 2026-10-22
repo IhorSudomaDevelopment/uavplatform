@@ -134,7 +134,7 @@ class ListFlights extends ListRecords
         }
 
         $points =
-            $stats['personnel200'] * 12 +
+            $stats['personnel200'] * 10 +
             $stats['personnel300'] * 8 +
             $stats['coverDestroyed'] * 2 +
             $stats['coverAffected'] +
@@ -185,7 +185,10 @@ class ListFlights extends ListRecords
         $stats['personnel300'] += $flight->personnel_300;
         $byPositions[$flight->position]['personnel300'] += $flight->personnel_300;
 
-        if ($flight->target === Target::SHELTER) {
+        if (
+            $flight->target === Target::SHELTER || $flight->target === Target::ABOVE_GROUND_STRUCTURE ||
+            $flight->target === Target::BELOV_GROUND_SHELTER
+        ) {
             foreach ($flight->getStatus() as $statusData) {
                 if (str_contains($statusData, TargetStatus::DESTROYED)) {
                     $stats['coverDestroyed']++;
