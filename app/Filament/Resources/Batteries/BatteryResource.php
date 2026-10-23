@@ -59,6 +59,12 @@ class BatteryResource extends Resource
         ];
     }
 
+    /*** @return bool */
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     /*** @return Builder */
     public static function getEloquentQuery(): Builder
     {

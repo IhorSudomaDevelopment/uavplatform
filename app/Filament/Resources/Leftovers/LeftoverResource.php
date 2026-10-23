@@ -84,12 +84,14 @@ class LeftoverResource extends Resource
     /*** @return bool */
     public static function shouldRegisterNavigation(): bool
     {
-        $isAssigned = false;
-        $assignedUser = Position::where('user_id', auth()->user()->id)->first();
-        if ($assignedUser !== null) {
-            $isAssigned = true;
-        }
-        return isRoleAdmin() || isRoleManager() || $isAssigned;
+//        $isAssigned = false;
+//        $assignedUser = Position::where('user_id', auth()->user()->id)->first();
+//        if ($assignedUser !== null) {
+//            $isAssigned = true;
+//        }
+//        return isRoleAdmin() || isRoleManager() || $isAssigned;
+
+        return false;
     }
 
     /*** @return Builder */
