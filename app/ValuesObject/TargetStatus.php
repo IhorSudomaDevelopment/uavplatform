@@ -51,6 +51,8 @@ class TargetStatus
     public const FOUND = 'Знайдено';
     /*** @var string */
     public const NOT_FOUND = 'Не знайдено';
+    /*** @var string */
+    public const RETURNED = 'Повернуто';
 
     /*** @return string[] */
     public static function getList(): array
@@ -78,6 +80,7 @@ class TargetStatus
             self::NOT_COMPLETED => self::NOT_COMPLETED,
             self::FOUND => self::FOUND,
             self::NOT_FOUND => self::NOT_FOUND,
+            self::RETURNED => self::RETURNED,
         ];
     }
 
@@ -124,7 +127,6 @@ class TargetStatus
             case Target::FIRE_FIGHTING:
             case Target::LOGISTIC_MISSION:
             case Target::CAMERA_INSTALL:
-            case Target::AMBUSH:
                 $list = [
                     self::COMPLETED => self::COMPLETED,
                     self::NOT_COMPLETED => self::NOT_COMPLETED,
@@ -157,6 +159,23 @@ class TargetStatus
                 $list = [
                     self::FOUND => self::FOUND,
                     self::NOT_FOUND => self::NOT_FOUND,
+                ];
+                break;
+            case Target::AMBUSH:
+                $list = [
+                    self::DESTROYED => self::DESTROYED,
+                    self::AFFECTED => self::AFFECTED,
+                    self::AFFECTED_AFTER_ADJUSTMENT => self::AFFECTED_AFTER_ADJUSTMENT,
+                    self::AFFECTED_BY_SIGNATURES => self::AFFECTED_BY_SIGNATURES,
+                    self::AFFECTED_BY_COORDS => self::AFFECTED_BY_COORDS,
+                    self::NOT_AFFECTED_NO_DETONATION => self::NOT_AFFECTED_NO_DETONATION,
+                    self::NOT_AFFECTED_MISSING_TARGET => self::NOT_AFFECTED_MISSING_TARGET,
+                    self::NOT_AFFECTED_LOSS_OF_SIDE => self::NOT_AFFECTED_LOSS_OF_SIDE,
+                    self::NOT_AFFECTED_NOT_HEAT => self::NOT_AFFECTED_NOT_HEAT,
+                    self::NOT_AFFECTED_SUPPRESSION => self::NOT_AFFECTED_SUPPRESSION,
+                    self::NOT_AFFECTED_ACB => self::NOT_AFFECTED_ACB,
+                    self::NOT_AFFECTED_EMERGENCY_RESET => self::NOT_AFFECTED_EMERGENCY_RESET,
+                    self::RETURNED => self::RETURNED,
                 ];
                 break;
         }

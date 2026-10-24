@@ -9,7 +9,6 @@ use App\ValuesObject\TargetStatus;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Utilities\Get;
@@ -134,6 +133,8 @@ class FlightForm
                                             ->options([
                                                 'Детон' => 'Детон',
                                                 'Не детон' => 'Не детон',
+                                                'Повернуто' => 'Повернуто',
+                                                'Аварійний скид' => 'Аварійний скид',
                                                 '-' => '-'
                                             ]),
                                     ])->columns(3)
