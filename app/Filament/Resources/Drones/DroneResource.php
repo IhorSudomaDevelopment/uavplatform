@@ -11,7 +11,8 @@ use App\Models\Drone;
 use App\Models\Position;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
-use Filament\Resources\Pages\PageRegistration;use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Resources\Pages\PageRegistration;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -36,7 +37,7 @@ class DroneResource extends Resource
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 5;
+        return 6;
     }
 
     /**

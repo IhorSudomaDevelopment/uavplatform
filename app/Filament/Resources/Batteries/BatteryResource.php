@@ -10,12 +10,18 @@ use App\Filament\Resources\Batteries\Tables\BatteriesTable;
 use App\Models\Battery;
 use App\Models\Position;
 use BackedEnum;
+use Filament\Resources\Pages\PageRegistration;
+use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ *
+ */
 class BatteryResource extends Resource
 {
     /*** @var string|null */
@@ -30,19 +36,28 @@ class BatteryResource extends Resource
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 6;
+        return 7;
     }
 
+    /**
+     * @param Schema $schema
+     * @return Schema
+     */
     public static function form(Schema $schema): Schema
     {
         return BatteryForm::configure($schema);
     }
 
+    /**
+     * @param Table $table
+     * @return Table
+     */
     public static function table(Table $table): Table
     {
         return BatteriesTable::configure($table);
     }
 
+    /*** @return array|class-string[]|RelationGroup[]|RelationManagerConfiguration[] */
     public static function getRelations(): array
     {
         return [
@@ -50,6 +65,7 @@ class BatteryResource extends Resource
         ];
     }
 
+    /*** @return array|PageRegistration[] */
     public static function getPages(): array
     {
         return [

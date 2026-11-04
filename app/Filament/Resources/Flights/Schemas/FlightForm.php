@@ -41,6 +41,10 @@ class FlightForm
                     ->label('Дата')
                     ->default(now('Europe/Kyiv')->format('Y-m-d'))
                     ->required(),
+                TextInput::make('shift')
+                    ->label('Зміна')
+                    ->default(now('Europe/Kyiv')->format('Y-m-d') . ' - ' . now('Europe/Kyiv')->addDay()->format('Y-m-d'))
+                    ->required(),
                 Fieldset::make('Час польоту')
                     ->schema([
                         TextInput::make('time_start')
@@ -133,8 +137,11 @@ class FlightForm
                                             ->options([
                                                 'Детон' => 'Детон',
                                                 'Не детон' => 'Не детон',
+                                                'Встановлено' => 'Встановлено',
                                                 'Повернуто' => 'Повернуто',
                                                 'Аварійний скид' => 'Аварійний скид',
+                                                'Самосхід' => 'Самосхід',
+                                                'Втрачено' => 'Втрачено',
                                                 '-' => '-'
                                             ]),
                                     ])->columns(3)

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Flights\Pages;
 use App\Filament\Resources\Flights\FlightResource;
 use App\Models\Leftover;
 use App\Models\Position;
+use App\Models\WorkReport;
 use App\ValuesObject\Target;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -34,7 +35,6 @@ class CreateFlight extends CreateRecord
     {
         return 'Новий політ';
     }
-
 
     /**
      * @param array $data
@@ -99,6 +99,18 @@ class CreateFlight extends CreateRecord
             $data['ammunition_items'] ?? []
         );
         unset($data['ammunition_items'], $data['coordinate_items']);
+
+        //TODO TESTING
+//        $workReport = WorkReport::query()->where('date', $data['shift'])->first();
+//        if ($workReport === null) {
+//            $workReport = new WorkReport();
+//            $workReport->user_id = $data['user_id'];
+//            $workReport->position = $data['position'];
+//            $workReport->crew = '';
+//            $workReport->date = $data['shift'];
+//            $workReport->save();
+//        }
+
         return static::getModel()::create($data);
     }
 

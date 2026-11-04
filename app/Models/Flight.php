@@ -21,6 +21,7 @@ class Flight extends Model
         'position',
         'flight_number',
         'date',
+        'shift',
         'time_start',
         'time_end',
         'target',

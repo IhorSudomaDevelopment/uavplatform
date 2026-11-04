@@ -39,7 +39,7 @@ class LogResource extends Resource
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 10;
+        return 11;
     }
 
     /**
@@ -172,28 +172,7 @@ class LogResource extends Resource
                                                     return [];
                                                 }
 
-                                                $labels = [
-                                                    'id' => 'ID',
-                                                    'sn' => 'Серійний номер',
-                                                    'name' => 'Назва',
-                                                    'title' => 'Назва',
-                                                    'status' => 'Статус',
-                                                    'password' => 'Пароль',
-                                                    'position_id' => 'Позиція',
-                                                    'created_at' => 'Створено',
-                                                    'updated_at' => 'Оновлено',
-                                                    'serial_number' => 'Серійний №',
-                                                    'additional_info' => 'Додаткова інформація',
-                                                    'starlink_serial_number' => 'Starlink №',
-                                                    'kit' => 'KIT',
-                                                    'time_start' => 'Зліт',
-                                                    'time_end' => 'Посадка',
-                                                    'target' => 'Ціль',
-                                                    'quantity' => 'Кількість',
-                                                    'unit' => 'Одининці',
-                                                    'position' => 'Позиція',
-                                                    'flight_number' => 'Номер польоту'
-                                                ];
+                                                $labels = self::getLabels();
 
                                                 return collect($record->old_values)
                                                     ->mapWithKeys(function ($value, $key) use ($labels) {
@@ -219,28 +198,7 @@ class LogResource extends Resource
                                                     return [];
                                                 }
 
-                                                $labels = [
-                                                    'id' => 'ID',
-                                                    'sn' => 'Серійний номер',
-                                                    'name' => 'Назва',
-                                                    'title' => 'Назва',
-                                                    'status' => 'Статус',
-                                                    'password' => 'Пароль',
-                                                    'position_id' => 'Позиція',
-                                                    'created_at' => 'Створено',
-                                                    'updated_at' => 'Оновлено',
-                                                    'serial_number' => 'Серійний №',
-                                                    'additional_info' => 'Додаткова інформація',
-                                                    'starlink_serial_number' => 'Starlink №',
-                                                    'kit' => 'KIT',
-                                                    'time_start' => 'Зліт',
-                                                    'time_end' => 'Посадка',
-                                                    'target' => 'Ціль',
-                                                    'quantity' => 'Кількість',
-                                                    'unit' => 'Одининці',
-                                                    'position' => 'Позиція',
-                                                    'flight_number' => 'Номер польоту'
-                                                ];
+                                                $labels = self::getLabels();
 
                                                 return collect($record->new_values)
                                                     ->mapWithKeys(function ($value, $key) use ($labels) {
@@ -257,5 +215,34 @@ class LogResource extends Resource
                             ]),
                     ]),
             ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getLabels(): array
+    {
+        return [
+            'id' => 'ID',
+            'sn' => 'Серійний номер',
+            'name' => 'Назва',
+            'title' => 'Назва',
+            'status' => 'Статус',
+            'password' => 'Пароль',
+            'position_id' => 'Позиція',
+            'created_at' => 'Створено',
+            'updated_at' => 'Оновлено',
+            'serial_number' => 'Серійний №',
+            'additional_info' => 'Додаткова інформація',
+            'starlink_serial_number' => 'Starlink №',
+            'kit' => 'KIT',
+            'time_start' => 'Зліт',
+            'time_end' => 'Посадка',
+            'target' => 'Ціль',
+            'quantity' => 'Кількість',
+            'unit' => 'Одининці',
+            'position' => 'Позиція',
+            'flight_number' => 'Номер польоту'
+        ];
     }
 }

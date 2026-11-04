@@ -16,14 +16,4 @@ return new class extends Migration
             $table->string('additional_info')->after('password')->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('drones', function (Blueprint $table) {
-            //
-        });
-    }
 };

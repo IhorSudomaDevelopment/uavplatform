@@ -135,7 +135,7 @@ class ListFlights extends ListRecords
 
         $points =
             $stats['personnel200'] * 10 +
-            $stats['personnel300'] * 8 +
+            $stats['personnel300'] * 5 +
             $stats['coverDestroyed'] * 2 +
             $stats['coverAffected'] +
             $stats['uavDestroyed'] * 6 +
@@ -175,7 +175,7 @@ class ListFlights extends ListRecords
      */
     private function processFlight($flight, array &$stats, array &$byPositions): void
     {
-        if ($flight->is_drone_lost === 1) {
+        if ($flight->is_drone_lost == 1) {
             $stats['droneLost']++;
         }
 
