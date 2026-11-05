@@ -191,22 +191,25 @@
                 @php
 
                     $notAffected = $flights->count();
-                    $ukryttya = 0;
 
-                    $personnel200 = 0;
-                    $personnel300 = 0;
+                    $ukryttya = 0;
+                    $belovGroundShelter = 0;
+                    $aboveGroundStructure = 0;
                     $bySignatures = 0;
                     $byCoords = 0;
+                    $personnel200 = 0;
+                    $personnel300 = 0;
+                    $zpm = 0;
                     $mining = 0;
                     $fire = 0;
                     $delivery = 0;
-                    $technics = 0;
-                    $technicType = '';
-                    $hunt = 0;
+                    $logisticMission = 0;
                     $evacuationMission = 0;
                     $crossingBarge = 0;
-                    $searchMission = 0;
-                    $logisticMission = 0;
+                    $technics = 0;
+                    $technicType = '';
+                    $uav = 0;
+                    $hunt = 0;
                     $ammunitionData = [];
 
                     foreach ($flights as $flight) {
@@ -219,7 +222,13 @@
                             ($ammunitionData[$ammo['title']] ?? 0) + (int)$ammo['quantity'];
                         }
                     }
-                    if ($flight->target === Target::CROSSING_BARGE) {
+                    if ($flight->target === Target::PERSONNEL) {
+                        foreach ($flight->status as $status) {
+                            if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
+                                $notAffected--;
+                            }
+                        }
+                    } else if ($flight->target === Target::CROSSING_BARGE) {
                         $crossingBarge++;
                         $notAffected--;
                     } else if ($flight->target === Target::SEARCH_MISSION) {
@@ -228,6 +237,9 @@
                     } else if ($flight->target === Target::EVACUATION_MISSION) {
                         $evacuationMission++;
                         $notAffected--;
+                    } else if ($flight->target === Target::UAV) {
+                        $uav++;
+                        $notAffected--;
                     } else if ($flight->target === Target::UAV_HUNT) {
                         $hunt++;
                         $notAffected--;
@@ -235,6 +247,27 @@
                         foreach ($flight->status as $status) {
                             if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
                                 $ukryttya++;
+                                $notAffected--;
+                            }
+                        }
+                    } else if ($flight->target === Target::BELOV_GROUND_SHELTER) {
+                        foreach ($flight->status as $status) {
+                            if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
+                                $belovGroundShelter++;
+                                $notAffected--;
+                            }
+                        }
+                    } else if ($flight->target === Target::ABOVE_GROUND_STRUCTURE) {
+                        foreach ($flight->status as $status) {
+                            if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
+                                $aboveGroundStructure++;
+                                $notAffected--;
+                            }
+                        }
+                    } else if ($flight->target === Target::ZPM) {
+                        foreach ($flight->status as $status) {
+                            if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
+                                $zpm++;
                                 $notAffected--;
                             }
                         }
@@ -247,6 +280,9 @@
                     } else if ($flight->target === Target::LOGISTIC_MISSION) {
                         $logisticMission++;
                         $notAffected--;
+                    } else if ($flight->target === Target::EVACUATION_MISSION) {
+                        $evacuationMission++;
+                        $notAffected--;
                     }
 
                     }
@@ -256,54 +292,48 @@
 
                 <br>
                 Укриття: {{ $ukryttya }}
-
+                <br>
+                Підземне укриття: {{ $belovGroundShelter }}
+                <br>
+                Наземна споруда: {{ $aboveGroundStructure }}
                 <br>
                 Відпрацювали по сигнатурах: {{ $bySignatures }}
-
                 <br>
                 Відпрацювали по координатах: {{ $byCoords }}
-
                 <br>
                 200 - {{ $personnel200 }}
-
                 <br>
                 300 - {{ $personnel300 }}
-
+                <br>
+                ЗПМ: {{ $zpm }}
                 <br>
                 Мінування: {{ $mining }}
-
                 <br>
-                Пожежогасіння: {{ $fire }}
-
+                Гасіння пожеж: {{ $fire }}
                 <br>
                 Доставка: {{ $delivery }}
-
                 <br>
                 Логістична місія: {{ $logisticMission }}
-
+                <br>
+                Евакуаціна місія: {{ $evacuationMission }}
                 <br>
                 Перегін борта: {{ $crossingBarge }}
-
-                <br>
-                Евакуація борта: {{ $evacuationMission }}
-
                 <br>
                 МТЗ (матеріально технічні засоби): 0
-
                 <br>
                 Техніка (тип техніки): {{ $technics }} ({{ $technicType }})
-
                 <br>
                 БпЛА: 0
-
                 <br>
                 Хант: {{ $hunt }}
-
                 <br>
-                Пошукова міссія: {{ $searchMission }}
-
+                Не заміновано: 0
                 <br>
-                Не Уражено: {{ $notAffected }}
+                Не доставлено: 0
+                <br>
+                Не ушкоджено: {{ $notAffected }}
+                <br>
+                Не виконано: 0
 
                 <br>
                 <br>

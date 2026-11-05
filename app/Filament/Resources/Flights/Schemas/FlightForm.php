@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Flights\Schemas;
 
 use App\Models\Position;
+use App\ValuesObject\AmmunitionStatus;
 use App\ValuesObject\DroneLostReason;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
@@ -35,6 +36,7 @@ class FlightForm
                     ->required(),
                 TextInput::make('flight_number')
                     ->label('Номер')
+                    ->integer()
                     ->default(1)
                     ->required(),
                 TextInput::make('date')
@@ -94,10 +96,14 @@ class FlightForm
                                             ->reactive(),
                                         TextInput::make('coordinate_status_200')
                                             ->label('ОС, 200')
+                                            ->integer()
+                                            ->minValue(0)
                                             ->default(0)
                                             ->visible(fn(Get $get) => in_array($get('../../target'), [Target::PERSONNEL, Target::SHELTER], true)),
                                         TextInput::make('coordinate_status_300')
                                             ->label('ОС, 300')
+                                            ->integer()
+                                            ->minValue(0)
                                             ->default(0)
                                             ->visible(fn(Get $get) => in_array($get('../../target'), [Target::PERSONNEL, Target::SHELTER], true)),
                                     ])->columns(4),
@@ -128,22 +134,19 @@ class FlightForm
                                             ->options(ammunitionController()->getTitleList()),
                                         TextInput::make('quantity')
                                             ->label('Кількість')
+                                            ->integer()
+                                            ->minValue(1)
                                             ->required()
                                             ->default(1),
                                         Select::make('detonation')
-                                            ->label('Детонація')
+                                            ->label('Статус БК')
                                             ->placeholder('Вибрати')
                                             ->required()
-                                            ->options([
-                                                'Детон' => 'Детон',
-                                                'Не детон' => 'Не детон',
-                                                'Встановлено' => 'Встановлено',
-                                                'Повернуто' => 'Повернуто',
-                                                'Аварійний скид' => 'Аварійний скид',
-                                                'Самосхід' => 'Самосхід',
-                                                'Втрачено' => 'Втрачено',
-                                                '-' => '-'
-                                            ]),
+                                            ->options(fn(Get $get) => AmmunitionStatus::getStatusListForTarget(
+                                                $get('../../target') ?? 'all'
+                                            ))
+                                            ->default(AmmunitionStatus::DEFAULT)
+                                            ->live(),
                                     ])->columns(3)
                             ])
                             ->addActionLabel('Додати')
