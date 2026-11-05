@@ -102,6 +102,13 @@ class AmmunitionStatus
                     self::LOST => self::LOST,
                 ];
                 break;
+            case Target::AMBUSH:
+                $list = [
+                    self::RETURNED => self::RETURNED,
+                    self::EMERGENCY_JETTISON => self::EMERGENCY_JETTISON,
+                    self::LOST => self::LOST,
+                ];
+                break;
         }
         return $list;
     }
