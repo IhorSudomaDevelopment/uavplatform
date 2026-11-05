@@ -223,10 +223,14 @@
                         }
                     }
                     if ($flight->target === Target::PERSONNEL) {
+                        $affectedPersonnel = false;
                         foreach ($flight->status as $status) {
                             if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
-                                $notAffected--;
+                                $affectedPersonnel = true;
                             }
+                        }
+                        if ($affectedPersonnel) {
+                            $notAffected--;
                         }
                     } else if ($flight->target === Target::CROSSING_BARGE) {
                         $crossingBarge++;
@@ -244,32 +248,48 @@
                         $hunt++;
                         $notAffected--;
                     } else if ($flight->target === Target::SHELTER) {
+                        $affectedShelter = false;
                         foreach ($flight->status as $status) {
                             if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
                                 $ukryttya++;
-                                $notAffected--;
+                                $affectedShelter = true;
                             }
                         }
+                        if ($affectedShelter) {
+                            $notAffected--;
+                        }
                     } else if ($flight->target === Target::BELOV_GROUND_SHELTER) {
+                        $affectedBelovGroundShelter = false;
                         foreach ($flight->status as $status) {
                             if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
                                 $belovGroundShelter++;
-                                $notAffected--;
+                                $affectedBelovGroundShelter = true;
                             }
                         }
+                        if ($affectedBelovGroundShelter) {
+                            $notAffected--;
+                        }
                     } else if ($flight->target === Target::ABOVE_GROUND_STRUCTURE) {
+                        $affectedAboveGroundStructure = false;
                         foreach ($flight->status as $status) {
                             if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
                                 $aboveGroundStructure++;
-                                $notAffected--;
+                                $affectedAboveGroundStructure = true;
                             }
                         }
+                        if ($affectedAboveGroundStructure) {
+                            $notAffected--;
+                        }
                     } else if ($flight->target === Target::ZPM) {
+                        $affectedZpm = false;
                         foreach ($flight->status as $status) {
                             if (str_contains($status, TargetStatus::AFFECTED) || str_contains($status, TargetStatus::DESTROYED)) {
                                 $zpm++;
-                                $notAffected--;
+                                $affectedZpm = true;
                             }
+                        }
+                        if ($affectedZpm) {
+                            $notAffected--;
                         }
                     } else if ($flight->target === Target::DELIVERY) {
                         $delivery++;
