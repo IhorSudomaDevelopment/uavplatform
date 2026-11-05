@@ -11,7 +11,7 @@ use Filament\Pages\Page;
 class WorkReport extends Page
 {
     /*** @var string|null|BackedEnum */
-    protected static string|null|BackedEnum $navigationIcon = 'heroicon-o-document-text';
+    protected static string|null|BackedEnum $navigationIcon = 'heroicon-o-document-chart-bar';
 
     /*** @var string */
     protected string $view = 'filament.pages.test-resource';

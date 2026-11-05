@@ -8,7 +8,7 @@ use Filament\Pages\Page;
 class RequestTemplate extends Page
 {
     /*** @var string|null|BackedEnum */
-    protected static string|null|BackedEnum $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string|null|BackedEnum $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     /*** @var string */
     protected string $view = 'filament.pages.template-request';

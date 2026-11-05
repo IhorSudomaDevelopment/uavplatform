@@ -177,6 +177,7 @@ class ListFlights extends ListRecords
     {
         if ($flight->is_drone_lost == 1) {
             $stats['droneLost']++;
+            $byPositions[$flight->position]['droneLost']++;
         }
 
         $stats['personnel200'] += $flight->personnel_200;
