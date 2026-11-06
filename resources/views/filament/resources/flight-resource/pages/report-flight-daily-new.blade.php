@@ -190,8 +190,6 @@
 
                 @php
 
-                    $notAffected = $flights->count();
-
                     $ukryttya = 0;
                     $belovGroundShelter = 0;
                     $aboveGroundStructure = 0;
@@ -210,6 +208,11 @@
                     $technicType = '';
                     $uav = 0;
                     $hunt = 0;
+
+                    $notMined = 0;
+                    $notDelivered = 0;
+                    $notAffected = $flights->count();
+
                     $ammunitionData = [];
 
                     foreach ($flights as $flight) {
@@ -292,10 +295,30 @@
                             $notAffected--;
                         }
                     } else if ($flight->target === Target::DELIVERY) {
-                        $delivery++;
+                        $isDelivered = false;
+                        foreach ($flight->status as $status) {
+                            if (str_contains($status, TargetStatus::DELIVERED)) {
+                                $isDelivered = true;
+                            }
+                        }
+                        if ($isDelivered) {
+                            $delivery++;
+                        } else {
+                            $notDelivered++;
+                        }
                         $notAffected--;
                     } else if ($flight->target === Target::MINING) {
-                        $mining++;
+                        $isMined = false;
+                        foreach ($flight->status as $status) {
+                            if (str_contains($status, TargetStatus::MINED)) {
+                                $isMined = true;
+                            }
+                        }
+                        if ($isMined) {
+                            $mining++;
+                        } else {
+                            $notMined++;
+                        }
                         $notAffected--;
                     } else if ($flight->target === Target::LOGISTIC_MISSION) {
                         $logisticMission++;
@@ -347,9 +370,9 @@
                 <br>
                 Хант: {{ $hunt }}
                 <br>
-                Не заміновано: 0
+                Не заміновано: {{ $notMined }}
                 <br>
-                Не доставлено: 0
+                Не доставлено: {{ $notDelivered }}
                 <br>
                 Не ушкоджено: {{ $notAffected }}
                 <br>
