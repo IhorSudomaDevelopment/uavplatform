@@ -96,7 +96,6 @@ class DroneResource extends Resource
                 $query->where('position_id', $positionWithUser->id);
             }
         }
-        $query->whereNot('status', DroneStatus::LOST);
         return $query;
     }
 }
