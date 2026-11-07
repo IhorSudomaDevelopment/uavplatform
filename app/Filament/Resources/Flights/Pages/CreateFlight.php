@@ -3,9 +3,12 @@
 namespace App\Filament\Resources\Flights\Pages;
 
 use App\Filament\Resources\Flights\FlightResource;
+use App\Models\Drone;
+use App\Models\DroneLost;
 use App\Models\Leftover;
 use App\Models\Position;
 use App\Models\WorkReport;
+use App\ValuesObject\DroneStatus;
 use App\ValuesObject\Target;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -99,6 +102,20 @@ class CreateFlight extends CreateRecord
             $data['ammunition_items'] ?? []
         );
         unset($data['ammunition_items'], $data['coordinate_items']);
+        if ($data['is_drone_lost']) {
+            $drone = Drone::whereId($data['drone_lost_sn_with_id'])->first();
+            $drone->update(['status' => DroneStatus::LOST]);
+            $droneLost = new DroneLost();
+            $droneLost->fill([
+                'drone_id' => $drone->id,
+                'drone_sn' => $drone->serial_number,
+                'date' => $data['date'],
+                'time' => $data['time_end'],
+                'lost_coords' => $data['drone_lost_coords'],
+                'lost_reason' => $data['drone_lost_reason'],
+            ]);
+            $droneLost->save();
+        }
 
         //TODO TESTING
 //        $workReport = WorkReport::query()->where('date', $data['shift'])->first();

@@ -22,6 +22,6 @@ class RequestTemplate extends Page
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 10;
+        return 12;
     }
 }

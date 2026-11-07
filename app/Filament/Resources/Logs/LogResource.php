@@ -39,7 +39,7 @@ class LogResource extends Resource
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 11;
+        return 13;
     }
 
     /**

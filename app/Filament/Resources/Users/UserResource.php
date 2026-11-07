@@ -34,7 +34,7 @@ class UserResource extends Resource
     /*** @return int */
     public static function getNavigationSort(): int
     {
-        return 10;
+        return 11;
     }
 
     /**

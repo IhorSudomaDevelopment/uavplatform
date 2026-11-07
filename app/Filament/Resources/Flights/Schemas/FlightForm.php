@@ -2,14 +2,18 @@
 
 namespace App\Filament\Resources\Flights\Schemas;
 
+use App\Models\Drone;
 use App\Models\Position;
 use App\ValuesObject\AmmunitionStatus;
 use App\ValuesObject\DroneLostReason;
+use App\ValuesObject\DroneStatus;
+use App\ValuesObject\DroneType;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Utilities\Get;
@@ -158,6 +162,7 @@ class FlightForm
                     ->label('Коментар'),
                 Checkbox::make('is_uav_destroyed')
                     ->label('Знищено ворожий БпЛА'),
+                /* DRONE LOST */
                 Checkbox::make('is_drone_lost')
                     ->label('Втрата борта')
                     ->live(),
@@ -167,6 +172,14 @@ class FlightForm
                     ->options(fn(Get $get) => $get('is_drone_lost') ? DroneLostReason::getList() : [])
                     ->visible(fn(Get $get) => $get('is_drone_lost'))
                     ->columnSpanFull(),
+                Select::make('drone_lost_sn_with_id')
+                    ->options(
+                        Drone::where('status', DroneStatus::WORK)->pluck('serial_number', 'id')
+                    )
+                    ->visible(fn(Get $get) => $get('is_drone_lost')),
+                TextInput::make('drone_lost_coords')
+                    ->label('Координати втрати')
+                    ->visible(fn(Get $get) => $get('is_drone_lost')),
             ]);
     }
 }

@@ -26,6 +26,12 @@ class AmmunitionsTable
             ->columns([
                 TextColumn::make('title')
                     ->label('Назва'),
+                TextColumn::make('description')
+                    ->label('Опис'),
+                TextColumn::make('weight')
+                    ->label('Вага'),
+                TextColumn::make('box_weight')
+                    ->label('Вага ящика'),
             ])
             ->filters([
             ])

@@ -16,5 +16,7 @@ class Ammunition extends Model
     protected $fillable = [
         'title',
         'description',
+        'weight',
+        'box_weight',
     ];
 }

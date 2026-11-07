@@ -9,6 +9,7 @@ use App\Filament\Resources\Drones\Schemas\DroneForm;
 use App\Filament\Resources\Drones\Tables\DronesTable;
 use App\Models\Drone;
 use App\Models\Position;
+use App\ValuesObject\DroneStatus;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\PageRegistration;
@@ -95,6 +96,7 @@ class DroneResource extends Resource
                 $query->where('position_id', $positionWithUser->id);
             }
         }
+        $query->whereNot('status', DroneStatus::LOST);
         return $query;
     }
 }
