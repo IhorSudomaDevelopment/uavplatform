@@ -104,6 +104,8 @@ class AmmunitionStatus
                 break;
             case Target::AMBUSH:
                 $list = [
+                    self::DETONATION => self::DETONATION,
+                    self::WITHOUT_DETONATION => self::WITHOUT_DETONATION,
                     self::RETURNED => self::RETURNED,
                     self::EMERGENCY_JETTISON => self::EMERGENCY_JETTISON,
                     self::LOST => self::LOST,

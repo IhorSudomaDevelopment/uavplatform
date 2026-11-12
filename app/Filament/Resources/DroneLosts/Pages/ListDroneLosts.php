@@ -14,7 +14,7 @@ class ListDroneLosts extends ListRecords
     protected static string $resource = DroneLostResource::class;
 
     /*** @var string|null */
-    protected static ?string $title = 'Борти';
+    protected static ?string $title = 'Втрачені борти';
 
     /*** @return array|string[] */
     public function getBreadcrumbs(): array

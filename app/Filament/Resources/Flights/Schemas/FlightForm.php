@@ -7,13 +7,11 @@ use App\Models\Position;
 use App\ValuesObject\AmmunitionStatus;
 use App\ValuesObject\DroneLostReason;
 use App\ValuesObject\DroneStatus;
-use App\ValuesObject\DroneType;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Utilities\Get;
@@ -123,6 +121,59 @@ class FlightForm
                             Target::EVACUATION_MISSION
                         ]))
                     ->columnSpanFull(),
+                /* ADDITIONAL TARGET */
+                Checkbox::make('is_additional_target')
+                    ->label('Додати ціль')
+                    ->live(),
+                Fieldset::make('Координати (MGRS) та статус по додатковій цілі')
+                    ->schema([
+                        Select::make('additional_target')
+                            ->label('Додаткова ціль')
+                            ->placeholder('Вибрати')
+                            ->options(Target::getList())
+                            ->visible(fn(Get $get) => $get('is_additional_target'))
+                            ->reactive(),
+                        Repeater::make('additional_coordinate_items')
+                            ->hiddenLabel()
+                            ->schema([
+                                Fieldset::make('')
+                                    ->hiddenLabel()
+                                    ->schema([
+                                        TextInput::make('additional_coordinate_item')
+                                            ->label('Координати')
+                                            ->required(),
+                                        Select::make('additional_coordinate_status')
+                                            ->label('Статус по цілі')
+                                            ->placeholder('Вибрати')
+                                            ->required()
+                                            ->options(fn(Get $get) => TargetStatus::getStatusListForTarget($get('../../target') ?? 'all'))
+                                            ->reactive(),
+                                        TextInput::make('additional_coordinate_status_200')
+                                            ->label('ОС, 200')
+                                            ->integer()
+                                            ->minValue(0)
+                                            ->default(0)
+                                            ->visible(fn(Get $get) => in_array($get('../../additional_target'), [Target::PERSONNEL, Target::SHELTER], true)),
+                                        TextInput::make('additional_coordinate_status_300')
+                                            ->label('ОС, 300')
+                                            ->integer()
+                                            ->minValue(0)
+                                            ->default(0)
+                                            ->visible(fn(Get $get) => in_array($get('../../additional_target'), [Target::PERSONNEL, Target::SHELTER], true)),
+                                    ])->columns(4),
+                            ])
+                            ->addActionLabel('Додати')
+                            ->columnSpanFull()
+                            ->collapsible(),
+                    ])->visible(fn(Get $get) => !in_array(
+                            $get('additional_target'),
+                            [
+                                Target::CROSSING_BARGE,
+                                Target::SEARCH_MISSION,
+                                Target::EVACUATION_MISSION
+                            ]) && $get('is_additional_target'))
+                    ->columnSpanFull(),
+                /* AMMUNITION */
                 Fieldset::make('БК')
                     ->schema([
                         Repeater::make('ammunition_items')
@@ -173,6 +224,8 @@ class FlightForm
                     ->visible(fn(Get $get) => $get('is_drone_lost'))
                     ->columnSpanFull(),
                 Select::make('drone_lost_sn_with_id')
+                    ->label('Борт')
+                    ->placeholder('Виберіть дрон')
                     ->options(
                         Drone::where('status', DroneStatus::WORK)->pluck('serial_number', 'id')
                     )
