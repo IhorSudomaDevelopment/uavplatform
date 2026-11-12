@@ -57,8 +57,8 @@ class CreateFlight extends CreateRecord
             $statuses = [];
             foreach ($data['coordinate_items'] as $coordinateItem) {
                 if (!isset($coordinateItem['coordinate_status_200'], $coordinateItem['coordinate_status_300'])) {
-                    $coordinateItem['coordinate_status_200'] = 0;
-                    $coordinateItem['coordinate_status_300'] = 0;
+                    $coordinateItem['coordinate_status_200'] ??= 0;
+                    $coordinateItem['coordinate_status_300'] ??= 0;
                 }
                 $coordinates[] = $coordinateItem['coordinate_item'];
                 $statusParts = [];
@@ -122,8 +122,8 @@ class CreateFlight extends CreateRecord
             $generalCoords = $data['main_coordinates'] . ' (' . $data['target'] . ')' . PHP_EOL . $data['additional_coordinates'] . ' (' . $data['additional_target'] . ')';
             $generalStatus = array_merge($data['main_status'], $data['additional_status']);
         } else {
-            $generalCoords = $data['main_coordinates'];
-            $generalStatus = $data['main_status'];
+            $generalCoords = $data['main_coordinates'] ?? '-';
+            $generalStatus = $data['main_status'] ?? $data['status'];
         }
         $data['coordinates'] = $generalCoords;
         $data['status'] = $generalStatus;

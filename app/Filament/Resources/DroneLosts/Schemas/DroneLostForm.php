@@ -25,9 +25,11 @@ class DroneLostForm
                     ->placeholder('Виберіть дрон')
                     ->options(
                         Drone::where('status', DroneStatus::WORK)->pluck('serial_number', 'id')
-                    ),
+                    )
+                    ->required(),
                 TextInput::make('time')
-                    ->label('Час втрати'),
+                    ->label('Час втрати')
+                    ->required(),
                 DatePicker::make('date')
                     ->label('Дата')
                     ->native(false)
@@ -37,10 +39,12 @@ class DroneLostForm
                     ->default(now('Europe/Kyiv')->format('Y-m-d'))
                     ->required(),
                 TextInput::make('lost_coords')
-                    ->label('Координати втрати'),
+                    ->label('Координати втрати')
+                    ->required(),
                 Select::make('lost_reason')
                     ->label('Причина втрати')
                     ->options(DroneLostReason::getList())
+                    ->required()
             ]);
     }
 }
