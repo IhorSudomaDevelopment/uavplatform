@@ -7,14 +7,12 @@ use App\Models\Drone;
 use App\Models\DroneLost;
 use App\Models\Leftover;
 use App\Models\Position;
-use App\Models\WorkReport;
 use App\ValuesObject\DroneStatus;
 use App\ValuesObject\Target;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
-use function PHPUnit\Framework\isNull;
 
 /**
  *
@@ -46,19 +44,7 @@ class CreateFlight extends CreateRecord
     protected function handleRecordCreation(array $data): Model
     {
         $data['user_id'] = auth()->id();
-        if (isset($data['status'])) {
-            $data['status'] = [$data['status']];
-            if (isset($data['additional_coordinate_status'])) {
-                $data['additional_coordinate_status'] = [$data['additional_coordinate_status']];
-                $merged = array_merge($data['additional_coordinate_status'], $data['status']);
-                dd($merged);
-            }
-        } else {
-            $data['status'] = [];
-        }
-        $status200 = 0;
-        $status300 = 0;
-        $additionalStatus200 = $additionalStatus300 = 0;
+        $status200 = $status300 = $additionalStatus200 = $additionalStatus300 = 0;
         $targetsWithoutCoordinates = [
             Target::CROSSING_BARGE,
             Target::SEARCH_MISSION,
@@ -100,41 +86,47 @@ class CreateFlight extends CreateRecord
             /* ADDITIONAL */
             $additionalCoordinates = [];
             $additionalStatuses = [];
-            foreach ($data['additional_coordinate_items'] as $additionalCoordinateItem) {
-                if (!isset($additionalCoordinateItem['additional_coordinate_status_200'], $additionalCoordinateItem['additional_coordinate_status_300'])) {
-                    $additionalCoordinateItem['additional_coordinate_status_200'] = 0;
-                    $additionalCoordinateItem['additional_coordinate_status_300'] = 0;
+            if (isset($data['additional_coordinate_items'])) {
+                foreach ($data['additional_coordinate_items'] as $additionalCoordinateItem) {
+                    if (!isset($additionalCoordinateItem['additional_coordinate_status_200'], $additionalCoordinateItem['additional_coordinate_status_300'])) {
+                        $additionalCoordinateItem['additional_coordinate_status_200'] = 0;
+                        $additionalCoordinateItem['additional_coordinate_status_300'] = 0;
+                    }
+                    $additionalCoordinates[] = $additionalCoordinateItem['additional_coordinate_item'];
+                    $additionalStatusParts = [];
+                    if ($additionalCoordinateItem['additional_coordinate_status_200'] > 0) {
+                        $additionalStatusParts[] =
+                            $additionalCoordinateItem['additional_coordinate_status_200'] . ' - 200';
+                        $additionalStatus200 += $additionalCoordinateItem['additional_coordinate_status_200'];
+                    }
+                    if ($additionalCoordinateItem['additional_coordinate_status_300'] > 0) {
+                        $additionalStatusParts[] =
+                            $additionalCoordinateItem['additional_coordinate_status_300'] . ' - 300';
+                        $additionalStatus300 += $additionalCoordinateItem['additional_coordinate_status_300'];
+                    }
+                    $additionalAdditionalInfo = !empty($additionalStatusParts)
+                        ? ' (' . implode(', ', $additionalStatusParts) . ')'
+                        : '';
+                    $additionalStatuses[] =
+                        $additionalCoordinateItem['additional_coordinate_status']
+                        . $additionalAdditionalInfo
+                        . ': '
+                        . $additionalCoordinateItem['additional_coordinate_item'];
                 }
-                $additionalCoordinates[] = $additionalCoordinateItem['additional_coordinate_item'];
-                $additionalStatusParts = [];
-                if ($additionalCoordinateItem['additional_coordinate_status_200'] > 0) {
-                    $additionalStatusParts[] =
-                        $additionalCoordinateItem['additional_coordinate_status_200'] . ' - 200';
-                    $additionalStatus200 += $additionalCoordinateItem['additional_coordinate_status_200'];
-                }
-                if ($additionalCoordinateItem['additional_coordinate_status_300'] > 0) {
-                    $additionalStatusParts[] =
-                        $additionalCoordinateItem['additional_coordinate_status_300'] . ' - 300';
-                    $additionalStatus300 += $additionalCoordinateItem['additional_coordinate_status_300'];
-                }
-                $additionalAdditionalInfo = !empty($additionalStatusParts)
-                    ? ' (' . implode(', ', $additionalStatusParts) . ')'
-                    : '';
-                $additionalStatuses[] =
-                    $additionalCoordinateItem['additional_coordinate_status']
-                    . $additionalAdditionalInfo
-                    . ': '
-                    . $additionalCoordinateItem['additional_coordinate_item'];
+                $data['additional_coordinates'] = implode(', ', $additionalCoordinates);
+                $data['additional_status'] = $additionalStatuses;
             }
-            $data['additional_coordinates'] = implode(', ', $additionalCoordinates);
-            $data['additional_status'] = $additionalStatuses;
             /* END ADDITIONAL */
         }
-        $generalCoords = $data['main_coordinates'] . ' (' . $data['target'] . ')' . PHP_EOL . $data['additional_coordinates'] . ' ('. $data['additional_target'] .')';
-        $generalStatus = array_merge($data['main_status'], $data['additional_status']);
+        if (isset($data['additional_coordinates'])) {
+            $generalCoords = $data['main_coordinates'] . ' (' . $data['target'] . ')' . PHP_EOL . $data['additional_coordinates'] . ' (' . $data['additional_target'] . ')';
+            $generalStatus = array_merge($data['main_status'], $data['additional_status']);
+        } else {
+            $generalCoords = $data['main_coordinates'];
+            $generalStatus = $data['main_status'];
+        }
         $data['coordinates'] = $generalCoords;
         $data['status'] = $generalStatus;
-
         if (!empty($data['is_uav_destroyed'])) {
             $data['status'][] = 'знищено ворожий БпЛА';
         }
