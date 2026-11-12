@@ -3,8 +3,13 @@
 namespace App\Filament\Resources\DroneLosts\Pages;
 
 use App\Filament\Resources\DroneLosts\DroneLostResource;
+use App\Models\Drone;
+use App\Models\Position;
+use App\ValuesObject\DroneStatus;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class CreateDroneLost extends CreateRecord
 {
@@ -13,6 +18,21 @@ class CreateDroneLost extends CreateRecord
 
     /*** @var bool */
     protected static bool $canCreateAnother = false;
+
+    /**
+     * @param array $data
+     * @return Model
+     */
+    protected function handleRecordCreation(array $data): Model
+    {
+        if (isset($data['drone_lost_sn_with_id'])) {
+            $drone = Drone::whereId($data['drone_lost_sn_with_id'])->first();
+            $drone->update(['status' => DroneStatus::LOST]);
+            $data['drone_id'] = $drone->id;
+            $data['drone_sn'] = $drone->serial_number;
+        }
+        return static::getModel()::create($data);
+    }
 
     /*** @return array|string[] */
     public function getBreadcrumbs(): array

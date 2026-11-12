@@ -25,6 +25,9 @@ class ListDroneLosts extends ListRecords
     /*** @return array|Action[]|ActionGroup[] */
     protected function getHeaderActions(): array
     {
-        return [];
+        $actions[] = CreateAction::make()
+            ->label('Додати')
+            ->icon('heroicon-o-plus');
+        return $actions;
     }
 }

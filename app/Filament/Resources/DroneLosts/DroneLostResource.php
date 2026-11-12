@@ -73,4 +73,10 @@ class DroneLostResource extends Resource
             'edit' => EditDroneLost::route('/{record}/edit'),
         ];
     }
+
+    /*** @return bool */
+    public static function canCreate(): bool
+    {
+        return isRoleAdmin() || isRoleManager();
+    }
 }

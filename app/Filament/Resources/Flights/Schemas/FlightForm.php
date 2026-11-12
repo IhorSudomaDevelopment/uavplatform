@@ -10,6 +10,7 @@ use App\ValuesObject\DroneStatus;
 use App\ValuesObject\Target;
 use App\ValuesObject\TargetStatus;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -41,8 +42,12 @@ class FlightForm
                     ->integer()
                     ->default(1)
                     ->required(),
-                TextInput::make('date')
+                DatePicker::make('date')
                     ->label('Дата')
+                    ->native(false)
+                    ->maxDate(now('Europe/Kyiv'))
+                    ->displayFormat('d.m.Y')
+                    ->format('Y-m-d')
                     ->default(now('Europe/Kyiv')->format('Y-m-d'))
                     ->required(),
                 TextInput::make('shift')
@@ -55,7 +60,7 @@ class FlightForm
                             ->label('Зліт')
                             ->required(),
                         TextInput::make('time_end')
-                            ->label('Посадка')
+                            ->label('Завершення польоту')
                             ->required(),
                     ])
                     ->columns()
