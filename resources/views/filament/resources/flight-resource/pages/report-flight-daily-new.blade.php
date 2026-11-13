@@ -49,7 +49,12 @@
                                 Координати: {{ $flight->coordinates }}
 
                                 <br>
-                                Статус: {{ implode(', ', $flight->status) }}
+                                Статус:
+                                @if(is_array($flight->status))
+                                    {{ implode(', ', $flight->status) }}
+                                @else
+                                    {{ $flight->status }}
+                                @endif
 
                                 <br>
                                 БК:
