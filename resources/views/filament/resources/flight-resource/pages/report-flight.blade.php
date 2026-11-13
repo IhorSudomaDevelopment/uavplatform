@@ -9,7 +9,12 @@
 			<br>
 			Координати: {{ $record->coordinates }}
 			<br>
-			Статус: {{ implode(', ', $record->status) }}
+			Статус:
+            @if(is_array($record->status))
+                {{ implode(', ', $record->status) }}
+            @else
+                {{ $record->status }}
+            @endif
 			<br>
 			БК:
 			@foreach($record->getAmmunition() as $ammunitionData)
